@@ -1,161 +1,183 @@
-
-import React, { useState } from 'react';
-import { Filter, Grid, List, MapPin } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import ServiceCard from './ServiceCard';
+import React, { useState } from "react";
+import { Filter, Grid, List, MapPin } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import ServiceCard from "./ServiceCard";
 
 const ServiceSection = () => {
-  const [activeTab, setActiveTab] = useState('recommended');
-  const [viewMode, setViewMode] = useState('grid');
+  const [activeTab, setActiveTab] = useState("recommended");
+  const [viewMode, setViewMode] = useState("grid");
   const [isLoggedIn] = useState(true);
 
   // Cameroonian services data with multi-language support
   const services = {
     recommended: [
       {
-        id: '1',
-        name: 'FastChops',
+        id: "1",
+        name: "FastChops",
         description: {
-          en: 'Fast food delivery across Douala and Yaoundé. Order your favorite Cameroonian dishes in just a few clicks.',
-          fr: 'Livraison rapide de nourriture camerounaise partout à Douala et Yaoundé. Commandez vos plats préférés en quelques clics.',
-          pid: 'Quick chop delivery for Douala and Yaoundé. Order your favorite local food with small time.'
+          en: "Fast food delivery across Douala and Yaoundé. Order your favorite Cameroonian dishes in just a few clicks.",
+          fr: "Livraison rapide de nourriture camerounaise partout à Douala et Yaoundé. Commandez vos plats préférés en quelques clics.",
+          pid: "Quick chop delivery for Douala and Yaoundé. Order your favorite local food with small time.",
         },
-        image: '/fastchops.jpeg',
+        image: "/fastchops.jpeg",
         rating: 4.8,
         reviewCount: 1247,
-        category: 'Food & Delivery',
+        category: "Food & Delivery",
         isVerified: true,
-        location: 'Buea'
+        location: "Buea",
+        website: "https://www.f6s.com/company/fastchops",
       },
       {
-        id: '2',
-        name: '237Jobs',
+        id: "2",
+        name: "237Jobs",
         description: {
-          en: 'Cameroon\'s #1 job platform. Over 5000 job opportunities across all sectors.',
-          fr: 'La plateforme #1 pour trouver un emploi au Cameroun. Plus de 5000 offres d\'emploi dans tous les secteurs.',
-          pid: 'Number one place for find work for Cameroon. Plenty job opportunities for all sectors.'
+          en: "Cameroon's #1 job platform. Over 5000 job opportunities across all sectors.",
+          fr: "La plateforme #1 pour trouver un emploi au Cameroun. Plus de 5000 offres d'emploi dans tous les secteurs.",
+          pid: "Number one place for find work for Cameroon. Plenty job opportunities for all sectors.",
         },
-        image: '237jobs.jpg',
+        image: "237jobs.jpg",
         rating: 4.7,
         reviewCount: 892,
-        category: 'Jobs & Career',
+        category: "Jobs & Career",
         isVerified: true,
-        location: 'All Cameroon'
+        location: "All Cameroon",
+        website: "https://237jobs.com",
       },
       {
-        id: '3',
-        name: 'Nkwa.cm',
+        id: "3",
+        name: "Nkwa.cm",
         description: {
-          en: 'Mobile payment solutions and digital financial services for all Cameroonians.',
-          fr: 'Solutions de paiement mobile et services financiers digitaux pour tous les Camerounais.',
-          pid: 'Mobile money and digital financial services for all Cameroon people.'
+          en: "Mobile payment solutions and digital financial services for all Cameroonians.",
+          fr: "Solutions de paiement mobile et services financiers digitaux pour tous les Camerounais.",
+          pid: "Mobile money and digital financial services for all Cameroon people.",
         },
-        image: 'nkwa.jpg',
+        image: "nkwa.jpg",
         rating: 4.9,
         reviewCount: 2156,
-        category: 'Fintech & Payments',
+        category: "Fintech & Payments",
         isVerified: true,
-        location: 'National'
-      }
+        location: "National",
+        website: "https://mynkwa.com",
+      },
     ],
     latest: [
       {
-        id: '4',
-        name: 'DeltechHub',
+        id: "4",
+        name: "DelTechHub",
         description: {
-          en: 'Technology training and mentorship. Learn programming, design and tech entrepreneurship.',
-          fr: 'Formation et accompagnement en technologie. Apprenez la programmation, le design et l\'entrepreneuriat tech.',
-          pid: 'Tech training and support. Learn coding, design and how to start tech business.'
+          en: "Technology training and mentorship. Learn programming, design and tech entrepreneurship.",
+          fr: "Formation et accompagnement en technologie. Apprenez la programmation, le design et l'entrepreneuriat tech.",
+          pid: "Tech training and support. Learn coding, design and how to start tech business.",
         },
-        image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&h=300&fit=crop',
+        image: "deltech.jpeg",
         rating: 4.6,
         reviewCount: 343,
-        category: 'Tech Training',
-        location: 'Douala'
+        category: "Tech Training",
+        location: "Douala",
+        website: "https://deltechhub.com",
       },
       {
-        id: '5',
-        name: 'AjeBoCV',
+        id: "5",
+        name: "AjeBoCV",
         description: {
-          en: 'Create your professional CV online easily. Templates adapted to the Cameroonian market.',
-          fr: 'Créez votre CV professionnel en ligne facilement. Templates adaptés au marché camerounais.',
-          pid: 'Make your professional CV online easy way. Templates fit for Cameroon job market.'
+          en: "Create your professional CV online easily. Templates adapted to the Cameroonian market.",
+          fr: "Créez votre CV professionnel en ligne facilement. Templates adaptés au marché camerounais.",
+          pid: "Make your professional CV online easy way. Templates fit for Cameroon job market.",
         },
-        image: 'https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=400&h=300&fit=crop',
+        image: "ajebocv.png",
         rating: 4.5,
         reviewCount: 567,
-        category: 'Professional Services',
+        category: "Professional Services",
         isVerified: true,
-        location: 'Online'
+        location: "Online",
+        website: "https://ajebocv.com",
       },
       {
-        id: '6',
-        name: 'Knowledge Center',
+        id: "6",
+        name: "skolarr",
         description: {
-          en: 'Cameroonian digital library with thousands of books, courses and educational resources.',
-          fr: 'Bibliothèque numérique camerounaise avec des milliers de livres, cours et ressources éducatives.',
-          pid: 'Cameroon digital library with plenty books, courses and educational materials.'
+          en: "Cameroonian digital library with thousands of books, courses and educational resources.",
+          fr: "Bibliothèque numérique camerounaise avec des milliers de livres, cours et ressources éducatives.",
+          pid: "Cameroon digital library with plenty books, courses and educational materials.",
         },
-        image: 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400&h=300&fit=crop',
+        image: "skolarr.png",
         rating: 4.7,
         reviewCount: 778,
-        category: 'Education',
-        location: 'Online'
-      }
+        category: "Education",
+        location: "Online",
+        website: "https://skolarr.com",
+      },
     ],
     popular: [
       {
-        id: '7',
-        name: 'TIC Cameroun',
+        id: "7",
+        name: "Skaleway",
         description: {
-          en: 'Complete IT services: web development, system maintenance, digital training.',
-          fr: 'Services informatiques complets: développement web, maintenance système, formation digitale.',
-          pid: 'Complete IT services: website building, system maintenance, digital training.'
+          en: "Complete IT services: web development, system maintenance, digital training.",
+          fr: "Services informatiques complets: développement web, maintenance système, formation digitale.",
+          pid: "Complete IT services: website building, system maintenance, digital training.",
         },
-        image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop',
+        image: "/skaleway.jpeg",
         rating: 4.8,
         reviewCount: 654,
-        category: 'IT Services',
+        category: "IT Services",
         isVerified: true,
-        location: 'Yaoundé'
+        location: "Buea",
+        website: "https://skaleway.com",
       },
       {
-        id: '8',
-        name: 'Hustlers Engineering',
+        id: "8",
+        name: "Hustlers Engineering",
         description: {
-          en: 'Community of Cameroonian entrepreneurs and engineers. Networking, mentoring and business opportunities.',
-          fr: 'Communauté d\'entrepreneurs et ingénieurs camerounais. Networking, mentoring et opportunités business.',
-          pid: 'Community of Cameroon entrepreneurs and engineers. Networking, mentoring and business opportunities.'
+          en: "Community of Cameroonian entrepreneurs and engineers. Networking, mentoring and business opportunities.",
+          fr: "Communauté d'entrepreneurs et ingénieurs camerounais. Networking, mentoring et opportunités business.",
+          pid: "Community of Cameroon entrepreneurs and engineers. Networking, mentoring and business opportunities.",
         },
-        image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=400&h=300&fit=crop',
+        image: "/hustler.jpeg",
         rating: 4.9,
         reviewCount: 1203,
-        category: 'Community & Network',
-        location: 'Douala, Yaoundé'
+        category: "Engineering Community",
+        location: "Buea",
+        website: "https://hustlersconf.com",
       },
       {
-        id: '9',
-        name: 'NervTek Solutions',
+        id: "9",
+        name: "NervTek",
         description: {
-          en: 'Custom mobile and web application development for Cameroonian businesses.',
-          fr: 'Développement d\'applications mobiles et web sur mesure pour entreprises camerounaises.',
-          pid: 'Custom mobile and web app development for Cameroon businesses.'
+          en: "Custom mobile and web application development for Cameroonian businesses.",
+          fr: "Développement d'applications mobiles et web sur mesure pour entreprises camerounaises.",
+          pid: "Custom mobile and web app development for Cameroon businesses.",
         },
-        image: 'https://images.unsplash.com/photo-1551650975-87deedd944c3?w=400&h=300&fit=crop',
+        image: "/nervtek.png",
         rating: 4.6,
         reviewCount: 432,
-        category: 'App Development',
+        category: "App Development",
         isVerified: true,
-        location: 'Douala'
-      }
-    ]
+        location: "Douala",
+        website: "https://nervtek.cm",
+      },
+    ],
   };
 
   const tabs = [
-    { id: 'recommended', label: 'Recommended Services', count: services.recommended.length },
-    { id: 'latest', label: 'Latest Services', count: services.latest.length },
-    { id: 'popular', label: 'Popular Services', count: services.popular.length }
+    {
+      id: "recommended",
+      label: "Recommended Services",
+      count: services.recommended.length,
+    },
+    { id: "latest", label: "Latest Services", count: services.latest.length },
+    {
+      id: "popular",
+      label: "Popular Services",
+      count: services.popular.length,
+    },
   ];
 
   return (
@@ -181,8 +203,8 @@ const ServiceSection = () => {
                 onClick={() => setActiveTab(tab.id)}
                 className={`px-4 py-2 rounded-lg font-medium transition-all transform hover:scale-105 ${
                   activeTab === tab.id
-                    ? 'bg-blue-600 text-white shadow-md'
-                    : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
+                    ? "bg-blue-600 text-white shadow-md"
+                    : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-200"
                 }`}
               >
                 {tab.label} ({tab.count})
@@ -210,14 +232,22 @@ const ServiceSection = () => {
 
             <div className="flex border border-gray-200 rounded-lg overflow-hidden">
               <button
-                onClick={() => setViewMode('grid')}
-                className={`p-2 transition-colors ${viewMode === 'grid' ? 'bg-blue-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}`}
+                onClick={() => setViewMode("grid")}
+                className={`p-2 transition-colors ${
+                  viewMode === "grid"
+                    ? "bg-blue-600 text-white"
+                    : "bg-white text-gray-700 hover:bg-gray-50"
+                }`}
               >
                 <Grid className="w-4 h-4" />
               </button>
               <button
-                onClick={() => setViewMode('list')}
-                className={`p-2 transition-colors ${viewMode === 'list' ? 'bg-blue-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}`}
+                onClick={() => setViewMode("list")}
+                className={`p-2 transition-colors ${
+                  viewMode === "list"
+                    ? "bg-blue-600 text-white"
+                    : "bg-white text-gray-700 hover:bg-gray-50"
+                }`}
               >
                 <List className="w-4 h-4" />
               </button>
@@ -226,23 +256,24 @@ const ServiceSection = () => {
         </div>
 
         {/* Services Grid */}
-        <div className={`grid gap-6 ${
-          viewMode === 'grid' 
-            ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3' 
-            : 'grid-cols-1 max-w-4xl mx-auto'
-        }`}>
-          {services[activeTab as keyof typeof services].map((service, index) => (
-            <div 
-              key={service.id}
-              className="animate-fade-in"
-              style={{ animationDelay: `${index * 100}ms` }}
-            >
-              <ServiceCard
-                {...service}
-                isLoggedIn={isLoggedIn}
-              />
-            </div>
-          ))}
+        <div
+          className={`grid gap-6 ${
+            viewMode === "grid"
+              ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+              : "grid-cols-1 max-w-4xl mx-auto"
+          }`}
+        >
+          {services[activeTab as keyof typeof services].map(
+            (service, index) => (
+              <div
+                key={service.id}
+                className="animate-fade-in"
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                <ServiceCard {...service} isLoggedIn={isLoggedIn} />
+              </div>
+            )
+          )}
         </div>
 
         {/* Load More */}
