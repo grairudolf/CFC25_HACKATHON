@@ -18,18 +18,18 @@ const ServiceSubmissionForm = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [currentTag, setCurrentTag] = useState('');
 
-  const categories = [
-    'Web Development',
-    'Mobile Development',
-    'UI/UX Design',
-    'Digital Marketing',
-    'E-commerce',
-    'AI & Analytics',
-    'Cloud Services',
-    'Graphic Design',
-    'Content Creation',
-    'Consulting'
-  ];
+const categories = [
+  'Technology',  
+  'Education',  
+  'Health',  
+  'Finance',  
+  'Agriculture',  
+  'Marketing',  
+  'Design',  
+  'Business Services',  
+  'Creative Arts',  
+  'Consulting'  
+];
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({
@@ -98,7 +98,7 @@ const ServiceSubmissionForm = () => {
               Service Submitted Successfully! 🎉
             </h2>
             <p className="text-green-700 mb-6">
-              Thank you for contributing to Digital Africa Hub! Your service is now under review 
+              Thank you for contributing to Silicon Hub! Your service is now under review 
               and will be published once approved by our team.
             </p>
             <Button 
