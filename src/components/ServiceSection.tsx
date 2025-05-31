@@ -21,12 +21,12 @@ const ServiceSection = () => {
           fr: 'Livraison rapide de nourriture camerounaise partout à Douala et Yaoundé. Commandez vos plats préférés en quelques clics.',
           pid: 'Quick chop delivery for Douala and Yaoundé. Order your favorite local food with small time.'
         },
-        image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=300&fit=crop',
+        image: '/fastchops.jpeg',
         rating: 4.8,
         reviewCount: 1247,
         category: 'Food & Delivery',
         isVerified: true,
-        location: 'Douala, Yaoundé'
+        location: 'Buea'
       },
       {
         id: '2',
@@ -36,7 +36,7 @@ const ServiceSection = () => {
           fr: 'La plateforme #1 pour trouver un emploi au Cameroun. Plus de 5000 offres d\'emploi dans tous les secteurs.',
           pid: 'Number one place for find work for Cameroon. Plenty job opportunities for all sectors.'
         },
-        image: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=300&fit=crop',
+        image: '237jobs.jpg',
         rating: 4.7,
         reviewCount: 892,
         category: 'Jobs & Career',
@@ -51,7 +51,7 @@ const ServiceSection = () => {
           fr: 'Solutions de paiement mobile et services financiers digitaux pour tous les Camerounais.',
           pid: 'Mobile money and digital financial services for all Cameroon people.'
         },
-        image: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=400&h=300&fit=crop',
+        image: 'nkwa.jpg',
         rating: 4.9,
         reviewCount: 2156,
         category: 'Fintech & Payments',
