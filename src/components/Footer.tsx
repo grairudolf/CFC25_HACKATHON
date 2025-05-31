@@ -49,7 +49,7 @@ const Footer = () => {
               <img
                 src="/logo_transparent.png"
                 alt="Logo"
-                className="ml-2 h-25 w-auto"
+                className="ml-2 h-18 w-auto"
               />
             </div>
             <p className="text-blue-100 mb-6 leading-relaxed">
