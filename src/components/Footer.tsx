@@ -211,19 +211,19 @@ const Footer = () => {
               <div className="flex items-center group">
                 <Mail className="w-5 h-5 mr-3 text-blue-300 group-hover:scale-110 transition-transform" />
                 <span className="text-blue-100 group-hover:text-white transition-colors">
-                  info@digitalcameroon.cm
+                  rtech777r@gmail.com
                 </span>
               </div>
               <div className="flex items-center group">
                 <Phone className="w-5 h-5 mr-3 text-blue-300 group-hover:scale-110 transition-transform" />
                 <span className="text-blue-100 group-hover:text-white transition-colors">
-                  +237 123 456 789
+                  +237 672 333 228
                 </span>
               </div>
               <div className="flex items-center group">
                 <MapPin className="w-5 h-5 mr-3 text-blue-300 group-hover:scale-110 transition-transform" />
                 <span className="text-blue-100 group-hover:text-white transition-colors">
-                  Douala, Cameroon
+                Buea, Cameroon
                 </span>
               </div>
             </div>
@@ -247,8 +247,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-blue-400/30 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
           <div className="flex items-center text-blue-100 text-sm mb-4 md:mb-0">
-            <span>© 2025 Silicon. Made with</span>
-            <span>in Cameroon</span>
+            <span>© 2025 Silicon. Developed by The Scripts</span>
           </div>
           <div className="flex space-x-6">
             <a
