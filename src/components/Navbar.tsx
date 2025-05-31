@@ -51,12 +51,11 @@ const Navbar = () => {
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <div className="flex-shrink-0 flex items-center animate-fade-in">
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-blue-500 rounded-lg flex items-center justify-center shadow-lg">
-                <span className="text-white font-bold text-sm">DC</span>
-              </div>
-              <span className="ml-2 text-xl font-bold text-blue-900">
-                Silicon
-              </span>
+              <img
+                src="/logo_transparent.png"
+                alt="Logo"
+                className="ml-2 h-14 w-auto"
+              />
             </div>
           </div>
 

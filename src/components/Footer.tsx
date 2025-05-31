@@ -43,10 +43,14 @@ const Footer = () => {
           {/* Brand */}
           <div className="lg:col-span-1 animate-fade-in">
             <div className="flex items-center mb-6">
-              <div className="w-10 h-10 bg-gradient-to-r from-blue-400 to-blue-300 rounded-lg flex items-center justify-center shadow-lg">
-                <span className="text-blue-900 font-bold text-sm">DC</span>
-              </div>
-              <span className="ml-3 text-xl font-bold text-white">Silicon</span>
+              {/* <div className="w-10 h-10 bg-gradient-to-r from-blue-400 to-blue-300 rounded-lg flex items-center justify-center shadow-lg">
+                <span className="text-blue-900 font-bold text-sm">S</span>
+              </div> */}
+              <img
+                src="/logo_transparent.png"
+                alt="Logo"
+                className="ml-2 h-12"
+              />
             </div>
             <p className="text-blue-100 mb-6 leading-relaxed">
               Connecting Cameroonians to the best local digital services. From
