@@ -1,83 +1,94 @@
-
-import React, { useState } from 'react';
-import { Search, TrendingUp, Users, Award, Sparkles, Globe } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import React, { useState } from "react";
+import {
+  Search,
+  TrendingUp,
+  Users,
+  Award,
+  Sparkles,
+  Globe,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const HeroSection = () => {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [showAISuggestions, setShowAISuggestions] = useState(false);
-  const [currentLanguage, setCurrentLanguage] = useState('en');
+  const [currentLanguage, setCurrentLanguage] = useState("en");
 
   const languages = {
     en: {
-      title: 'Welcome to Digital Cameroon',
-      subtitle: 'Connect with the best Cameroonian digital services. From food to jobs, tech to training - everything you need at your fingertips.',
-      searchPlaceholder: "What are you looking for today? 'food', 'jobs', 'tech'...",
-      searchButton: 'Search',
-      exploreServices: 'Explore Services',
-      addService: 'Add My Service',
-      services: '500+ Services',
-      servicesDesc: 'Cameroonian Services',
-      users: '1000+ Users',
-      usersDesc: 'Active Users',
-      rating: '4.8/5',
-      ratingDesc: 'Average Rating',
-      aiSuggestions: 'AI suggestions for you',
+      title: "Welcome to Silicon",
+      subtitle:
+        "Connect with the best Cameroonian digital services. From food to jobs, tech to training - everything you need at your fingertips.",
+      searchPlaceholder:
+        "What are you looking for today? 'food', 'jobs', 'tech'...",
+      searchButton: "Search",
+      exploreServices: "Explore Services",
+      addService: "Add My Service",
+      services: "500+ Services",
+      servicesDesc: "Cameroonian Services",
+      users: "1000+ Users",
+      usersDesc: "Active Users",
+      rating: "4.8/5",
+      ratingDesc: "Average Rating",
+      aiSuggestions: "AI suggestions for you",
       suggestions: [
         "I want to eat something 🍽️",
         "I need a website 💻",
         "Help me find a job 💼",
         "Online training 📚",
         "Fast delivery 🚗",
-        "Beauty services 💄"
-      ]
+        "Beauty services 💄",
+      ],
     },
     fr: {
-      title: 'Bienvenue sur Digital Cameroon',
-      subtitle: 'Connectez-vous aux meilleurs services numériques camerounais. De la nourriture aux emplois, en passant par la tech - tout ce dont vous avez besoin à portée de main.',
-      searchPlaceholder: "Que cherchez-vous aujourd'hui? 'nourriture', 'emplois', 'tech'...",
-      searchButton: 'Chercher',
-      exploreServices: 'Explorer les Services',
-      addService: 'Ajouter Mon Service',
-      services: '500+ Services',
-      servicesDesc: 'Services Camerounais',
-      users: '1000+ Utilisateurs',
-      usersDesc: 'Utilisateurs Actifs',
-      rating: '4.8/5',
-      ratingDesc: 'Note Moyenne',
-      aiSuggestions: 'Suggestions IA pour vous',
+      title: "Bienvenue sur Silicon",
+      subtitle:
+        "Connectez-vous aux meilleurs services numériques camerounais. De la nourriture aux emplois, en passant par la tech - tout ce dont vous avez besoin à portée de main.",
+      searchPlaceholder:
+        "Que cherchez-vous aujourd'hui? 'nourriture', 'emplois', 'tech'...",
+      searchButton: "Chercher",
+      exploreServices: "Explorer les Services",
+      addService: "Ajouter Mon Service",
+      services: "500+ Services",
+      servicesDesc: "Services Camerounais",
+      users: "1000+ Utilisateurs",
+      usersDesc: "Utilisateurs Actifs",
+      rating: "4.8/5",
+      ratingDesc: "Note Moyenne",
+      aiSuggestions: "Suggestions IA pour vous",
       suggestions: [
         "Je veux manger quelque chose 🍽️",
         "J'ai besoin d'un site web 💻",
         "Aide-moi à trouver un job 💼",
         "Formation en ligne 📚",
         "Livraison rapide 🚗",
-        "Services de beauté 💄"
-      ]
+        "Services de beauté 💄",
+      ],
     },
     pid: {
-      title: 'Welcome for Digital Cameroon',
-      subtitle: 'Connect with the best Cameroon digital services dem. From chop to work, tech to training - everything wey you need dey here.',
+      title: "Welcome for Silicon",
+      subtitle:
+        "Connect with the best Cameroon digital services dem. From chop to work, tech to training - everything wey you need dey here.",
       searchPlaceholder: "Wetin you dey find today? 'chop', 'work', 'tech'...",
-      searchButton: 'Search',
-      exploreServices: 'Check Services',
-      addService: 'Add My Service',
-      services: '500+ Services',
-      servicesDesc: 'Cameroon Services',
-      users: '1000+ Users',
-      usersDesc: 'Active Users',
-      rating: '4.8/5',
-      ratingDesc: 'Average Rating',
-      aiSuggestions: 'AI suggestions for you',
+      searchButton: "Search",
+      exploreServices: "Check Services",
+      addService: "Add My Service",
+      services: "500+ Services",
+      servicesDesc: "Cameroon Services",
+      users: "1000+ Users",
+      usersDesc: "Active Users",
+      rating: "4.8/5",
+      ratingDesc: "Average Rating",
+      aiSuggestions: "AI suggestions for you",
       suggestions: [
         "I wan chop something 🍽️",
         "I need website 💻",
         "Help me find work 💼",
         "Online training 📚",
         "Quick delivery 🚗",
-        "Beauty services 💄"
-      ]
-    }
+        "Beauty services 💄",
+      ],
+    },
   };
 
   const currentText = languages[currentLanguage as keyof typeof languages];
@@ -111,11 +122,11 @@ const HeroSection = () => {
                 onClick={() => setCurrentLanguage(lang)}
                 className={`px-3 py-1 rounded-full text-sm font-medium transition-all ${
                   currentLanguage === lang
-                    ? 'bg-blue-600 text-white'
-                    : 'text-gray-600 hover:bg-blue-50'
+                    ? "bg-blue-600 text-white"
+                    : "text-gray-600 hover:bg-blue-50"
                 }`}
               >
-                {lang === 'en' ? 'EN' : lang === 'fr' ? 'FR' : 'PID'}
+                {lang === "en" ? "EN" : lang === "fr" ? "FR" : "PID"}
               </button>
             ))}
           </div>
@@ -123,12 +134,15 @@ const HeroSection = () => {
 
         <div className="text-center mb-12 animate-fade-in">
           <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-            {currentText.title.split(' ').map((word, index) => (
+            {currentText.title.split(" ").map((word, index) => (
               <span
                 key={index}
                 className={`inline-block mr-2 ${
-                  word === 'Digital' ? 'text-blue-600' :
-                  word === 'Cameroon' ? 'text-blue-500' : ''
+                  word === "Digital"
+                    ? "text-blue-600"
+                    : word === "Cameroon"
+                    ? "text-blue-500"
+                    : ""
                 } animate-slide-up`}
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
@@ -139,7 +153,7 @@ const HeroSection = () => {
           <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8 animate-fade-in delay-300">
             {currentText.subtitle}
           </p>
-          
+
           {/* AI-Powered Search Bar */}
           <div className="max-w-2xl mx-auto mb-8 relative animate-scale-in delay-500">
             <div className="relative">
@@ -167,7 +181,9 @@ const HeroSection = () => {
                 <div className="p-4">
                   <div className="flex items-center mb-3">
                     <Sparkles className="w-4 h-4 text-blue-500 mr-2" />
-                    <span className="text-sm font-medium text-gray-700">{currentText.aiSuggestions}</span>
+                    <span className="text-sm font-medium text-gray-700">
+                      {currentText.aiSuggestions}
+                    </span>
                   </div>
                   <div className="grid grid-cols-1 gap-2">
                     {currentText.suggestions.map((suggestion, index) => (
@@ -188,15 +204,15 @@ const HeroSection = () => {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12 animate-fade-in delay-700">
-            <Button 
-              size="lg" 
+            <Button
+              size="lg"
               className="bg-blue-600 hover:bg-blue-700 text-lg px-8 py-3 transition-all hover:scale-105 shadow-lg"
             >
               {currentText.exploreServices}
             </Button>
-            <Button 
-              variant="outline" 
-              size="lg" 
+            <Button
+              variant="outline"
+              size="lg"
               className="text-lg px-8 py-3 border-2 border-blue-300 hover:bg-blue-50 transition-all hover:scale-105 shadow-lg"
             >
               {currentText.addService}
@@ -210,7 +226,9 @@ const HeroSection = () => {
             <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
               <Users className="w-8 h-8 text-blue-600" />
             </div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-2">{currentText.services.split(' ')[0]}</h3>
+            <h3 className="text-2xl font-bold text-gray-900 mb-2">
+              {currentText.services.split(" ")[0]}
+            </h3>
             <p className="text-gray-600">{currentText.servicesDesc}</p>
           </div>
 
@@ -218,7 +236,9 @@ const HeroSection = () => {
             <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
               <TrendingUp className="w-8 h-8 text-blue-600" />
             </div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-2">{currentText.users.split(' ')[0]}</h3>
+            <h3 className="text-2xl font-bold text-gray-900 mb-2">
+              {currentText.users.split(" ")[0]}
+            </h3>
             <p className="text-gray-600">{currentText.usersDesc}</p>
           </div>
 
@@ -226,7 +246,9 @@ const HeroSection = () => {
             <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
               <Award className="w-8 h-8 text-blue-600" />
             </div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-2">{currentText.rating}</h3>
+            <h3 className="text-2xl font-bold text-gray-900 mb-2">
+              {currentText.rating}
+            </h3>
             <p className="text-gray-600">{currentText.ratingDesc}</p>
           </div>
         </div>
