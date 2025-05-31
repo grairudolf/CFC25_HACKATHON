@@ -3,6 +3,7 @@ import React from 'react';
 import { BookOpen, PlayCircle, Award, ArrowRight, GraduationCap, Briefcase, Palette, Code, TrendingUp, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+// import
 
 const SkillSection = () => {
   const skillCategories = [
