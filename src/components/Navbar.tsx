@@ -54,7 +54,7 @@ const Navbar = () => {
               <img
                 src="/logo_transparent.png"
                 alt="Logo"
-                className="ml-2 h-14 w-auto"
+                className="ml-2 h-12 w-auto"
               />
             </div>
           </div>

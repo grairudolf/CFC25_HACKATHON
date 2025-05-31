@@ -49,7 +49,7 @@ const Footer = () => {
               <img
                 src="/logo_transparent.png"
                 alt="Logo"
-                className="ml-2 h-12"
+                className="ml-2 h-25 w-auto"
               />
             </div>
             <p className="text-blue-100 mb-6 leading-relaxed">
@@ -223,7 +223,7 @@ const Footer = () => {
               <div className="flex items-center group">
                 <MapPin className="w-5 h-5 mr-3 text-blue-300 group-hover:scale-110 transition-transform" />
                 <span className="text-blue-100 group-hover:text-white transition-colors">
-                Buea, Cameroon
+                  Buea, Cameroon
                 </span>
               </div>
             </div>
