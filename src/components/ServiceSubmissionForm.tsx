@@ -49,15 +49,15 @@ const ServiceSubmissionForm = () => {
     }
   };
 
-  const addTag = () => {
-    if (currentTag.trim() && !formData.tags.includes(currentTag.trim())) {
-      setFormData(prev => ({
-        ...prev,
-        tags: [...prev.tags, currentTag.trim()]
-      }));
-      setCurrentTag('');
-    }
-  };
+  // const addTag = () => {
+  //   if (currentTag.trim() && !formData.tags.includes(currentTag.trim())) {
+  //     setFormData(prev => ({
+  //       ...prev,
+  //       tags: [...prev.tags, currentTag.trim()]
+  //     }));
+  //     setCurrentTag('');
+  //   }
+  // };
 
   const removeTag = (tagToRemove: string) => {
     setFormData(prev => ({
@@ -230,9 +230,9 @@ const ServiceSubmissionForm = () => {
 
               {/* Tags */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                {/* <label className="block text-sm font-medium text-gray-700 mb-2">
                   Tags (Optional)
-                </label>
+                </label> */}
                 <div className="flex flex-wrap gap-2 mb-3">
                   {formData.tags.map((tag, index) => (
                     <span
@@ -250,7 +250,7 @@ const ServiceSubmissionForm = () => {
                     </span>
                   ))}
                 </div>
-                <div className="flex gap-2">
+                {/* <div className="flex gap-2">
                   <input
                     type="text"
                     value={currentTag}
@@ -262,7 +262,7 @@ const ServiceSubmissionForm = () => {
                   <Button type="button" onClick={addTag} variant="outline" size="sm">
                     <Plus className="w-4 h-4" />
                   </Button>
-                </div>
+                </div> */}
               </div>
 
               {/* Contact Info */}
@@ -283,7 +283,7 @@ const ServiceSubmissionForm = () => {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Website/Portfolio (Optional)
+                    Website(Optional)
                   </label>
                   <input
                     type="url"

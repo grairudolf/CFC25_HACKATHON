@@ -247,8 +247,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-blue-400/30 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
           <div className="flex items-center text-blue-100 text-sm mb-4 md:mb-0">
-            <span>© 2024 Silicon. Made with</span>
-            <Heart className="w-4 h-4 mx-1 text-red-400 animate-pulse" />
+            <span>© 2025 Silicon. Made with</span>
             <span>in Cameroon</span>
           </div>
           <div className="flex space-x-6">
