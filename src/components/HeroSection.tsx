@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import {
   Search,
   TrendingUp,
@@ -13,7 +13,6 @@ const HeroSection = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [showAISuggestions, setShowAISuggestions] = useState(false);
   const [currentLanguage, setCurrentLanguage] = useState("en");
-  const suggestionsRef = useRef<HTMLDivElement>(null);
 
   const languages = {
     en: {
@@ -103,31 +102,6 @@ const HeroSection = () => {
     setShowAISuggestions(false);
   };
 
-  const handleOutsideClick = (event: MouseEvent) => {
-    if (
-      suggestionsRef.current &&
-      !suggestionsRef.current.contains(event.target as Node)
-    ) {
-      setShowAISuggestions(false);
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener("mousedown", handleOutsideClick);
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    };
-  }, []);
-
-  const handleSearchSubmit = () => {
-    if (searchQuery.trim() === "") {
-      alert("Please enter a search query.");
-      return;
-    }
-    console.log("Search submitted:", searchQuery);
-    // Add navigation or search logic here
-  };
-
   return (
     <div className="bg-gradient-to-br from-blue-50 via-white to-blue-50 py-16 px-4 relative overflow-hidden">
       {/* Background Animation */}
@@ -164,11 +138,7 @@ const HeroSection = () => {
               <span
                 key={index}
                 className={`inline-block mr-2 ${
-                  word === "Digital"
-                    ? "text-blue-600"
-                    : word === "Cameroon"
-                    ? "text-blue-500"
-                    : ""
+                  word === "Silicon" ? "text-blue-600" : ""
                 } animate-slide-up`}
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
@@ -183,10 +153,7 @@ const HeroSection = () => {
           {/* AI-Powered Search Bar */}
           <div className="max-w-2xl mx-auto mb-8 relative animate-scale-in delay-500">
             <div className="relative">
-              <Search
-                className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"
-                aria-hidden="true"
-              />
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <Sparkles className="absolute right-16 top-1/2 transform -translate-y-1/2 text-blue-500 w-5 h-5 animate-pulse" />
               <input
                 type="text"
@@ -195,12 +162,10 @@ const HeroSection = () => {
                 onFocus={handleSearchFocus}
                 placeholder={currentText.searchPlaceholder}
                 className="w-full pl-12 pr-20 py-4 text-lg border-2 border-blue-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-lg transition-all hover:shadow-xl"
-                aria-label="Search services"
               />
               <Button
                 className="absolute right-2 top-2 bg-blue-600 hover:bg-blue-700 transition-all hover:scale-105"
                 size="sm"
-                onClick={handleSearchSubmit}
               >
                 {currentText.searchButton}
               </Button>
@@ -208,10 +173,7 @@ const HeroSection = () => {
 
             {/* AI Suggestions */}
             {showAISuggestions && (
-              <div
-                ref={suggestionsRef}
-                className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-xl border-2 border-blue-100 z-50 animate-scale-in"
-              >
+              <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-xl border-2 border-blue-100 z-50 animate-scale-in">
                 <div className="p-4">
                   <div className="flex items-center mb-3">
                     <Sparkles className="w-4 h-4 text-blue-500 mr-2" />
