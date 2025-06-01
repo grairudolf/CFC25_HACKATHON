@@ -156,12 +156,20 @@ const ServiceCard = ({
             variant="outline"
             size="sm"
             className="flex-1 hover:bg-blue-50 hover:border-blue-300 transition-all hover:scale-105 duration-300 border-blue-200"
+            onClick={(e) => {
+              e.preventDefault(); // Prevent outer link's default if necessary, though not strictly needed here
+              window.open(website, "_blank", "noopener,noreferrer");
+            }}
           >
             Learn More
           </Button>
           <Button
             size="sm"
             className="flex-1 bg-blue-600 hover:bg-blue-700 transition-all hover:scale-105 duration-300 shadow-lg"
+            onClick={(e) => {
+              e.preventDefault(); // Prevent outer link's default
+              window.open(website, "_blank", "noopener,noreferrer");
+            }}
           >
             <ExternalLink className="w-4 h-4 mr-1" />
             Use Service
