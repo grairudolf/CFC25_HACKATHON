@@ -177,7 +177,7 @@ const ServiceSubmissionForm = () => {
         </div>
 
         <Card className="bg-white shadow-xl">
-          <CardHeader className="bg-gradient-to-r from-blue-600 to-orange-500 text-white rounded-t-lg">
+          <CardHeader className="bg-gradient-to-r from-blue-600 to-green-500 text-white rounded-t-lg">
             <CardTitle className="text-2xl">Service Submission Form</CardTitle>
             <p className="text-blue-100">Fill out the details below to list your service</p>
           </CardHeader>
@@ -347,7 +347,7 @@ const ServiceSubmissionForm = () => {
                 <Button
                   type="submit"
                   size="lg"
-                  className="bg-gradient-to-r from-blue-600 to-orange-500 hover:from-blue-700 hover:to-orange-600 px-12 py-3 text-lg w-full sm:w-auto"
+                  className="bg-gradient-to-r from-blue-600 to-green-500 hover:from-blue-700 hover:to-green-600 px-12 py-3 text-lg w-full sm:w-auto"
                   disabled={loading}
                 >
                   {loading ? (

@@ -52,26 +52,26 @@ const Footer = () => {
                 className="ml-2 h-18 w-auto"
               />
             </div>
-            <p className="text-blue-100 mb-6 leading-relaxed">
+            <p className="text-white-100 mb-6 leading-relaxed">
               Connecting Cameroonians to the best local digital services. From
               food delivery to tech solutions - empowering our digital economy.
             </p>
             <div className="flex space-x-4">
               <a
                 href="#"
-                className="text-blue-200 hover:text-white transition-all duration-300 hover:scale-125 transform"
+                className="text-white-200 hover:text-white transition-all duration-300 hover:scale-125 transform"
               >
                 <Facebook className="w-5 h-5" />
               </a>
               <a
                 href="#"
-                className="text-blue-200 hover:text-white transition-all duration-300 hover:scale-125 transform"
+                className="text-white-200 hover:text-white transition-all duration-300 hover:scale-125 transform"
               >
                 <Twitter className="w-5 h-5" />
               </a>
               <a
                 href="#"
-                className="text-blue-200 hover:text-white transition-all duration-300 hover:scale-125 transform"
+                className="text-white-200 hover:text-white transition-all duration-300 hover:scale-125 transform"
               >
                 <Linkedin className="w-5 h-5" />
               </a>

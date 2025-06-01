@@ -235,14 +235,14 @@ const AIAssistant = () => {
       <div className="fixed bottom-4 right-4 z-50">
         <Button
           onClick={() => setIsOpen(!isOpen)}
-          className="w-16 h-16 rounded-full bg-gradient-to-r from-blue-600 to-indigo-500 hover:from-blue-700 hover:to-pink-600 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110"
+          className="w-16 h-16 rounded-full bg-gradient-to-r from-blue-600 to-green-500 hover:from-blue-700 hover:to-green-700 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110"
         >
           {isOpen ? (
             <X className="w-6 h-6" />
           ) : (
             <MessageCircle className="w-6 h-6" />
           )}
-          <Sparkles className="w-4 h-4 absolute -top-1 -right-1 text-pink-300 animate-pulse" />
+          <Sparkles className="w-4 h-4 absolute -top-1 -right-1 text-blue-500 animate-pulse" />
         </Button>
       </div>
 
@@ -250,7 +250,7 @@ const AIAssistant = () => {
       {isOpen && (
         <div className="fixed bottom-24 right-4 w-80 max-w-[calc(100vw-2rem)] h-[500px] bg-white rounded-xl shadow-2xl border border-gray-200 z-50 flex flex-col animate-scale-in">
           {/* Header */}
-          <div className="bg-gradient-to-r from-blue-600 to-indigo-500 text-white p-3 rounded-t-xl flex justify-between items-center">
+          <div className="bg-gradient-to-r from-blue-600 to-green-500 text-white p-3 rounded-t-xl flex justify-between items-center">
             <div className="flex items-center">
               <Bot className="w-5 h-5 mr-2" />
               <div>
@@ -316,7 +316,7 @@ const AIAssistant = () => {
                 <div
                   className={`max-w-[85%] p-3 rounded-lg ${
                     message.type === "user"
-                      ? "bg-gradient-to-r from-blue-600 to-indigo-500 text-white"
+                      ? "bg-gradient-to-r from-blue-600 to-green-500 text-white"
                       : "bg-gray-100 text-gray-800"
                   }`}
                 >
@@ -340,7 +340,7 @@ const AIAssistant = () => {
               <Button
                 onClick={handleSendMessage}
                 size="sm"
-                className="bg-gradient-to-r from-blue-600 to-indigo-500 hover:from-blue-700 hover:to-indigo-600 transition-all hover:scale-105"
+                className="bg-gradient-to-r from-blue-600 to-green-500 hover:from-blue-700 hover:to-indigo-600 transition-all hover:scale-105"
               >
                 <Send className="w-4 h-4" />
               </Button>
