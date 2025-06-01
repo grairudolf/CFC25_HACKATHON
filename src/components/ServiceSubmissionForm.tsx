@@ -97,9 +97,11 @@ const ServiceSubmissionForm = () => {
     submissionData.append('name', formData.name);
     submissionData.append('category', formData.category);
     submissionData.append('website', formData.website || ''); // Ensure website is not undefined
-    submissionData.append('description_en', description_en);
-    submissionData.append('description_fr', description_fr);
-    submissionData.append('description_pid', description_pid);
+    submissionData.append('description', JSON.stringify({
+      "en": description_en,
+      "fr": description_fr,
+      "pid": description_pid
+    }));
 
     if (imageFile) {
       submissionData.append('image', imageFile);
