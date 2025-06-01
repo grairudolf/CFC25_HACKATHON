@@ -10,13 +10,23 @@ import {
 } from "@/components/ui/select";
 import ServiceCard from "./ServiceCard";
 
-const ServiceSection = () => {
+interface ServiceSectionProps {
+  searchQuery?: string; // Added searchQuery prop
+}
+
+const ServiceSection: React.FC<ServiceSectionProps> = ({ searchQuery }) => {
   const [activeTab, setActiveTab] = useState("recommended");
   const [viewMode, setViewMode] = useState("grid");
-  const [isLoggedIn] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState<string>("all"); // State for selected category
+  const [visibleCount, setVisibleCount] = useState<number>(3); // State for "View More"
+  const [isLoggedIn] = useState(true); // This should ideally come from context or props
+
+  const INITIAL_ITEMS_PER_TAB = 3;
+  const ITEMS_TO_LOAD_MORE = 3;
 
   // Cameroonian services data with multi-language support
-  const services = {
+  // In a real app, this would come from an API or a global state
+  const allServicesData = {
     recommended: [
       {
         id: "1",
@@ -166,17 +176,64 @@ const ServiceSection = () => {
     ],
   };
 
+  // Memoize unique categories
+  const uniqueCategories = React.useMemo(() => {
+    const categories = new Set<string>();
+    Object.values(allServicesData).forEach(tabServices => {
+      tabServices.forEach(service => categories.add(service.category));
+    });
+    return ["all", ...Array.from(categories).sort()];
+  }, [allServicesData]);
+
+  // Reset visible count when tab, search query, or category changes
+  React.useEffect(() => {
+    setVisibleCount(INITIAL_ITEMS_PER_TAB);
+  }, [activeTab, searchQuery, selectedCategory]);
+
+  // Filtering logic
+  const finalFilteredServices = React.useMemo(() => {
+    let services = allServicesData[activeTab as keyof typeof allServicesData] || [];
+
+    // Filter by search query
+    if (searchQuery) {
+      services = services.filter((service) => {
+        const query = searchQuery.toLowerCase();
+        const desc = service.description;
+        return (
+          service.name.toLowerCase().includes(query) ||
+          desc.en.toLowerCase().includes(query) ||
+          desc.fr.toLowerCase().includes(query) ||
+          desc.pid.toLowerCase().includes(query) ||
+          service.category.toLowerCase().includes(query) ||
+          service.location.toLowerCase().includes(query)
+        );
+      });
+    }
+
+    // Filter by category
+    if (selectedCategory !== "all") {
+      services = services.filter(service => service.category === selectedCategory);
+    }
+    return services;
+  }, [activeTab, searchQuery, selectedCategory, allServicesData]);
+
+  const servicesToDisplay = finalFilteredServices.slice(0, visibleCount);
+
+  const handleViewMore = () => {
+    setVisibleCount(prevCount => prevCount + ITEMS_TO_LOAD_MORE);
+  };
+
   const tabs = [
     {
       id: "recommended",
       label: "Recommended Services",
-      count: services.recommended.length,
+      count: allServicesData.recommended.length, // Show total count for the tab
     },
-    { id: "latest", label: "Latest Services", count: services.latest.length },
+    { id: "latest", label: "Latest Services", count: allServicesData.latest.length },
     {
       id: "popular",
       label: "Popular Services",
-      count: services.popular.length,
+      count: allServicesData.popular.length,
     },
   ];
 
@@ -200,7 +257,11 @@ const ServiceSection = () => {
             {tabs.map((tab) => (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
+                // onClick={() => setActiveTab(tab.id)} // setActiveTab will also reset visibleCount due to useEffect
+                onClick={() => {
+                  setActiveTab(tab.id);
+                  // setSelectedCategory("all"); // Optionally reset category on tab change
+                }}
                 className={`px-4 py-2 rounded-lg font-medium transition-all transform hover:scale-105 ${
                   activeTab === tab.id
                     ? "bg-blue-600 text-white shadow-md"
@@ -214,19 +275,17 @@ const ServiceSection = () => {
 
           {/* Controls */}
           <div className="flex items-center space-x-4">
-            <Select defaultValue="all">
-              <SelectTrigger className="w-48">
+            <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+              <SelectTrigger className="w-auto min-w-[180px] sm:w-48"> {/* Adjusted width */}
                 <Filter className="w-4 h-4 mr-2" />
-                <SelectValue placeholder="Category" />
+                <SelectValue placeholder="Filter by Category" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Categories</SelectItem>
-                <SelectItem value="food">Food & Delivery</SelectItem>
-                <SelectItem value="jobs">Jobs & Career</SelectItem>
-                <SelectItem value="fintech">Fintech & Payments</SelectItem>
-                <SelectItem value="tech">Tech Training</SelectItem>
-                <SelectItem value="education">Education</SelectItem>
-                <SelectItem value="community">Community</SelectItem>
+                {uniqueCategories.map(category => (
+                  <SelectItem key={category} value={category}>
+                    {category === "all" ? "All Categories" : category}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
 
@@ -263,8 +322,8 @@ const ServiceSection = () => {
               : "grid-cols-1 max-w-4xl mx-auto"
           }`}
         >
-          {services[activeTab as keyof typeof services].map(
-            (service, index) => (
+          {servicesToDisplay.length > 0 ? (
+            servicesToDisplay.map((service, index) => (
               <div
                 key={service.id}
                 className="animate-fade-in"
@@ -272,20 +331,35 @@ const ServiceSection = () => {
               >
                 <ServiceCard {...service} isLoggedIn={isLoggedIn} />
               </div>
-            )
+            ))
+          ) : (
+            <div className="col-span-full text-center py-12">
+              <MapPin className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+              <h3 className="text-xl font-semibold text-gray-700 mb-2">
+                No services found
+              </h3>
+              <p className="text-gray-500">
+                {searchQuery || selectedCategory !== "all"
+                  ? "Try adjusting your search or category filters."
+                  : "More services coming soon!"}
+              </p>
+            </div>
           )}
         </div>
 
-        {/* Load More */}
-        <div className="text-center mt-12">
-          <Button
-            variant="outline"
-            size="lg"
-            className="px-8 py-3 border-2 hover:bg-gray-50 hover:scale-105 transition-all"
-          >
-            View More Services
-          </Button>
-        </div>
+        {/* View More Button */}
+        {finalFilteredServices.length > visibleCount && (
+          <div className="text-center mt-12">
+            <Button
+              variant="outline"
+              size="lg"
+              className="px-8 py-3 border-2 hover:bg-gray-50 hover:scale-105 transition-all"
+              onClick={handleViewMore}
+            >
+              View More Services ({visibleCount}/{finalFilteredServices.length})
+            </Button>
+          </div>
+        )}
       </div>
     </section>
   );
