@@ -175,7 +175,7 @@ const ServiceSection: React.FC<ServiceSectionProps> = ({ searchQuery }) => {
       },
     ],
   };
-  
+
   // Memoize unique categories
   const uniqueCategories = React.useMemo(() => {
     const categories = new Set<string>();
@@ -216,7 +216,7 @@ const ServiceSection: React.FC<ServiceSectionProps> = ({ searchQuery }) => {
     }
     return services;
   }, [activeTab, searchQuery, selectedCategory, allServicesData]);
-  
+
   const servicesToDisplay = finalFilteredServices.slice(0, visibleCount);
 
   const handleViewMore = () => {
@@ -232,32 +232,7 @@ const ServiceSection: React.FC<ServiceSectionProps> = ({ searchQuery }) => {
     { id: "latest", label: "Latest Services", count: allServicesData.latest.length },
     {
       id: "popular",
-      label: "Popula
-import React from 'react';
-import Navbar from '@/components/Navbar';
-import HeroSection from '@/components/HeroSection';
-import ServiceSection from '@/components/ServiceSection';
-import SkillSection from '@/components/SkillSection';
-import ServiceSubmissionForm from '@/components/ServiceSubmissionForm';
-import Footer from '@/components/Footer';
-import AIAssistant from '@/components/AIAssistant';
-
-const Index = () => {
-  return (
-    <div className="min-h-screen bg-white">
-      <Navbar />
-      <HeroSection />
-      <ServiceSection />
-      <SkillSection />
-      <ServiceSubmissionForm />
-      <Footer />
-      <AIAssistant />
-    </div>
-  );
-};
-
-export default Index;
-r Services",
+      label: "Popular Services",
       count: allServicesData.popular.length,
     },
   ];
@@ -364,8 +339,8 @@ r Services",
                 No services found
               </h3>
               <p className="text-gray-500">
-                {searchQuery || selectedCategory !== "all" 
-                  ? "Try adjusting your search or category filters." 
+                {searchQuery || selectedCategory !== "all"
+                  ? "Try adjusting your search or category filters."
                   : "More services coming soon!"}
               </p>
             </div>

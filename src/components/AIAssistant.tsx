@@ -165,7 +165,7 @@ const AIAssistant = () => {
 
   const handleQuickSuggestion = (suggestion: string) => {
     // The suggestion is already in the current language from quickSuggestions
-    setInputMessage(suggestion); 
+    setInputMessage(suggestion);
     // Call handleSendMessage directly, it will use the current inputMessage
     // which is now set to the suggestion.
      setTimeout(() => { // Ensure state is set before sending
@@ -179,7 +179,7 @@ const AIAssistant = () => {
       handleSendMessage();
     }
   };
-  
+
   const currentText = languageResources[currentLanguage];
 
   return (

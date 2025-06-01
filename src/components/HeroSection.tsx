@@ -101,7 +101,7 @@ const HeroSection = ({ onSearch }: { onSearch: (query: string) => void }) => { /
     setSearchQuery(suggestion);
     setShowAISuggestions(false);
     // Optionally, trigger search immediately on suggestion click
-    // onSearch(suggestion); 
+    // onSearch(suggestion);
   };
 
   const handleSearchSubmit = (e: React.FormEvent) => {
