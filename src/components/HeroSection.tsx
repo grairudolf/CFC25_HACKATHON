@@ -221,7 +221,7 @@ const HeroSection = ({ onSearch }: { onSearch: (query: string) => void }) => { /
                 </div>
               </div>
             )}
-          </div>
+          </form>
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12 animate-fade-in delay-700">
