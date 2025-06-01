@@ -1,16 +1,24 @@
-import React, { useState } from "react";
-import { Menu, X, Search, User, Globe, LogOut } from "lucide-react"; // Added LogOut
+import React, { useState, useEffect, useRef } from "react"; // Added useEffect, useRef
+import { Menu, X, Search, User, Globe, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/contexts/AuthContext"; // Import useAuth
-import { Link, useNavigate } from "react-router-dom"; // Import Link and useNavigate
+import { useAuth } from "@/contexts/AuthContext";
+import { Link, useNavigate } from "react-router-dom";
+import { Service } from "@/types"; // Import Service type
 
-const Navbar = ({ onSearch }: { onSearch: (query: string) => void }) => { // Added onSearch prop
+interface NavbarProps {
+  onSearch: (query: string) => void;
+  allServices: Service[]; // Prop for all services data
+}
+
+const Navbar: React.FC<NavbarProps> = ({ onSearch, allServices }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState(""); // Added search query state
-  // const [isLoggedIn, setIsLoggedIn] = useState(false); // Remove local state
+  const [searchQuery, setSearchQuery] = useState("");
+  const [suggestions, setSuggestions] = useState<Service[]>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const [currentLanguage, setCurrentLanguage] = useState("en");
-  const { currentUser, logout } = useAuth(); // Use auth context
+  const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
+  const searchContainerRef = useRef<HTMLDivElement>(null); // Ref for the search container
 
   const languages = {
     en: {
@@ -53,10 +61,53 @@ const Navbar = ({ onSearch }: { onSearch: (query: string) => void }) => { // Add
 
   const currentText = languages[currentLanguage as keyof typeof languages];
 
+  // Effect to handle clicks outside of search suggestions
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchContainerRef.current && !searchContainerRef.current.contains(event.target as Node)) {
+        setShowSuggestions(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+
+    if (query.trim() === "") {
+      setSuggestions([]);
+      setShowSuggestions(false);
+      return;
+    }
+
+    const filteredSuggestions = allServices.filter(service =>
+      service.name.toLowerCase().includes(query.toLowerCase()) ||
+      service.description.en.toLowerCase().includes(query.toLowerCase()) ||
+      service.description.fr.toLowerCase().includes(query.toLowerCase()) ||
+      service.description.pid.toLowerCase().includes(query.toLowerCase()) ||
+      service.category.toLowerCase().includes(query.toLowerCase()) ||
+      service.location?.toLowerCase().includes(query.toLowerCase())
+    );
+    setSuggestions(filteredSuggestions.slice(0, 5)); // Limit to 5 suggestions
+    setShowSuggestions(filteredSuggestions.length > 0);
+  };
+
+  const handleSuggestionClick = (service: Service) => {
+    setSearchQuery(service.name);
+    setSuggestions([]);
+    setShowSuggestions(false);
+    onSearch(service.name);
+    // Optionally, navigate to the service or a search results page for that service
+  };
+
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setShowSuggestions(false); // Hide suggestions on submit
     onSearch(searchQuery);
-    // For now, we're calling onSearch. Navigation or filtering logic will be handled by the parent.
     console.log("Search submitted in Navbar:", searchQuery);
   };
 
@@ -109,16 +160,33 @@ const Navbar = ({ onSearch }: { onSearch: (query: string) => void }) => { // Add
 
           {/* Search, Language and Auth */}
           <div className="hidden md:flex items-center space-x-4">
-            <form onSubmit={handleSearchSubmit} className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-              <input
-                type="text"
-                placeholder={currentText.search}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 pr-4 py-2 border-2 border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-              />
-            </form>
+            <div ref={searchContainerRef} className="relative"> {/* Added ref to this container */}
+              <form onSubmit={handleSearchSubmit} className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <input
+                  type="text"
+                  placeholder={currentText.search}
+                  value={searchQuery}
+                  onChange={handleSearchInputChange}
+                  onFocus={() => setShowSuggestions(suggestions.length > 0 && searchQuery.trim() !== "")} // Show on focus if query exists
+                  className="pl-10 pr-4 py-2 border-2 border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all w-64" // Increased width
+                />
+              </form>
+              {showSuggestions && suggestions.length > 0 && (
+                <ul className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg z-50 overflow-hidden max-h-60 overflow-y-auto">
+                  {suggestions.map((service) => (
+                    <li
+                      key={service.id}
+                      className="px-4 py-2 hover:bg-blue-50 cursor-pointer text-sm text-gray-700"
+                      onClick={() => handleSuggestionClick(service)}
+                    >
+                      {service.name}
+                      <p className="text-xs text-gray-500">{service.category} - {service.location}</p>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
 
             <div className="flex items-center bg-blue-50 rounded-lg p-1">
               <Globe className="w-4 h-4 text-blue-600 mx-1" />
@@ -137,12 +205,13 @@ const Navbar = ({ onSearch }: { onSearch: (query: string) => void }) => { // Add
               ))}
             </div>
 
+            {/* User Authentication UI */}
             {currentUser ? (
               <div className="flex items-center space-x-2">
                 {currentUser.picture && (
                   <img src={currentUser.picture} alt="profile" className="w-8 h-8 rounded-full" />
                 )}
-                <span className="text-sm text-gray-700">
+                <span className="text-sm text-gray-700 truncate max-w-28" title={currentUser.name || currentUser.email}>
                   {currentUser.name || currentUser.email}
                 </span>
                 <Button
@@ -151,7 +220,7 @@ const Navbar = ({ onSearch }: { onSearch: (query: string) => void }) => { // Add
                   onClick={handleLogout}
                   className="border-blue-200 hover:bg-blue-50 transition-all hover:scale-105"
                 >
-                  <LogOut className="w-4 h-4 mr-2" /> {/* Added icon */}
+                  <LogOut className="w-4 h-4 mr-1 md:mr-2" />
                   {currentText.logout}
                 </Button>
               </div>
@@ -193,9 +262,20 @@ const Navbar = ({ onSearch }: { onSearch: (query: string) => void }) => { // Add
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="md:hidden animate-fade-in">
+          <div className="md:hidden animate-fade-in"> {/* Mobile Menu Container */}
             <div className="px-2 pt-2 pb-3 space-y-1 bg-white border-t border-blue-100">
-              <Link // Changed from <a> to <Link>
+              {/* Mobile Search Form - Simplified, no suggestions for now to keep it clean */}
+              <form onSubmit={handleSearchSubmit} className="relative px-3 py-2">
+                <Search className="absolute left-5 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <input
+                  type="text"
+                  placeholder={currentText.search}
+                  value={searchQuery}
+                  onChange={handleSearchInputChange} // Re-use input change, suggestions won't show unless styled for mobile
+                  className="w-full pl-10 pr-4 py-2 border-2 border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                />
+              </form>
+              <Link
                 to="/"
                 className="block px-3 py-2 text-gray-700 hover:text-blue-600 font-medium transition-colors"
                 onClick={() => setIsMenuOpen(false)}
