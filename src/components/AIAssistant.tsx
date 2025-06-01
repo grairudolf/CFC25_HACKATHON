@@ -7,7 +7,7 @@ type LanguageKey = "en" | "fr" | "pid";
 const languageResources = {
   en: {
     initialMessage:
-      "Hello! I'm your Cameroonian AI assistant. I can help you discover local services, find what you're looking for, or guide you to training. What can I do for you today? 🇨🇲",
+      "Hello! I'm your SiliconHub assistant. I can help you discover local services, find what you're looking for, or guide you to training. What can I do for you today? 🇨🇲",
     quickSuggestions: [
       "🍽️ I want to eat",
       "💼 Find a job",
@@ -28,7 +28,7 @@ const languageResources = {
         "I'm here to help you navigate the Cameroonian digital ecosystem! You can ask me about delivery services, job opportunities, tech training, or even advice on local entrepreneurship. What do you want to explore? 🚀",
     },
     ui: {
-      headerTitle: "Cameroon AI Assistant",
+      headerTitle: "SiliconHub Assistant",
       headerSubtitle: "here to help you 🇨🇲",
       quickSuggestTitle: "Quick suggestions:",
       inputPlaceholder: "Type your message...",
@@ -39,7 +39,7 @@ const languageResources = {
   },
   fr: {
     initialMessage:
-      "Bonjour! Je suis votre assistant IA camerounais. Je peux vous aider à découvrir des services locaux, trouver ce que vous cherchez, ou vous orienter vers des formations. Que puis-je faire pour vous aujourd'hui? 🇨🇲",
+      "Bonjour! Je suis votre assistant SiliconHub. Je peux vous aider à découvrir des services locaux, trouver ce que vous cherchez, ou vous orienter vers des formations. Que puis-je faire pour vous aujourd'hui? 🇨🇲",
     quickSuggestions: [
       "🍽️ Je veux manger",
       "💼 Chercher un job",
@@ -60,7 +60,7 @@ const languageResources = {
         "Je suis là pour vous aider à naviguer dans l'écosystème numérique camerounais! Vous pouvez me demander des services de livraison, des opportunités d'emploi, des formations tech, ou même des conseils sur l'entrepreneuriat local. Que souhaitez-vous explorer? 🚀",
     },
     ui: {
-      headerTitle: "Assistant IA Cameroun",
+      headerTitle: "Assistant SiliconHub",
       headerSubtitle: "là pour vous aider 🇨🇲",
       quickSuggestTitle: "Suggestions rapides:",
       inputPlaceholder: "Tapez votre message...",
@@ -71,7 +71,7 @@ const languageResources = {
   },
   pid: {
     initialMessage:
-      "Salut! Na me be ya Cameroon AI assistant. I fit helep you see local services, find wetin you dey find, or show you place for learn work. Wetin I fit do for you today? 🇨🇲",
+      "Salut! Na me be ya SiliconHub assistant. I fit helep you see local services, find wetin you dey find, or show you place for learn work. Wetin I fit do for you today? 🇨🇲",
     quickSuggestions: [
       "🍽️ I wan chop",
       "💼 Find work",
@@ -92,7 +92,7 @@ const languageResources = {
         "I dey here for helep you waka inside Cameroon digital world! You fit ask me for delivery services, work opportunities, tech training, or even advice for local business. Wetin you want check? 🚀",
     },
     ui: {
-      headerTitle: "Cameroon AI Assistant",
+      headerTitle: "SiliconHub Assistant",
       headerSubtitle: "dey here for helep you 🇨🇲",
       quickSuggestTitle: "Quick suggestions:",
       inputPlaceholder: "Write ya message...",
