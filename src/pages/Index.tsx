@@ -4,6 +4,7 @@ import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/HeroSection';
 import ServiceSection from '@/components/ServiceSection';
 import SkillSection from '@/components/SkillSection';
+import FAQSection from '@/components/FAQSection';
 import ServiceSubmissionForm from '@/components/ServiceSubmissionForm';
 import Footer from '@/components/Footer';
 import AIAssistant from '@/components/AIAssistant';
