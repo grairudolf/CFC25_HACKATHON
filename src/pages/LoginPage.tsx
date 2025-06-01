@@ -47,6 +47,11 @@ export default function LoginPage() {
               Sign up
             </Link>
           </p>
+          <p className="text-sm text-muted-foreground mt-2">
+            <Link to="/" className="underline">
+              Go to Home
+            </Link>
+          </p>
         </CardFooter>
       </Card>
     </div>
