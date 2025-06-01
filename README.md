@@ -13,25 +13,49 @@ Welcome to **Silicon Hub**, a platform designed to connect and empower users thr
 ## Project Structure
 
 ```
-CFC25_HACKATION/
-├── src/
-│   ├── components/
-│   │   ├── HeroSection.tsx
-│   │   ├── ServiceSection.tsx
-│   │   ├── SkillSection.tsx
-│   │   └── ui/
-│   │       ├── button.tsx
-│   │       ├── card.tsx
-│   │       ├── sidebar.tsx
-│   │       └── sheet.tsx
-│   ├── pages/
-│   ├── index.tsx
-│   ├── index.css
-│   └── App.css
+CFC25_HACKATHON/
 ├── public/
 │   └── index.html
-├── eslint.config.js
+│
+├── src/
+│   ├── assets/               # (Optional) Static files like images, fonts
+│
+│   ├── components/           # All reusable UI components
+│   │   ├── AIAssistant.tsx
+│   │   ├── Footer.tsx
+│   │   ├── HeroSection.tsx
+│   │   ├── Navbar.tsx
+│   │   ├── ServiceCard.tsx
+│   │   ├── ServiceSection.tsx
+│   │   ├── ServiceSubmissionForm.tsx
+│   │   ├── SkillSection.tsx
+│   │   └── ui/               # Custom UI primitives or wrapped components
+│   │       ├── aspect-ratio.tsx
+│   │       ├── breadcrumb.tsx
+│   │       ├── button.tsx
+│   │       ├── card.tsx
+│   │       ├── menubar.tsx
+│   │       ├── navigation-menu.tsx
+│   │       ├── radio-group.tsx
+│   │       ├── scroll-area.tsx
+│   │       ├── separator.tsx
+│   │       ├── sheet.tsx
+│   │       ├── sidebar.tsx
+│   │       └── switch.tsx
+│
+│   ├── pages/                # Page-level components or routes
+│   │   └── Index.tsx
+│
+│   ├── styles/               # Centralized styling
+│   │   ├── App.css
+│   │   └── index.css
+│
+│   └── index.tsx             # App entry point
+│
+├── .eslintrc.js              # ESLint config (consider renaming)
 ├── package.json
+├── README.md
+
 ```
 
 ## Installation
