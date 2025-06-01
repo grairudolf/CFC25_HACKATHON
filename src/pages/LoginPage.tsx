@@ -6,8 +6,8 @@ import { Link } from "react-router-dom";
 
 export default function LoginPage() {
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <Card className="w-full max-w-md">
+    <div className="flex items-center justify-center min-h-screen bg-blue-100">
+      <Card className="w-full max-w-md bg-white">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl">Login</CardTitle>
           <CardDescription>
@@ -23,7 +23,7 @@ export default function LoginPage() {
             <Label htmlFor="password">Password</Label>
             <Input id="password" type="password" />
           </div>
-          <Button type="submit" className="w-full">
+          <Button type="submit" className="w-full bg-blue-500 hover:bg-blue-600">
             Login
           </Button>
           <div className="relative my-4">
