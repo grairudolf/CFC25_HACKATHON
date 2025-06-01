@@ -86,7 +86,7 @@ const ServiceSection: React.FC<ServiceSectionProps> = ({ searchQuery }) => {
             fr: "Commandez vos plats préférés auprès des restaurants locaux.",
             pid: "Order your chop chop from local restaurants.",
           },
-          image: "public/switchn.png", // We'll need to add this image later
+          image: "public/food-delivery-placeholder.jpg", // We'll need to add this image later
           rating: 4.5,
           reviewCount: 150,
           category: "Food & Delivery",
