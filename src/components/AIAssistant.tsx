@@ -92,19 +92,24 @@ const languageResources = {
   }
 };
 
+type Message = {
+  type: 'bot' | 'user';
+  content: string;
+  timestamp: Date;
+};
+
 const AIAssistant = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [currentLanguage, setCurrentLanguage] = useState<LanguageKey>('fr');
-  const [messages, setMessages] = useState(() => [ // Initialize with current language
+  const [messages, setMessages] = useState<Message[]>(() => [
     {
       type: 'bot' as const,
       content: languageResources[currentLanguage].initialMessage,
       timestamp: new Date()
     }
   ]);
-  const [inputMessage, setInputMessage] = useState('');
+  const [inputMessage, setInputMessage] = useState<string>('');
 
-  // Update initial message when language changes
   useEffect(() => {
     setMessages([
       {
