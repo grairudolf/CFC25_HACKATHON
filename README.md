@@ -13,6 +13,7 @@ Welcome to **Silicon Hub**, a platform designed to connect and empower users thr
 ## Project Structure
 
 ```
+~~~
 CFC25_HACKATHON/
 ├── public/
 │   └── index.html
@@ -55,6 +56,8 @@ CFC25_HACKATHON/
 ├── .eslintrc.js              # ESLint config (consider renaming)
 ├── package.json
 ├── README.md
+
+~~~
 
 ```
 
