@@ -1,126 +1,177 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
-import ServiceCard from './ServiceCard'; // Adjust path as needed
+import ServiceCard from './ServiceCard';
 import React from 'react';
+import { MemoryRouter, useNavigate } from 'react-router-dom'; // Import MemoryRouter and useNavigate
 
-// ServiceCard uses LanguageContext. Provide a mock version.
+// Mock LanguageContext
 const MockLanguageContext = React.createContext('en');
 
-const mockService = {
+// Mock useNavigate
+const mockNavigate = vi.fn();
+vi.mock('react-router-dom', async () => {
+  const actual = await vi.importActual('react-router-dom');
+  return {
+    ...actual,
+    useNavigate: () => mockNavigate,
+  };
+});
+
+const mockExternalService = {
   id: '1',
-  name: 'Test Service',
-  description: {
-    en: 'English description of test service.',
-    fr: 'Description française du service de test.',
-    pid: 'Pidgin description of test service.',
-  },
-  image: 'test-image.jpg',
-  rating: 4.5,
-  reviewCount: 100,
-  category: 'Test Category',
-  location: 'Test Location',
-  website: 'https://test-service.com',
+  name: 'External Service',
+  description: { en: 'External service description.', fr: '', pid: '' },
+  image: 'external.jpg',
+  rating: 4.0,
+  reviewCount: 50,
+  category: 'External',
+  location: 'Web',
+  website: 'https://external.example.com',
   isVerified: true,
-  isLoggedIn: true, // To show rating stars if logic depends on it
+  isLoggedIn: false,
+};
+
+const mockInternalService = {
+  id: '2',
+  name: 'Internal Service (Food Delivery)',
+  description: { en: 'Internal service description.', fr: '', pid: '' },
+  image: 'internal.jpg',
+  rating: 4.8,
+  reviewCount: 200,
+  category: 'Food & Delivery',
+  location: 'Local',
+  website: '/food-delivery-order', // Internal path
+  isVerified: true,
+  isLoggedIn: false,
 };
 
 describe('ServiceCard Component', () => {
   beforeEach(() => {
-    vi.clearAllMocks();
-    window.open = vi.fn(); // Mock window.open
-
-    // IntersectionObserver mock for animations (if any component inside Index uses it)
+    window.open = vi.fn(); // Mock window.open for external links
+    // IntersectionObserver mock
     const mockIntersectionObserver = vi.fn();
     mockIntersectionObserver.mockReturnValue({
-        observe: vi.fn(),
-        unobserve: vi.fn(),
-        disconnect: vi.fn(),
+      observe: vi.fn(),
+      unobserve: vi.fn(),
+      disconnect: vi.fn(),
     });
     window.IntersectionObserver = mockIntersectionObserver;
   });
 
-  const renderWithLangProvider = (serviceProps: any) => {
+  afterEach(() => {
+    vi.clearAllMocks(); // Clear all mocks after each test
+  });
+
+  const renderServiceCard = (serviceProps: any) => {
     return render(
-      <MockLanguageContext.Provider value="en">
-        <ServiceCard {...serviceProps} />
-      </MockLanguageContext.Provider>
+      <MemoryRouter> {/* Wrap with MemoryRouter */}
+        <MockLanguageContext.Provider value="en">
+          <ServiceCard {...serviceProps} />
+        </MockLanguageContext.Provider>
+      </MemoryRouter>
     );
   };
 
-  it('renders service details correctly', () => {
-    renderWithLangProvider(mockService);
-    expect(screen.getByText('Test Service')).toBeInTheDocument();
-    expect(screen.getByText('English description of test service.')).toBeInTheDocument();
-    expect(screen.getByText('Test Category')).toBeInTheDocument();
-    expect(screen.getByText('Test Location')).toBeInTheDocument();
-    expect(screen.getByText(/100 reviews/i)).toBeInTheDocument();
+  // --- Tests for External Service ---
+  describe('With External Service', () => {
+    it('renders external service details correctly', () => {
+      renderServiceCard(mockExternalService);
+      expect(screen.getByText('External Service')).toBeInTheDocument();
+      expect(screen.getByText('External service description.')).toBeInTheDocument();
+      // Check for "Use Service" button text and ExternalLink icon
+      const useServiceButton = screen.getByRole('button', { name: /Use Service/i });
+      expect(useServiceButton).toBeInTheDocument();
+      expect(useServiceButton.querySelector('svg')).toHaveClass('lucide-external-link');
+    });
+
+    it('card click opens external website', () => {
+      renderServiceCard(mockExternalService);
+      const cardDiv = screen.getByRole('link', { name: /External Service/i });
+      fireEvent.click(cardDiv);
+      expect(window.open).toHaveBeenCalledWith(mockExternalService.website, '_blank', 'noopener,noreferrer');
+      expect(mockNavigate).not.toHaveBeenCalled();
+    });
+
+    it('"Learn More" button opens external website', () => {
+      renderServiceCard(mockExternalService);
+      fireEvent.click(screen.getByRole('button', { name: /Learn More/i }));
+      expect(window.open).toHaveBeenCalledWith(mockExternalService.website, '_blank', 'noopener,noreferrer');
+      expect(mockNavigate).not.toHaveBeenCalled();
+    });
+
+    it('"Use Service" button opens external website', () => {
+      renderServiceCard(mockExternalService);
+      fireEvent.click(screen.getByRole('button', { name: /Use Service/i }));
+      expect(window.open).toHaveBeenCalledWith(mockExternalService.website, '_blank', 'noopener,noreferrer');
+      expect(mockNavigate).not.toHaveBeenCalled();
+    });
   });
 
-  it('entire card is a link to the service website', () => {
-    renderWithLangProvider(mockService);
-    // The card is wrapped in an <a> tag. Check its href.
-    // The most straightforward way is to check the role of link and its name (often derived from content)
-    // Or find the specific <a> tag.
-    const cardLink = screen.getByRole('link'); // Assuming the card content makes it an accessible link
-    expect(cardLink).toHaveAttribute('href', mockService.website);
-    expect(cardLink).toHaveAttribute('target', '_blank');
+  // --- Tests for Internal Service ---
+  describe('With Internal Service (Food Delivery)', () => {
+    it('renders internal service details correctly', () => {
+      renderServiceCard(mockInternalService);
+      expect(screen.getByText('Internal Service (Food Delivery)')).toBeInTheDocument();
+      expect(screen.getByText('Internal service description.')).toBeInTheDocument();
+      // Check for "Order Now" button text and ShoppingCart icon
+      const orderNowButton = screen.getByRole('button', { name: /Order Now/i });
+      expect(orderNowButton).toBeInTheDocument();
+      expect(orderNowButton.querySelector('svg')).toHaveClass('lucide-shopping-cart');
+    });
+
+    it('card click navigates to internal path', () => {
+      renderServiceCard(mockInternalService);
+      const cardDiv = screen.getByRole('link', { name: /Internal Service/i });
+      fireEvent.click(cardDiv);
+      expect(mockNavigate).toHaveBeenCalledWith(mockInternalService.website);
+      expect(window.open).not.toHaveBeenCalled();
+    });
+
+    it('"Learn More" button navigates to internal path', () => {
+      renderServiceCard(mockInternalService);
+      fireEvent.click(screen.getByRole('button', { name: /Learn More/i }));
+      expect(mockNavigate).toHaveBeenCalledWith(mockInternalService.website);
+      expect(window.open).not.toHaveBeenCalled();
+    });
+
+    it('"Order Now" button navigates to internal path', () => {
+      renderServiceCard(mockInternalService);
+      fireEvent.click(screen.getByRole('button', { name: /Order Now/i }));
+      expect(mockNavigate).toHaveBeenCalledWith(mockInternalService.website);
+      expect(window.open).not.toHaveBeenCalled();
+    });
   });
 
-  it('"Learn More" button calls window.open with service website', () => {
-    renderWithLangProvider(mockService);
-    const learnMoreButton = screen.getByRole('button', { name: /Learn More/i });
-    fireEvent.click(learnMoreButton);
-
-    expect(window.open).toHaveBeenCalledWith(mockService.website, '_blank', 'noopener,noreferrer');
+  // --- Common Tests (can use either mock service, e.g., external) ---
+  it('renders star ratings and review count', () => {
+    renderServiceCard(mockExternalService);
+    expect(screen.getByText(`(${mockExternalService.reviewCount} reviews)`)).toBeInTheDocument();
+    // More detailed star testing can be added if necessary
   });
 
-  it('"Use Service" button calls window.open with service website', () => {
-    renderWithLangProvider(mockService);
-    const useServiceButton = screen.getByRole('button', { name: /Use Service/i });
-    fireEvent.click(useServiceButton);
-
-    expect(window.open).toHaveBeenCalledWith(mockService.website, '_blank', 'noopener,noreferrer');
+  it('shows rating section if loggedIn is true', () => {
+    renderServiceCard({ ...mockExternalService, isLoggedIn: true });
+    expect(screen.getByText(/Rate this service:/i)).toBeInTheDocument();
   });
 
-  it('renders star ratings correctly', () => {
-    renderWithLangProvider(mockService);
-    // Check for 5 stars (filled or not based on rating 4.5)
-    const stars = screen.getAllByRole('img', { name: /star/i }); // Assuming stars are SVGs with role img and accessible name
-    // This requires stars to have aria-label or title. Lucide icons might not have it by default.
-    // A more robust way: check class names for filled stars if they are styled via classes.
-    // For now, let's count them.
-    // The current implementation of renderStars in ServiceCard uses <Star /> components directly.
-    // Let's assume they are identifiable.
-    // The test for specific filled stars would be more complex without more specific selectors.
-    // Test that the interactive rating section appears if isLoggedIn
-    if (mockService.isLoggedIn) {
-      expect(screen.getByText(/Rate this service:/i)).toBeInTheDocument();
-    }
-  });
+  it('allows user to rate if logged in (logs to console)', () => {
+    const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {}); // Mock console.log
+    renderServiceCard({ ...mockExternalService, isLoggedIn: true });
 
-  it('allows user to rate if logged in', () => {
-    renderWithLangProvider({ ...mockService, isLoggedIn: true });
-    const consoleSpy = vi.spyOn(console, 'log');
-
-    // Find the interactive stars. This is tricky without specific selectors.
-    // Let's assume the first star of the interactive set can be clicked.
-    // The interactive stars are inside the "Rate this service:" section.
     const rateThisServiceText = screen.getByText(/Rate this service:/i);
-    const interactiveStarsContainer = rateThisServiceText.closest('div');
+    const interactiveStarsContainer = rateThisServiceText.parentElement?.querySelector('div > svg')?.parentElement; // More specific query
 
     if (interactiveStarsContainer) {
-      // This assumes Lucide <Star> components can be targeted like this.
-      // It's better if the stars have a testid or specific role for interaction.
-      const firstStar = interactiveStarsContainer.querySelectorAll('svg')[0]; // Highly dependent on structure
+      const firstStar = interactiveStarsContainer.querySelectorAll('svg')[0];
       if (firstStar) {
-          fireEvent.click(firstStar);
-          expect(consoleSpy).toHaveBeenCalledWith('User rated Test Service with 1 stars');
+        fireEvent.mouseEnter(firstStar); // hover to see effect
+        fireEvent.click(firstStar);
+        expect(consoleSpy).toHaveBeenCalledWith(`User rated ${mockExternalService.name} with 1 stars`);
       } else {
-          // This branch means the star selection is too brittle.
-          console.warn("Could not find first interactive star for rating test in ServiceCard.");
+        console.warn("Test: Could not find first interactive star.");
       }
     } else {
-        console.warn("Could not find interactive stars container for rating test in ServiceCard.");
+      console.warn("Test: Could not find interactive stars container.");
     }
     consoleSpy.mockRestore();
   });

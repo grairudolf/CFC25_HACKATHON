@@ -65,6 +65,22 @@ const Index = () => {
         location: "National",
         website: "https://mynkwa.com",
       },
+      {
+        id: "7", // Assuming existing services go up to 6
+        name: "Food Delivery",
+        description: {
+          en: "Order your favorite meals from local restaurants.",
+          fr: "Commandez vos plats préférés auprès des restaurants locaux.",
+          pid: "Order your chop chop from local restaurants.",
+        },
+        image: "public/food-delivery-placeholder.jpg", // We'll need to add this image later
+        rating: 4.5,
+        reviewCount: 150,
+        category: "Food & Delivery",
+        isVerified: true,
+        location: "Online",
+        website: "/food-delivery-order", // Route to the new page
+      }
     ],
     latest: [
       {
