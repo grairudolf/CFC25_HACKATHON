@@ -1,16 +1,28 @@
-import React, { useState } from "react";
-import { Menu, X, Search, User, Globe, LogOut } from "lucide-react"; // Added LogOut
+import React, { useState, useEffect, useRef } from "react";
+import { Menu, X, Search, User, Globe, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/contexts/AuthContext"; // Import useAuth
-import { Link, useNavigate } from "react-router-dom"; // Import Link and useNavigate
+import { useAuth } from "@/contexts/AuthContext";
+import { Link, useNavigate } from "react-router-dom";
 
-const Navbar = ({ onSearch }: { onSearch: (query: string) => void }) => { // Added onSearch prop
+interface ServiceSuggestion {
+  id: string;
+  name: string;
+}
+
+interface NavbarProps {
+  onSearch: (query: string) => void;
+  serviceSuggestions?: ServiceSuggestion[];
+}
+
+const Navbar: React.FC<NavbarProps> = ({ onSearch, serviceSuggestions = [] }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState(""); // Added search query state
-  // const [isLoggedIn, setIsLoggedIn] = useState(false); // Remove local state
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredSuggestions, setFilteredSuggestions] = useState<ServiceSuggestion[]>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const [currentLanguage, setCurrentLanguage] = useState("en");
-  const { currentUser, logout } = useAuth(); // Use auth context
+  const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
+  const searchContainerRef = useRef<HTMLDivElement>(null);
 
   const languages = {
     en: {
@@ -53,12 +65,56 @@ const Navbar = ({ onSearch }: { onSearch: (query: string) => void }) => { // Add
 
   const currentText = languages[currentLanguage as keyof typeof languages];
 
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+
+    if (query.trim() === "") {
+      setFilteredSuggestions([]);
+      setShowSuggestions(false);
+    } else {
+      const suggestions = serviceSuggestions
+        .filter(service => service.name.toLowerCase().includes(query.toLowerCase()))
+        .slice(0, 5); // Limit to 5 suggestions
+      setFilteredSuggestions(suggestions);
+      setShowSuggestions(suggestions.length > 0);
+    }
+  };
+
+  const handleSuggestionClick = (suggestion: ServiceSuggestion) => {
+    setSearchQuery(suggestion.name);
+    setFilteredSuggestions([]);
+    setShowSuggestions(false);
+    onSearch(suggestion.name);
+     // Optional: scroll to services section when a search is performed via suggestion
+    const servicesSection = document.getElementById("services");
+    if (servicesSection) {
+      servicesSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSearch(searchQuery);
-    // For now, we're calling onSearch. Navigation or filtering logic will be handled by the parent.
-    console.log("Search submitted in Navbar:", searchQuery);
+    setShowSuggestions(false);
+    // Optional: scroll to services section when a search is performed
+    const servicesSection = document.getElementById("services");
+    if (servicesSection) {
+      servicesSection.scrollIntoView({ behavior: "smooth" });
+    }
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchContainerRef.current && !searchContainerRef.current.contains(event.target as Node)) {
+        setShowSuggestions(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleLogout = () => {
     logout();
@@ -81,7 +137,7 @@ const Navbar = ({ onSearch }: { onSearch: (query: string) => void }) => { // Add
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link // Changed from <a> to <Link>
+            <Link
               to="/"
               className="text-gray-700 hover:text-blue-600 px-3 py-2 font-medium transition-all duration-300 hover:scale-105"
             >
@@ -109,16 +165,36 @@ const Navbar = ({ onSearch }: { onSearch: (query: string) => void }) => { // Add
 
           {/* Search, Language and Auth */}
           <div className="hidden md:flex items-center space-x-4">
-            <form onSubmit={handleSearchSubmit} className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-              <input
-                type="text"
-                placeholder={currentText.search}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 pr-4 py-2 border-2 border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-              />
-            </form>
+            <div className="relative" ref={searchContainerRef}>
+              <form onSubmit={handleSearchSubmit}>
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 z-10" />
+                <input
+                  type="text"
+                  placeholder={currentText.search}
+                  value={searchQuery}
+                  onChange={handleSearchChange}
+                  onFocus={() => {
+                    if (searchQuery.trim() !== "" && filteredSuggestions.length > 0) {
+                      setShowSuggestions(true);
+                    }
+                  }}
+                  className="pl-10 pr-4 py-2 border-2 border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all w-full"
+                />
+              </form>
+              {showSuggestions && filteredSuggestions.length > 0 && (
+                <div className="suggestions-list absolute mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto z-20">
+                  {filteredSuggestions.map((suggestion) => (
+                    <div
+                      key={suggestion.id}
+                      className="suggestion-item px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                      onMouseDown={() => handleSuggestionClick(suggestion)} // Use onMouseDown to fire before onBlur
+                    >
+                      {suggestion.name}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
 
             <div className="flex items-center bg-blue-50 rounded-lg p-1">
               <Globe className="w-4 h-4 text-blue-600 mx-1" />

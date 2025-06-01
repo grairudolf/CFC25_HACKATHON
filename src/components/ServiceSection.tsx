@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/select";
 import ServiceCard from "./ServiceCard";
 
+// Define Service type at module level if not already, or ensure it's accessible
 interface Service {
   id: string;
   name: string;
@@ -27,6 +28,112 @@ interface Service {
   website?: string;
 }
 
+// Moved allServicesData to module scope
+const allServicesDataConst = {
+  recommended: [
+    {
+      id: "1",
+      name: "FastChops",
+      description: {
+        en: "Fast food delivery across Douala and Yaoundé. Order your favorite Cameroonian dishes in just a few clicks.",
+        fr: "Livraison rapide de nourriture camerounaise partout à Douala et Yaoundé. Commandez vos plats préférés en quelques clics.",
+        pid: "Quick chop delivery for Douala and Yaoundé. Order your favorite local food with small time.",
+      },
+      image: "fastchops.jpeg",
+      rating: 4.8,
+      reviewCount: 1247,
+      category: "Food & Delivery",
+      isVerified: true,
+      location: "Buea",
+      website: "https://www.f6s.com/company/fastchops",
+    },
+    {
+      id: "2",
+      name: "237Jobs",
+      description: {
+        en: "Cameroon's #1 job platform. Over 5000 job opportunities across all sectors.",
+        fr: "La plateforme #1 pour trouver un emploi au Cameroun. Plus de 5000 offres d'emploi dans tous les secteurs.",
+        pid: "Number one place for find work for Cameroon. Plenty job opportunities for all sectors.",
+      },
+      image: "237jobs.jpg",
+      rating: 4.7,
+      reviewCount: 892,
+      category: "Jobs & Career",
+      isVerified: true,
+      location: "All Cameroon",
+      website: "https://237jobs.com",
+    },
+    {
+      id: "3",
+      name: "Nkwa",
+      description: {
+        en: "Mobile payment solutions and digital financial services for all Cameroonians.",
+        fr: "Solutions de paiement mobile et services financiers digitaux pour tous les Camerounais.",
+        pid: "Mobile money and digital financial services for all Cameroon people.",
+      },
+      image: "nkwa.jpg",
+      rating: 4.9,
+      reviewCount: 2156,
+      category: "Fintech & Payments",
+      isVerified: true,
+      location: "National",
+      website: "https://mynkwa.com",
+    },
+  ],
+  latest: [
+    {
+      id: "4",
+      name: "DelTechHub",
+      description: {
+        en: "Technology training and mentorship. Learn programming, design and tech entrepreneurship.",
+        fr: "Formation et accompagnement en technologie. Apprenez la programmation, le design et l'entrepreneuriat tech.",
+        pid: "Tech training and support. Learn coding, design and how to start tech business.",
+      },
+      image: "deltech.jpeg",
+      rating: 4.6,
+      reviewCount: 343,
+      category: "Tech Training",
+      location: "Douala",
+      website: "https://deltechhub.com",
+    },
+    {
+      id: "5",
+      name: "AjeBoCV",
+      description: {
+        en: "Create your professional CV online easily. Templates adapted to the Cameroonian market.",
+        fr: "Créez votre CV professionnel en ligne facilement. Templates adaptés au marché camerounais.",
+        pid: "Make your professional CV online easy way. Templates fit for Cameroon job market.",
+      },
+      image: "ajebocv.png",
+      rating: 4.5,
+      reviewCount: 567,
+      category: "Professional Services",
+      isVerified: true,
+      location: "Online",
+      website: "https://ajebocv.com",
+    },
+    {
+      id: "6",
+      name: "skolarr",
+      description: {
+        en: "Cameroonian digital library with thousands of books, courses and educational resources.",
+        fr: "Bibliothèque numérique camerounaise avec des milliers de livres, cours et ressources éducatives.",
+        pid: "Cameroon digital library with plenty books, courses and educational materials.",
+      },
+      image: "skolarr.png",
+      rating: 4.7,
+      reviewCount: 778,
+      category: "Education",
+      location: "Online",
+      website: "https://skolarr.com",
+    },
+  ],
+};
+
+export const allServiceNamesForSearch = Object.values(allServicesDataConst)
+  .flat()
+  .map(service => ({ id: service.id, name: service.name }));
+
 interface ServiceSectionProps {
   searchQuery?: string;
 }
@@ -35,130 +142,31 @@ const ServiceSection: React.FC<ServiceSectionProps> = ({ searchQuery }) => {
   const [activeTab, setActiveTab] = useState("recommended");
   const [viewMode, setViewMode] = useState("grid");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
-  const [visibleCount, setVisibleCount] = useState<number>(3);
+  const [visibleCount, setVisibleCount] = useState<number>(6);
 
-  const ITEMS_TO_LOAD_MORE = 3;
+  const INITIAL_VISIBLE_COUNT = 6; // Added for clarity
 
-  // Predefined services data
-  const allServicesData = useMemo(
-    () => ({
-      recommended: [
-        {
-          id: "1",
-          name: "FastChops",
-          description: {
-            en: "Fast food delivery across Douala and Yaoundé. Order your favorite Cameroonian dishes in just a few clicks.",
-            fr: "Livraison rapide de nourriture camerounaise partout à Douala et Yaoundé. Commandez vos plats préférés en quelques clics.",
-            pid: "Quick chop delivery for Douala and Yaoundé. Order your favorite local food with small time.",
-          },
-          image: "fastchops.jpeg",
-          rating: 4.8,
-          reviewCount: 1247,
-          category: "Food & Delivery",
-          isVerified: true,
-          location: "Buea",
-          website: "https://www.f6s.com/company/fastchops",
-        },
-        {
-          id: "2",
-          name: "237Jobs",
-          description: {
-            en: "Cameroon's #1 job platform. Over 5000 job opportunities across all sectors.",
-            fr: "La plateforme #1 pour trouver un emploi au Cameroun. Plus de 5000 offres d'emploi dans tous les secteurs.",
-            pid: "Number one place for find work for Cameroon. Plenty job opportunities for all sectors.",
-          },
-          image: "237jobs.jpg",
-          rating: 4.7,
-          reviewCount: 892,
-          category: "Jobs & Career",
-          isVerified: true,
-          location: "All Cameroon",
-          website: "https://237jobs.com",
-        },
-        {
-          id: "3",
-          name: "Nkwa",
-          description: {
-            en: "Mobile payment solutions and digital financial services for all Cameroonians.",
-            fr: "Solutions de paiement mobile et services financiers digitaux pour tous les Camerounais.",
-            pid: "Mobile money and digital financial services for all Cameroon people.",
-          },
-          image: "nkwa.jpg",
-          rating: 4.9,
-          reviewCount: 2156,
-          category: "Fintech & Payments",
-          isVerified: true,
-          location: "National",
-          website: "https://mynkwa.com",
-        },
-      ],
-      latest: [
-        {
-          id: "4",
-          name: "DelTechHub",
-          description: {
-            en: "Technology training and mentorship. Learn programming, design and tech entrepreneurship.",
-            fr: "Formation et accompagnement en technologie. Apprenez la programmation, le design et l'entrepreneuriat tech.",
-            pid: "Tech training and support. Learn coding, design and how to start tech business.",
-          },
-          image: "deltech.jpeg",
-          rating: 4.6,
-          reviewCount: 343,
-          category: "Tech Training",
-          location: "Douala",
-          website: "https://deltechhub.com",
-        },
-        {
-          id: "5",
-          name: "AjeBoCV",
-          description: {
-            en: "Create your professional CV online easily. Templates adapted to the Cameroonian market.",
-            fr: "Créez votre CV professionnel en ligne facilement. Templates adaptés au marché camerounais.",
-            pid: "Make your professional CV online easy way. Templates fit for Cameroon job market.",
-          },
-          image: "ajebocv.png",
-          rating: 4.5,
-          reviewCount: 567,
-          category: "Professional Services",
-          isVerified: true,
-          location: "Online",
-          website: "https://ajebocv.com",
-        },
-        {
-          id: "6",
-          name: "skolarr",
-          description: {
-            en: "Cameroonian digital library with thousands of books, courses and educational resources.",
-            fr: "Bibliothèque numérique camerounaise avec des milliers de livres, cours et ressources éducatives.",
-            pid: "Cameroon digital library with plenty books, courses and educational materials.",
-          },
-          image: "skolarr.png",
-          rating: 4.7,
-          reviewCount: 778,
-          category: "Education",
-          location: "Online",
-          website: "https://skolarr.com",
-        },
-      ],
-    }),
-    []
-  );
+  // Use the module-level constant
+  const allServicesData = useMemo(() => allServicesDataConst, []);
+
 
   const uniqueCategories = useMemo(() => {
     const categories = new Set<string>();
-    Object.values(allServicesData).forEach((tabServices) => {
+    const categories = new Set<string>();
+    Object.values(allServicesDataConst).forEach((tabServices) => { // Use allServicesDataConst here
       tabServices.forEach((service) => categories.add(service.category));
     });
     return ["all", ...Array.from(categories).sort()];
-  }, [allServicesData]);
+  }, []); // allServicesDataConst is stable, so dependencies can be empty or [allServicesDataConst]
 
   useEffect(() => {
-    setVisibleCount(3);
+    // When filters change, always reset to the initial visible count.
+    setVisibleCount(INITIAL_VISIBLE_COUNT);
   }, [activeTab, searchQuery, selectedCategory]);
 
   const filteredServices = useMemo(() => {
     let services =
-      allServicesData[activeTab as keyof typeof allServicesData] || [];
+      allServicesDataConst[activeTab as keyof typeof allServicesDataConst] || []; // Use allServicesDataConst
 
     if (searchQuery) {
       services = services.filter((service) => {
@@ -181,13 +189,42 @@ const ServiceSection: React.FC<ServiceSectionProps> = ({ searchQuery }) => {
       );
     }
     return services;
-  }, [activeTab, searchQuery, selectedCategory, allServicesData]);
+  }, [activeTab, searchQuery, selectedCategory, allServicesData]); // allServicesData here is from useMemo referring to allServicesDataConst
 
   const servicesToDisplay = filteredServices.slice(0, visibleCount);
 
   const handleViewMore = () => {
-    setVisibleCount((prevCount) => prevCount + ITEMS_TO_LOAD_MORE);
+    // If all services are currently shown, reset to initial count.
+    // Otherwise (initial count or any other count less than total), show all.
+    if (visibleCount === filteredServices.length) {
+      setVisibleCount(INITIAL_VISIBLE_COUNT);
+    } else {
+      setVisibleCount(filteredServices.length);
+    }
   };
+
+  const showViewMoreButton = filteredServices.length > INITIAL_VISIBLE_COUNT;
+  const allServicesShown = visibleCount === filteredServices.length && filteredServices.length > 0;
+  // Ensure filteredServices.length > 0 for allServicesShown to be true,
+  // otherwise visibleCount (0) === filteredServices.length (0) would be true.
+
+  let buttonText = "";
+  if (allServicesShown) {
+    buttonText = `View Less Services (${filteredServices.length}/${filteredServices.length})`;
+  } else {
+    // Shows INITIAL_VISIBLE_COUNT or a number between INITIAL_VISIBLE_COUNT and total after a filter change.
+    // In all these "less than total" cases, the button should offer to "View More".
+    // The current number of visible services is `visibleCount`.
+    buttonText = `View More Services (${visibleCount}/${filteredServices.length})`;
+  }
+  // Special case for button text when visibleCount is less than INITIAL_VISIBLE_COUNT due to filtering
+  // and filteredServices.length is also small.
+  // For example, if INITIAL_VISIBLE_COUNT is 6, but filteredServices.length is 4.
+  // visibleCount will be set to 6 by useEffect, then sliced to 4 by servicesToDisplay.
+  // The button should show (4/4) and not appear, or if it does, reflect reality.
+  // The showViewMoreButton logic (filteredServices.length > INITIAL_VISIBLE_COUNT) handles this.
+  // If filteredServices.length <= INITIAL_VISIBLE_COUNT, the button isn't shown.
+  // So, the text logic above should be fine.
 
   return (
     <section id="services" className="py-16 bg-gray-50">
@@ -278,7 +315,7 @@ const ServiceSection: React.FC<ServiceSectionProps> = ({ searchQuery }) => {
         </div>
 
         {/* View More Button */}
-        {filteredServices.length > visibleCount && (
+        {showViewMoreButton && (
           <div className="text-center mt-12">
             <Button
               variant="outline"
@@ -286,7 +323,7 @@ const ServiceSection: React.FC<ServiceSectionProps> = ({ searchQuery }) => {
               className="px-8 py-3 border-2 hover:bg-gray-50 hover:scale-105 transition-all"
               onClick={handleViewMore}
             >
-              View More Services ({visibleCount}/{filteredServices.length})
+              {buttonText}
             </Button>
           </div>
         )}

@@ -2,7 +2,7 @@
 import React from 'react';
 import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/HeroSection';
-import ServiceSection from '@/components/ServiceSection';
+import ServiceSection, { allServiceNamesForSearch } from '@/components/ServiceSection';
 import SkillSection from '@/components/SkillSection';
 import FAQSection from '@/components/FAQSection';
 import ServiceSubmissionForm from '@/components/ServiceSubmissionForm';
@@ -23,7 +23,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      <Navbar onSearch={handleSearch} />
+      <Navbar onSearch={handleSearch} serviceSuggestions={allServiceNamesForSearch} />
       <HeroSection onSearch={handleSearch} />
       <ServiceSection searchQuery={searchQuery} />
       <SkillSection />
