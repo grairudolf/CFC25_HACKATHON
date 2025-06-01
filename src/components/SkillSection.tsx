@@ -147,7 +147,7 @@ const SkillSection = () => {
             </p>
             <Button 
               size="lg" 
-              className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-lg px-8 py-4 transition-all hover:scale-105 shadow-lg"
+              className="bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-lg px-8 py-4 transition-all hover:scale-105 shadow-lg"
             >
               Get Started Now
               <ArrowRight className="w-5 h-5 ml-2" />
@@ -243,7 +243,7 @@ const SkillSection = () => {
         </div>
 
         {/* CTA Section */}
-        <div className="text-center bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-12 text-white shadow-2xl animate-fade-in delay-600">
+        <div className="text-center bg-gradient-to-r from-blue-600 to-green-600 rounded-2xl p-12 text-white shadow-2xl animate-fade-in delay-600">
           <h3 className="text-3xl font-bold mb-4">
             Ready to Transform Your Career?
           </h3>

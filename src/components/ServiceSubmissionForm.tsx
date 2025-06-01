@@ -106,7 +106,7 @@ const ServiceSubmissionForm = () => {
     }
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/services`, {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/services`, {
         method: 'POST',
         body: submissionData,
         // Do not set 'Content-Type' header for FormData, browser does it
