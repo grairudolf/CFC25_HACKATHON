@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import HeroSection from './HeroSection'; // Adjust path as needed
 import React from 'react';
 
@@ -101,5 +101,55 @@ describe('HeroSection Component', () => {
     expect(screen.queryByText(/AI suggestions for you/i)).not.toBeInTheDocument();
     // Optional: check if onSearch is called immediately on suggestion click (current behavior is not to)
     // expect(mockOnSearch).toHaveBeenCalledWith('I need a website 💻');
+  });
+
+  it('hides AI suggestions on search input blur', async () => {
+    render(<HeroSection onSearch={mockOnSearch} />);
+    const searchInput = screen.getByPlaceholderText(/What are you looking for today?/i);
+
+    // 1. Simulate focus to show suggestions
+    fireEvent.focus(searchInput);
+    expect(screen.getByText(/AI suggestions for you/i)).toBeInTheDocument();
+
+    // 2. Simulate blur
+    fireEvent.blur(searchInput);
+
+    // 3. Wait for suggestions to disappear
+    await waitFor(() => {
+      expect(screen.queryByText(/AI suggestions for you/i)).not.toBeInTheDocument();
+    });
+    await waitFor(() => {
+      expect(screen.queryByText('I want to eat something 🍽️')).not.toBeInTheDocument();
+    });
+  });
+
+  it('shows AI suggestions in the selected language after language change and refocus', async () => {
+    render(<HeroSection onSearch={mockOnSearch} />);
+
+    // 2. Get the language selector button for French and click it
+    const frenchButton = screen.getByRole('button', { name: 'FR' });
+    fireEvent.click(frenchButton);
+
+    const searchInput = screen.getByPlaceholderText(/Que cherchez-vous aujourd'hui?/i); // Placeholder changes with language
+
+    // 5. Simulate focus
+    fireEvent.focus(searchInput);
+
+    // 6. Assert French suggestion is visible
+    expect(screen.getByText('Je veux manger quelque chose 🍽️')).toBeInTheDocument();
+    expect(screen.queryByText('I want to eat something 🍽️')).not.toBeInTheDocument(); // English suggestion should not be there
+
+    // 7. Simulate blur
+    fireEvent.blur(searchInput);
+    await waitFor(() => {
+      expect(screen.queryByText('Je veux manger quelque chose 🍽️')).not.toBeInTheDocument();
+    });
+
+    // 8. Simulate focus again
+    fireEvent.focus(searchInput);
+
+    // 9. Assert French suggestion is still visible
+    expect(screen.getByText('Je veux manger quelque chose 🍽️')).toBeInTheDocument();
+    expect(screen.queryByText('I want to eat something 🍽️')).not.toBeInTheDocument();
   });
 });

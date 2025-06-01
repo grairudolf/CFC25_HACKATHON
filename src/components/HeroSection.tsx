@@ -183,7 +183,7 @@ const HeroSection = ({ onSearch }: { onSearch: (query: string) => void }) => { /
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onFocus={handleSearchFocus}
-                // onBlur={() => setTimeout(() => setShowAISuggestions(false), 100)} // Hide suggestions on blur with a delay
+                onBlur={() => setTimeout(() => setShowAISuggestions(false), 100)} // Hide suggestions on blur with a delay
                 placeholder={currentText.searchPlaceholder}
                 className="w-full pl-12 pr-24 sm:pr-28 md:pr-32 py-4 text-lg border-2 border-blue-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-lg transition-all hover:shadow-xl" // Increased pr for button
               />
