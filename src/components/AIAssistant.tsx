@@ -15,9 +15,13 @@ const languageResources = {
       "🎓 Learn to code",
       "💰 Payment services",
       "🚗 Fast delivery",
+      "🛍️ Shop online",
+      "🤝 Find tech events",
     ],
     responses: {
       food: "Perfect! FastChops is the best delivery service in Cameroon. They deliver throughout Douala and Yaoundé. You can order ndolé, roasted chicken, or even continental dishes. Would you like me to show you other options?",
+      ecommerce: "For online shopping in Cameroon, check out Jumia (general goods), Kikuu (fashion & electronics), or local Facebook groups for specific items. Many entrepreneurs also sell directly via WhatsApp!",
+      techCommunity: "Cameroon has a vibrant tech scene! Look into Google Developer Groups (GDG), forLoop Africa, Silicon Mountain conferences, and local university tech clubs for meetups and events. Hustlers Engineering is also a great online community.",
       job: "237Jobs is THE platform to find a job in Cameroon! They have over 5000 offers in all sectors. I also recommend joining the Hustlers Engineering community for networking. What field are you looking in?",
       dev: "Excellent idea! lambda Solutions and TIC Cameroun specialize in app and website development. To learn yourself, DeltechHub offers comprehensive training. Do you want to develop or learn?",
       learn:
@@ -35,6 +39,7 @@ const languageResources = {
       langButtonEN: "EN",
       langButtonFR: "FR",
       langButtonPID: "PID",
+      typingIndicator: "Assistant is typing...",
     },
   },
   fr: {
@@ -47,9 +52,13 @@ const languageResources = {
       "🎓 Apprendre le code",
       "💰 Services de paiement",
       "🚗 Livraison rapide",
+      "🛍️ Acheter en ligne",
+      "🤝 Trouver des événements tech",
     ],
     responses: {
       food: "Perfect! FastChops est le meilleur service de livraison au Cameroun. Ils livrent partout à Douala et Yaoundé. Vous pouvez commander du ndolé, du poulet braisé, ou même des plats continentaux. Voulez-vous que je vous montre d'autres options?",
+      ecommerce: "Pour les achats en ligne au Cameroun, explorez Jumia (articles variés), Kikuu (mode & électronique), ou les groupes Facebook locaux pour des articles spécifiques. Beaucoup d'entrepreneurs vendent aussi directement via WhatsApp !",
+      techCommunity: "Le Cameroun a une scène tech dynamique ! Renseignez-vous sur les Google Developer Groups (GDG), forLoop Africa, les conférences Silicon Mountain, et les clubs tech des universités locales pour des meetups et événements. Hustlers Engineering est aussi une excellente communauté en ligne.",
       job: "237Jobs est LA plateforme pour trouver un emploi au Cameroun! Ils ont plus de 5000 offres dans tous les secteurs. Je recommande aussi de rejoindre la communauté Hustlers Engineering pour le networking. Dans quel domaine cherchez-vous?",
       dev: "Excellente idée! lambda Solutions et TIC Cameroun sont spécialisés dans le développement d'apps et sites web. Pour apprendre vous-même, DeltechHub offre des formations complètes. Voulez-vous développer ou apprendre?",
       learn:
@@ -67,6 +76,7 @@ const languageResources = {
       langButtonEN: "EN",
       langButtonFR: "FR",
       langButtonPID: "PID",
+      typingIndicator: "Assistant est en train d'écrire...",
     },
   },
   pid: {
@@ -79,9 +89,13 @@ const languageResources = {
       "🎓 Learn code",
       "💰 Money services",
       "🚗 Quick delivery",
+      "🛍️ Buy for online",
+      "🤝 Find tech events",
     ],
     responses: {
       food: "Correct! FastChops na correct delivery service for Cameroon. Dem dey deliver for Douala and Yaoundé. You fit order ndolé, roast chicken, or even oyibo food. You want make I show you other places?",
+      ecommerce: "For online market for Cameroon, check Jumia (all kind ting), Kikuu (fashion & electronics), or local Facebook groups for specific items. Plenty people too di sell direct for WhatsApp!",
+      techCommunity: "Cameroon get correct tech people! Check Google Developer Groups (GDG), forLoop Africa, Silicon Mountain conferences, and local university tech clubs for meetups and events. Hustlers Engineering too na better online group.",
       job: "237Jobs na THE place for find work for Cameroon! Dem get pass 5000 jobs for all kind work. I go tell you say make you join Hustlers Engineering community for networking. Which kind work you dey find?",
       dev: "Good idea! lambda Solutions and TIC Cameroun dem sabi for make app and website. For learnam yourself, DeltechHub get correct training. You want make app or you want learn?",
       learn:
@@ -99,6 +113,7 @@ const languageResources = {
       langButtonEN: "EN",
       langButtonFR: "FR",
       langButtonPID: "PID",
+      typingIndicator: "Assistant dey type...",
     },
   },
 };
@@ -120,6 +135,7 @@ const AIAssistant = () => {
     },
   ]);
   const [inputMessage, setInputMessage] = useState<string>("");
+  const [isTyping, setIsTyping] = useState(false);
 
   useEffect(() => {
     setMessages([
@@ -141,6 +157,7 @@ const AIAssistant = () => {
       };
 
       setMessages((prev) => [...prev, userMessage]);
+      setIsTyping(true);
 
       setTimeout(() => {
         const botResponseContent = generateCameroonianBotResponse(
@@ -153,6 +170,7 @@ const AIAssistant = () => {
           timestamp: new Date(),
         };
         setMessages((prev) => [...prev, botResponse]);
+        setIsTyping(false);
       }, 1000);
 
       setInputMessage("");
@@ -165,6 +183,31 @@ const AIAssistant = () => {
   ): string => {
     const lowerInput = userInput.toLowerCase();
     const responses = languageResources[lang].responses;
+
+    // E-commerce
+    if (
+      lowerInput.includes("buy online") ||
+      lowerInput.includes("ecommerce") ||
+      lowerInput.includes("shopping") ||
+      lowerInput.includes("market") ||
+      lowerInput.includes("acheter en ligne") || // fr
+      lowerInput.includes("marché") // fr
+    ) {
+      return responses.ecommerce;
+    }
+
+    // Tech Communities/Events
+    if (
+      lowerInput.includes("tech community") ||
+      lowerInput.includes("meetup") ||
+      lowerInput.includes("hackathon") ||
+      lowerInput.includes("conference") ||
+      lowerInput.includes("developer group") ||
+      lowerInput.includes("communauté tech") || // fr
+      lowerInput.includes("groupe de développeurs") // fr
+    ) {
+      return responses.techCommunity;
+    }
 
     if (
       lowerInput.includes("manger") ||
@@ -324,6 +367,15 @@ const AIAssistant = () => {
                 </div>
               </div>
             ))}
+            {isTyping && (
+              <div className="flex justify-start animate-fade-in">
+                <div className="max-w-[85%] p-3 rounded-lg bg-gray-100 text-gray-800">
+                  <p className="text-sm leading-relaxed italic">
+                    {currentText.ui.typingIndicator}
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Input */}
