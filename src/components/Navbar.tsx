@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { Menu, X, Search, User, Globe } from "lucide-react";
+import { Menu, X, Search, Globe } from "lucide-react"; // Removed User
 import { Button } from "@/components/ui/button";
+import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // Removed isLoggedIn state
   const [currentLanguage, setCurrentLanguage] = useState("en");
 
   const languages = {
@@ -116,44 +118,30 @@ const Navbar = () => {
               ))}
             </div>
 
-            {isLoggedIn ? (
+            <SignedOut>
               <div className="flex items-center space-x-2">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="hover:bg-blue-50 transition-all hover:scale-105"
-                >
-                  <User className="w-4 h-4 mr-2" />
-                  {currentText.profile}
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setIsLoggedIn(false)}
-                  className="border-blue-200 hover:bg-blue-50 transition-all hover:scale-105"
-                >
-                  {currentText.logout}
-                </Button>
+                <Link to="/login">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="hover:bg-blue-50 transition-all hover:scale-105"
+                  >
+                    {currentText.login}
+                  </Button>
+                </Link>
+                <Link to="/signup">
+                  <Button
+                    size="sm"
+                    className="bg-blue-600 hover:bg-blue-700 transition-all hover:scale-105 shadow-lg"
+                  >
+                    {currentText.signup}
+                  </Button>
+                </Link>
               </div>
-            ) : (
-              <div className="flex items-center space-x-2">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setIsLoggedIn(true)}
-                  className="hover:bg-blue-50 transition-all hover:scale-105"
-                >
-                  {currentText.login}
-                </Button>
-                <Button
-                  size="sm"
-                  className="bg-blue-600 hover:bg-blue-700 transition-all hover:scale-105 shadow-lg"
-                  onClick={() => setIsLoggedIn(true)}
-                >
-                  {currentText.signup}
-                </Button>
-              </div>
-            )}
+            </SignedOut>
+            <SignedIn>
+              <UserButton afterSignOutUrl="/" />
+            </SignedIn>
           </div>
 
           {/* Mobile menu button */}
@@ -222,34 +210,32 @@ const Navbar = () => {
               </div>
 
               <div className="pt-4 pb-2 space-y-2">
-                {!isLoggedIn ? (
+                <SignedOut>
                   <>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="w-full hover:bg-blue-50"
-                      onClick={() => setIsLoggedIn(true)}
-                    >
-                      {currentText.login}
-                    </Button>
-                    <Button
-                      size="sm"
-                      className="w-full bg-blue-600 hover:bg-blue-700"
-                      onClick={() => setIsLoggedIn(true)}
-                    >
-                      {currentText.signup}
-                    </Button>
+                    <Link to="/login" className="block w-full">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="w-full hover:bg-blue-50"
+                      >
+                        {currentText.login}
+                      </Button>
+                    </Link>
+                    <Link to="/signup" className="block w-full">
+                      <Button
+                        size="sm"
+                        className="w-full bg-blue-600 hover:bg-blue-700"
+                      >
+                        {currentText.signup}
+                      </Button>
+                    </Link>
                   </>
-                ) : (
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="w-full border-blue-200 hover:bg-blue-50"
-                    onClick={() => setIsLoggedIn(false)}
-                  >
-                    {currentText.logout}
-                  </Button>
-                )}
+                </SignedOut>
+                <SignedIn>
+                  <div className="flex justify-center"> {/* Center UserButton in mobile */}
+                    <UserButton afterSignOutUrl="/" />
+                  </div>
+                </SignedIn>
               </div>
             </div>
           </div>
