@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom"; // Ensure this is added
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Input } from "@/components/ui/input";
@@ -47,6 +48,12 @@ const FoodDeliveryOrderPage = () => {
           </h1>
           <p className="text-xl text-gray-600 mt-2">
             Enter your details, order items, and payment information.
+          </p>
+          {/* Add the link here */}
+          <p className="mt-4">
+            <Link to="/" className="text-blue-600 hover:underline">
+              &larr; Go to Home
+            </Link>
           </p>
         </div>
         <form
