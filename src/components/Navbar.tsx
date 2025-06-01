@@ -117,7 +117,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, allServices }) => {
   };
 
   return (
-    <nav className="bg-white shadow-lg sticky top-0 z-50 border-b-2 border-blue-100">
+    <nav className="bg-white shadow-lg sticky top-0 z-50 border-b-2 border-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
@@ -134,25 +134,25 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, allServices }) => {
           <div className="hidden md:flex items-center space-x-8">
             <Link // Changed from <a> to <Link>
               to="/"
-              className="text-gray-700 hover:text-blue-600 px-3 py-2 font-medium transition-all duration-300 hover:scale-105"
+              className="text-gray-700 hover:text-primary px-3 py-2 font-medium transition-all duration-300 hover:scale-105"
             >
               {currentText.home}
             </Link>
             <a
               href="/#services" // Assuming services is an ID on the homepage
-              className="text-gray-700 hover:text-blue-600 px-3 py-2 font-medium transition-all duration-300 hover:scale-105"
+              className="text-gray-700 hover:text-primary px-3 py-2 font-medium transition-all duration-300 hover:scale-105"
             >
               {currentText.services}
             </a>
             <a
               href="/#skills" // Assuming skills is an ID on the homepage
-              className="text-gray-700 hover:text-blue-600 px-3 py-2 font-medium transition-all duration-300 hover:scale-105"
+              className="text-gray-700 hover:text-primary px-3 py-2 font-medium transition-all duration-300 hover:scale-105"
             >
               {currentText.skills}
             </a>
             <a
               href="/#submit" // Assuming submit is an ID on the homepage
-              className="text-gray-700 hover:text-blue-600 px-3 py-2 font-medium transition-all duration-300 hover:scale-105"
+              className="text-gray-700 hover:text-primary px-3 py-2 font-medium transition-all duration-300 hover:scale-105"
             >
               {currentText.submit}
             </a>
@@ -169,7 +169,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, allServices }) => {
                   value={searchQuery}
                   onChange={handleSearchInputChange}
                   onFocus={() => setShowSuggestions(suggestions.length > 0 && searchQuery.trim() !== "")} // Show on focus if query exists
-                  className="pl-10 pr-4 py-2 border-2 border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all w-64" // Increased width
+                  className="pl-10 pr-4 py-2 border-2 border-input rounded-lg focus:ring-2 focus:ring-ring focus:border-primary transition-all w-64" // Increased width
                 />
               </form>
               {showSuggestions && suggestions.length > 0 && (
@@ -177,7 +177,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, allServices }) => {
                   {suggestions.map((service) => (
                     <li
                       key={service.id}
-                      className="px-4 py-2 hover:bg-blue-50 cursor-pointer text-sm text-gray-700"
+                      className="px-4 py-2 hover:bg-accent cursor-pointer text-sm text-gray-700"
                       onClick={() => handleSuggestionClick(service)}
                     >
                       {service.name}
@@ -188,16 +188,16 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, allServices }) => {
               )}
             </div>
 
-            <div className="flex items-center bg-blue-50 rounded-lg p-1">
-              <Globe className="w-4 h-4 text-blue-600 mx-1" />
+            <div className="flex items-center bg-accent rounded-lg p-1">
+              <Globe className="w-4 h-4 text-primary mx-1" />
               {Object.keys(languages).map((lang) => (
                 <button
                   key={lang}
                   onClick={() => setCurrentLanguage(lang)}
                   className={`px-2 py-1 rounded text-xs font-medium transition-all ${
                     currentLanguage === lang
-                      ? "bg-blue-600 text-white"
-                      : "text-blue-600 hover:bg-blue-100"
+                      ? "bg-primary text-white"
+                      : "text-primary hover:bg-primary/10"
                   }`}
                 >
                   {lang === "en" ? "EN" : lang === "fr" ? "FR" : "PID"}
@@ -218,7 +218,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, allServices }) => {
                   variant="outline"
                   size="sm"
                   onClick={handleLogout}
-                  className="border-blue-200 hover:bg-blue-50 transition-all hover:scale-105"
+                  className="border-input hover:bg-accent transition-all hover:scale-105"
                 >
                   <LogOut className="w-4 h-4 mr-1 md:mr-2" />
                   {currentText.logout}
@@ -230,13 +230,13 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, allServices }) => {
                   variant="ghost"
                   size="sm"
                   onClick={() => navigate("/login")} // Navigate to /login
-                  className="hover:bg-blue-50 transition-all hover:scale-105"
+                  className="hover:bg-accent transition-all hover:scale-105"
                 >
                   {currentText.login}
                 </Button>
                 <Button
                   size="sm"
-                  className="bg-blue-600 hover:bg-blue-700 transition-all hover:scale-105 shadow-lg"
+                  className="bg-primary hover:bg-primary/90 transition-all hover:scale-105 shadow-lg"
                   onClick={() => navigate("/signup")} // Navigate to /signup
                 >
                   {currentText.signup}
@@ -249,7 +249,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, allServices }) => {
           <div className="md:hidden flex items-center">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-gray-700 hover:text-blue-600 p-2 transition-all hover:scale-110"
+              className="text-gray-700 hover:text-primary p-2 transition-all hover:scale-110"
             >
               {isMenuOpen ? (
                 <X className="w-6 h-6" />
@@ -263,7 +263,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, allServices }) => {
         {/* Mobile Navigation */}
         {isMenuOpen && (
           <div className="md:hidden animate-fade-in"> {/* Mobile Menu Container */}
-            <div className="px-2 pt-2 pb-3 space-y-1 bg-white border-t border-blue-100">
+            <div className="px-2 pt-2 pb-3 space-y-1 bg-white border-t border-border">
               {/* Mobile Search Form - Simplified, no suggestions for now to keep it clean */}
               <form onSubmit={handleSearchSubmit} className="relative px-3 py-2">
                 <Search className="absolute left-5 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
@@ -272,40 +272,40 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, allServices }) => {
                   placeholder={currentText.search}
                   value={searchQuery}
                   onChange={handleSearchInputChange} // Re-use input change, suggestions won't show unless styled for mobile
-                  className="w-full pl-10 pr-4 py-2 border-2 border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                  className="w-full pl-10 pr-4 py-2 border-2 border-input rounded-lg focus:ring-2 focus:ring-ring focus:border-primary transition-all"
                 />
               </form>
               <Link
                 to="/"
-                className="block px-3 py-2 text-gray-700 hover:text-blue-600 font-medium transition-colors"
+                className="block px-3 py-2 text-gray-700 hover:text-primary font-medium transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
                 {currentText.home}
               </Link>
               <a
                 href="/#services"
-                className="block px-3 py-2 text-gray-700 hover:text-blue-600 font-medium transition-colors"
+                className="block px-3 py-2 text-gray-700 hover:text-primary font-medium transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
                 {currentText.services}
               </a>
               <a
                 href="/#skills"
-                className="block px-3 py-2 text-gray-700 hover:text-blue-600 font-medium transition-colors"
+                className="block px-3 py-2 text-gray-700 hover:text-primary font-medium transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
                 {currentText.skills}
               </a>
               <a
                 href="/#submit"
-                className="block px-3 py-2 text-gray-700 hover:text-blue-600 font-medium transition-colors"
+                className="block px-3 py-2 text-gray-700 hover:text-primary font-medium transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
                 {currentText.submit}
               </a>
 
               <div className="flex items-center px-3 py-2 space-x-2">
-                <Globe className="w-4 h-4 text-blue-600" />
+                <Globe className="w-4 h-4 text-primary" />
                 <span className="text-sm font-medium text-gray-700">
                   Language:
                 </span>
@@ -315,8 +315,8 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, allServices }) => {
                     onClick={() => {setCurrentLanguage(lang); /* setIsMenuOpen(false); */}} // Keep menu open on lang change for mobile
                     className={`px-2 py-1 rounded text-xs font-medium transition-all ${
                       currentLanguage === lang
-                        ? "bg-blue-600 text-white"
-                        : "text-blue-600 hover:bg-blue-100"
+                        ? "bg-primary text-white"
+                        : "text-primary hover:bg-primary/10"
                     }`}
                   >
                     {lang === "en" ? "EN" : lang === "fr" ? "FR" : "PID"}
@@ -338,7 +338,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, allServices }) => {
                     <Button
                       variant="outline"
                       size="sm"
-                      className="w-full border-blue-200 hover:bg-blue-50"
+                      className="w-full border-input hover:bg-accent"
                       onClick={() => { handleLogout(); setIsMenuOpen(false); }}
                     >
                       <LogOut className="w-4 h-4 mr-2" />
@@ -350,14 +350,14 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, allServices }) => {
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="w-full hover:bg-blue-50"
+                      className="w-full hover:bg-accent"
                       onClick={() => { navigate("/login"); setIsMenuOpen(false); }}
                     >
                       {currentText.login}
                     </Button>
                     <Button
                       size="sm"
-                      className="w-full bg-blue-600 hover:bg-blue-700"
+                      className="w-full bg-primary hover:bg-primary/90"
                       onClick={() => { navigate("/signup"); setIsMenuOpen(false); }}
                     >
                       {currentText.signup}
