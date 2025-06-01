@@ -9,26 +9,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import ServiceCard from "./ServiceCard";
-
-interface Service {
-  id: string;
-  name: string;
-  description: {
-    en: string;
-    fr: string;
-    pid: string;
-  };
-  image: string;
-  rating: number;
-  reviewCount: number;
-  category: string;
-  isVerified?: boolean;
-  location?: string;
-  website?: string;
-}
+import { Service } from "@/types"; // Import Service type
 
 interface ServiceSectionProps {
   searchQuery?: string;
+  // If we were to pass allServicesData as a prop, it would be defined here
+  // allServicesData?: { recommended: Service[]; latest: Service[] };
 }
 
 const ServiceSection: React.FC<ServiceSectionProps> = ({ searchQuery }) => {
@@ -36,6 +22,7 @@ const ServiceSection: React.FC<ServiceSectionProps> = ({ searchQuery }) => {
   const [viewMode, setViewMode] = useState("grid");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [visibleCount, setVisibleCount] = useState<number>(3);
+  const [showAll, setShowAll] = useState(false);
 
   const ITEMS_TO_LOAD_MORE = 3;
 
@@ -153,7 +140,8 @@ const ServiceSection: React.FC<ServiceSectionProps> = ({ searchQuery }) => {
   }, [allServicesData]);
 
   useEffect(() => {
-    setVisibleCount(3);
+    setVisibleCount(ITEMS_TO_LOAD_MORE);
+    setShowAll(false);
   }, [activeTab, searchQuery, selectedCategory]);
 
   const filteredServices = useMemo(() => {
@@ -186,7 +174,13 @@ const ServiceSection: React.FC<ServiceSectionProps> = ({ searchQuery }) => {
   const servicesToDisplay = filteredServices.slice(0, visibleCount);
 
   const handleViewMore = () => {
-    setVisibleCount((prevCount) => prevCount + ITEMS_TO_LOAD_MORE);
+    if (showAll) {
+      setVisibleCount(ITEMS_TO_LOAD_MORE);
+      setShowAll(false);
+    } else {
+      setVisibleCount(filteredServices.length);
+      setShowAll(true);
+    }
   };
 
   return (
@@ -286,7 +280,7 @@ const ServiceSection: React.FC<ServiceSectionProps> = ({ searchQuery }) => {
               className="px-8 py-3 border-2 hover:bg-gray-50 hover:scale-105 transition-all"
               onClick={handleViewMore}
             >
-              View More Services ({visibleCount}/{filteredServices.length})
+              {showAll ? "View Less" : "View More"} ({visibleCount}/{filteredServices.length})
             </Button>
           </div>
         )}
