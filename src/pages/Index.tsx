@@ -148,12 +148,12 @@ const Index = () => {
     <div className="min-h-screen bg-white">
       <Navbar onSearch={handleSearch} allServices={flattenedServices} />
       <HeroSection onSearch={handleSearch} />
-      <ServiceSection searchQuery={searchQuery} /> {/* ServiceSection can keep its own data for now */}
+      <ServiceSection searchQuery={searchQuery} allServicesDataProp={flattenedServices} />
       <SkillSection />
       <ServiceSubmissionForm />
       <FAQSection />
       <Footer />
-      <AIAssistant />
+      <AIAssistant allServices={flattenedServices} onSearchTrigger={handleSearch}/>
     </div>
   );
 };

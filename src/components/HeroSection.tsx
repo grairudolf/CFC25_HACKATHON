@@ -6,22 +6,40 @@ import {
   Award,
   Sparkles,
   Globe,
+  CheckCircle, // For benefits section
+  Zap,         // For benefits section
+  Users2,      // For benefits section
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const HeroSection = ({ onSearch }: { onSearch: (query: string) => void }) => { // Added onSearch prop
+interface HeroSectionProps {
+  onSearch: (query: string) => void;
+}
+
+const HeroSection: React.FC<HeroSectionProps> = ({ onSearch }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [showAISuggestions, setShowAISuggestions] = useState(false);
   const [currentLanguage, setCurrentLanguage] = useState("en");
 
   const languages = {
     en: {
-      title: "Welcome to Silicon",
+      title: "SiliconHub: Your Gateway to Cameroon's Digital Best",
       subtitle:
-        "Connect with the best Cameroonian digital services. From food to jobs, tech to training - everything you need at your fingertips.",
+        "Discover, connect, and thrive with a curated selection of top-tier Cameroonian digital services, training, and job opportunities. Your success starts here.",
       searchPlaceholder:
-        "What are you looking for today? 'food', 'jobs', 'tech'...",
+        "Search services, skills, or jobs...", // Updated placeholder
       searchButton: "Search",
+      // Why Choose Us / Benefits
+      whyChooseUsTitle: "Why Choose SiliconHub?",
+      benefit1Icon: "CheckCircle",
+      benefit1Title: "Local Focus, Global Standards",
+      benefit1Desc: "Access services and talent that understand the Cameroonian market, delivered with quality you can trust.",
+      benefit2Icon: "Zap",
+      benefit2Title: "All-In-One Platform",
+      benefit2Desc: "From finding a service to learning new skills and landing jobs – everything you need in one place.",
+      benefit3Icon: "Users2",
+      benefit3Title: "Community & Growth",
+      benefit3Desc: "Join a vibrant ecosystem of innovators, entrepreneurs, and learners. Grow with us.",
       exploreServices: "Explore Services",
       addService: "Add My Service",
       services: "500+ Services",
@@ -31,7 +49,7 @@ const HeroSection = ({ onSearch }: { onSearch: (query: string) => void }) => { /
       rating: "4.8/5",
       ratingDesc: "Average Rating",
       aiSuggestions: "AI suggestions for you",
-      suggestions: [
+      suggestions: [ // Kept suggestions, can be fine-tuned later
         "I want to eat something 🍽️",
         "I need a website 💻",
         "Help me find a job 💼",
@@ -41,12 +59,23 @@ const HeroSection = ({ onSearch }: { onSearch: (query: string) => void }) => { /
       ],
     },
     fr: {
-      title: "Bienvenue à Silicon",
+      title: "SiliconHub : Votre Portail vers l'Excellence Numérique au Cameroun",
       subtitle:
-        "Connectez-vous aux meilleurs services numériques camerounais. De la nourriture aux emplois, en passant par la tech - tout ce dont vous avez besoin à portée de main.",
+        "Découvrez, connectez-vous et prospérez avec une sélection de services numériques, formations et opportunités d'emploi camerounais de premier plan. Votre succès commence ici.",
       searchPlaceholder:
-        "Que cherchez-vous aujourd'hui? 'nourriture', 'emplois', 'tech'...",
+        "Rechercher services, compétences, emplois...", // Updated placeholder
       searchButton: "Chercher",
+      // Why Choose Us / Benefits
+      whyChooseUsTitle: "Pourquoi Choisir SiliconHub ?",
+      benefit1Icon: "CheckCircle",
+      benefit1Title: "Expertise Locale, Normes Globales",
+      benefit1Desc: "Accédez à des services et talents qui comprennent le marché camerounais, avec une qualité fiable.",
+      benefit2Icon: "Zap",
+      benefit2Title: "Plateforme Tout-En-Un",
+      benefit2Desc: "Trouver un service, acquérir de nouvelles compétences, décrocher un emploi – tout au même endroit.",
+      benefit3Icon: "Users2",
+      benefit3Title: "Communauté & Croissance",
+      benefit3Desc: "Rejoignez un écosystème dynamique d'innovateurs, d'entrepreneurs et d'apprenants. Grandissez avec nous.",
       exploreServices: "Explorer les Services",
       addService: "Ajouter Mon Service",
       services: "500+ Services",
@@ -56,7 +85,7 @@ const HeroSection = ({ onSearch }: { onSearch: (query: string) => void }) => { /
       rating: "4.8/5",
       ratingDesc: "Note Moyenne",
       aiSuggestions: "Suggestions IA pour vous",
-      suggestions: [
+      suggestions: [ // Kept suggestions
         "Je veux manger quelque chose 🍽️",
         "J'ai besoin d'un site web 💻",
         "Aide-moi à trouver un job 💼",
@@ -66,11 +95,23 @@ const HeroSection = ({ onSearch }: { onSearch: (query: string) => void }) => { /
       ],
     },
     pid: {
-      title: "Welcome for Silicon",
+      title: "SiliconHub: Ya Gate for Cameroon Digital Correct Things",
       subtitle:
-        "Connect with the best Cameroon digital services dem. From chop to work, tech to training - everything wey you need dey here.",
-      searchPlaceholder: "Wetin you dey find today? 'chop', 'work', 'tech'...",
+        "Discover, connect, and grow with correct selection of Cameroon digital services, training, and work opportunities. Ya success start here.",
+      searchPlaceholder:
+        "Find services, skills, or work...", // Updated placeholder
       searchButton: "Search",
+      // Why Choose Us / Benefits
+      whyChooseUsTitle: "Why You Go Choose SiliconHub?",
+      benefit1Icon: "CheckCircle",
+      benefit1Title: "Local Sabi, Global Standard",
+      benefit1Desc: "Access services and people wey sabi Cameroon market, with quality wey you fit trust.",
+      benefit2Icon: "Zap",
+      benefit2Title: "All-Inside Platform",
+      benefit2Desc: "From find service to learn new skill and catch work – everything for one place.",
+      benefit3Icon: "Users2",
+      benefit3Title: "Community & Growth",
+      benefit3Desc: "Join correct group of innovators, entrepreneurs, and learners. Grow with us.",
       exploreServices: "Check Services",
       addService: "Add My Service",
       services: "500+ Services",
@@ -80,7 +121,7 @@ const HeroSection = ({ onSearch }: { onSearch: (query: string) => void }) => { /
       rating: "4.8/5",
       ratingDesc: "Average Rating",
       aiSuggestions: "AI suggestions for you",
-      suggestions: [
+      suggestions: [ // Kept suggestions
         "I wan chop something 🍽️",
         "I need website 💻",
         "Help me find work 💼",
@@ -93,6 +134,15 @@ const HeroSection = ({ onSearch }: { onSearch: (query: string) => void }) => { /
 
   const currentText = languages[currentLanguage as keyof typeof languages];
 
+  const BenefitIcon = ({ iconName }: { iconName: string }) => {
+    switch (iconName) {
+      case "CheckCircle": return <CheckCircle className="w-8 h-8 text-blue-600" />;
+      case "Zap": return <Zap className="w-8 h-8 text-green-500" />;
+      case "Users2": return <Users2 className="w-8 h-8 text-purple-500" />;
+      default: return <Sparkles className="w-8 h-8 text-yellow-500" />;
+    }
+  };
+
   const handleSearchFocus = () => {
     setShowAISuggestions(true);
   };
@@ -100,8 +150,8 @@ const HeroSection = ({ onSearch }: { onSearch: (query: string) => void }) => { /
   const handleSuggestionClick = (suggestion: string) => {
     setSearchQuery(suggestion);
     setShowAISuggestions(false);
-    // Optionally, trigger search immediately on suggestion click
-    // onSearch(suggestion);
+    // Trigger search immediately on suggestion click
+    onSearch(suggestion);
   };
 
   const handleSearchSubmit = (e: React.FormEvent) => {
@@ -243,29 +293,52 @@ const HeroSection = ({ onSearch }: { onSearch: (query: string) => void }) => { /
           </div>
         </div>
 
-        {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-          <div className="text-center p-6 bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2 animate-fade-in delay-800">
+        {/* Why Choose Us Section */}
+        <div className="py-12 animate-fade-in delay-[1200ms]">
+          <h2 className="text-3xl font-bold text-center text-gray-800 mb-10">
+            {currentText.whyChooseUsTitle}
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {[
+              { title: currentText.benefit1Title, desc: currentText.benefit1Desc, icon: currentText.benefit1Icon },
+              { title: currentText.benefit2Title, desc: currentText.benefit2Desc, icon: currentText.benefit2Icon },
+              { title: currentText.benefit3Title, desc: currentText.benefit3Desc, icon: currentText.benefit3Icon },
+            ].map((benefit, index) => (
+              <div key={index} className="text-center p-6 bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2">
+                <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 bg-opacity-20"
+                     style={{ backgroundColor: benefit.icon === "CheckCircle" ? 'rgba(59, 130, 246, 0.1)' : benefit.icon === "Zap" ? 'rgba(16, 185, 129, 0.1)' : 'rgba(168, 85, 247, 0.1)' }}>
+                  <BenefitIcon iconName={benefit.icon} />
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">{benefit.title}</h3>
+                <p className="text-gray-600 text-sm">{benefit.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Stats - Kept for continuity, can be integrated into "Why Choose Us" or a dedicated impact section later if desired */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto pt-10">
+          <div className="text-center p-6 bg-white/50 backdrop-blur-sm rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 animate-fade-in delay-[1500ms]">
             <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
               <Users className="w-8 h-8 text-blue-600" />
             </div>
             <h3 className="text-2xl font-bold text-gray-900 mb-2">
-              {currentText.services.split(" ")[0]}
+              {currentText.services.split(" ")[0]} {/* Assuming format "500+ Services" */}
             </h3>
             <p className="text-gray-600">{currentText.servicesDesc}</p>
           </div>
 
-          <div className="text-center p-6 bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2 animate-fade-in delay-900">
+          <div className="text-center p-6 bg-white/50 backdrop-blur-sm rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 animate-fade-in delay-[1600ms]">
             <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
               <TrendingUp className="w-8 h-8 text-blue-600" />
             </div>
             <h3 className="text-2xl font-bold text-gray-900 mb-2">
-              {currentText.users.split(" ")[0]}
+              {currentText.users.split(" ")[0]} {/* Assuming format "1000+ Users" */}
             </h3>
             <p className="text-gray-600">{currentText.usersDesc}</p>
           </div>
 
-          <div className="text-center p-6 bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2 animate-fade-in delay-1000">
+          <div className="text-center p-6 bg-white/50 backdrop-blur-sm rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 animate-fade-in delay-[1700ms]">
             <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
               <Award className="w-8 h-8 text-blue-600" />
             </div>

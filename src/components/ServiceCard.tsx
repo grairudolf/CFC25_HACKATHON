@@ -1,11 +1,9 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react"; // Removed useContext
 import { Star, ExternalLink, Badge, MapPin, ShoppingCart } from "lucide-react"; // Added ShoppingCart
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
-
-// Create a simple language context for now
-const LanguageContext = React.createContext("en");
+import { useLanguage } from "@/contexts/LanguageContext"; // Import global language context
 
 interface ServiceCardProps {
   id: string;
@@ -40,7 +38,7 @@ const ServiceCard = ({
 }: ServiceCardProps) => {
   const [userRating, setUserRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
-  const currentLanguage = useContext(LanguageContext);
+  const { translate } = useLanguage(); // Use global language context
   const navigate = useNavigate();
 
   const isInternalLink = website.startsWith("/");
@@ -48,7 +46,7 @@ const ServiceCard = ({
   const handleRating = (ratingValue: number) => {
     if (isLoggedIn) {
       setUserRating(ratingValue);
-      console.log(`User rated ${name} with ${ratingValue} stars`);
+      // console.log(`User rated ${name} with ${ratingValue} stars`); // Debug log removed
     }
   };
 
@@ -72,9 +70,7 @@ const ServiceCard = ({
   };
 
   const getCurrentDescription = () => {
-    return (
-      description[currentLanguage as keyof typeof description] || description.en
-    );
+    return translate(description, description.en); // Use translate function
   };
 
   const handleCardClick = (e: React.MouseEvent<HTMLDivElement>) => {
