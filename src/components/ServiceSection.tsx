@@ -26,161 +26,164 @@ const ServiceSection: React.FC<ServiceSectionProps> = ({ searchQuery }) => {
 
   // Cameroonian services data with multi-language support
   // In a real app, this would come from an API or a global state
-  const allServicesData = React.useMemo(() => ({
-    recommended: [
-      {
-        id: "1",
-        name: "FastChops",
-        description: {
-          en: "Fast food delivery across Douala and Yaoundé. Order your favorite Cameroonian dishes in just a few clicks.",
-          fr: "Livraison rapide de nourriture camerounaise partout à Douala et Yaoundé. Commandez vos plats préférés en quelques clics.",
-          pid: "Quick chop delivery for Douala and Yaoundé. Order your favorite local food with small time.",
+  const allServicesData = React.useMemo(
+    () => ({
+      recommended: [
+        {
+          id: "1",
+          name: "FastChops",
+          description: {
+            en: "Fast food delivery across Douala and Yaoundé. Order your favorite Cameroonian dishes in just a few clicks.",
+            fr: "Livraison rapide de nourriture camerounaise partout à Douala et Yaoundé. Commandez vos plats préférés en quelques clics.",
+            pid: "Quick chop delivery for Douala and Yaoundé. Order your favorite local food with small time.",
+          },
+          image: "fastchops.jpeg",
+          rating: 4.8,
+          reviewCount: 1247,
+          category: "Food & Delivery",
+          isVerified: true,
+          location: "Buea",
+          website: "https://www.f6s.com/company/fastchops",
         },
-        image: "fastchops.jpeg",
-        rating: 4.8,
-        reviewCount: 1247,
-        category: "Food & Delivery",
-        isVerified: true,
-        location: "Buea",
-        website: "https://www.f6s.com/company/fastchops",
-      },
-      {
-        id: "2",
-        name: "237Jobs",
-        description: {
-          en: "Cameroon's #1 job platform. Over 5000 job opportunities across all sectors.",
-          fr: "La plateforme #1 pour trouver un emploi au Cameroun. Plus de 5000 offres d'emploi dans tous les secteurs.",
-          pid: "Number one place for find work for Cameroon. Plenty job opportunities for all sectors.",
+        {
+          id: "2",
+          name: "237Jobs",
+          description: {
+            en: "Cameroon's #1 job platform. Over 5000 job opportunities across all sectors.",
+            fr: "La plateforme #1 pour trouver un emploi au Cameroun. Plus de 5000 offres d'emploi dans tous les secteurs.",
+            pid: "Number one place for find work for Cameroon. Plenty job opportunities for all sectors.",
+          },
+          image: "237jobs.jpg",
+          rating: 4.7,
+          reviewCount: 892,
+          category: "Jobs & Career",
+          isVerified: true,
+          location: "All Cameroon",
+          website: "https://237jobs.com",
         },
-        image: "237jobs.jpg",
-        rating: 4.7,
-        reviewCount: 892,
-        category: "Jobs & Career",
-        isVerified: true,
-        location: "All Cameroon",
-        website: "https://237jobs.com",
-      },
-      {
-        id: "3",
-        name: "Nkwa",
-        description: {
-          en: "Mobile payment solutions and digital financial services for all Cameroonians.",
-          fr: "Solutions de paiement mobile et services financiers digitaux pour tous les Camerounais.",
-          pid: "Mobile money and digital financial services for all Cameroon people.",
+        {
+          id: "3",
+          name: "Nkwa",
+          description: {
+            en: "Mobile payment solutions and digital financial services for all Cameroonians.",
+            fr: "Solutions de paiement mobile et services financiers digitaux pour tous les Camerounais.",
+            pid: "Mobile money and digital financial services for all Cameroon people.",
+          },
+          image: "nkwa.jpg",
+          rating: 4.9,
+          reviewCount: 2156,
+          category: "Fintech & Payments",
+          isVerified: true,
+          location: "National",
+          website: "https://mynkwa.com",
         },
-        image: "nkwa.jpg",
-        rating: 4.9,
-        reviewCount: 2156,
-        category: "Fintech & Payments",
-        isVerified: true,
-        location: "National",
-        website: "https://mynkwa.com",
-      },
-    ],
-    latest: [
-      {
-        id: "4",
-        name: "DelTechHub",
-        description: {
-          en: "Technology training and mentorship. Learn programming, design and tech entrepreneurship.",
-          fr: "Formation et accompagnement en technologie. Apprenez la programmation, le design et l'entrepreneuriat tech.",
-          pid: "Tech training and support. Learn coding, design and how to start tech business.",
+      ],
+      latest: [
+        {
+          id: "4",
+          name: "DelTechHub",
+          description: {
+            en: "Technology training and mentorship. Learn programming, design and tech entrepreneurship.",
+            fr: "Formation et accompagnement en technologie. Apprenez la programmation, le design et l'entrepreneuriat tech.",
+            pid: "Tech training and support. Learn coding, design and how to start tech business.",
+          },
+          image: "deltech.jpeg",
+          rating: 4.6,
+          reviewCount: 343,
+          category: "Tech Training",
+          location: "Douala",
+          website: "https://deltechhub.com",
         },
-        image: "deltech.jpeg",
-        rating: 4.6,
-        reviewCount: 343,
-        category: "Tech Training",
-        location: "Douala",
-        website: "https://deltechhub.com",
-      },
-      {
-        id: "5",
-        name: "AjeBoCV",
-        description: {
-          en: "Create your professional CV online easily. Templates adapted to the Cameroonian market.",
-          fr: "Créez votre CV professionnel en ligne facilement. Templates adaptés au marché camerounais.",
-          pid: "Make your professional CV online easy way. Templates fit for Cameroon job market.",
+        {
+          id: "5",
+          name: "AjeBoCV",
+          description: {
+            en: "Create your professional CV online easily. Templates adapted to the Cameroonian market.",
+            fr: "Créez votre CV professionnel en ligne facilement. Templates adaptés au marché camerounais.",
+            pid: "Make your professional CV online easy way. Templates fit for Cameroon job market.",
+          },
+          image: "ajebocv.png",
+          rating: 4.5,
+          reviewCount: 567,
+          category: "Professional Services",
+          isVerified: true,
+          location: "Online",
+          website: "https://ajebocv.com",
         },
-        image: "ajebocv.png",
-        rating: 4.5,
-        reviewCount: 567,
-        category: "Professional Services",
-        isVerified: true,
-        location: "Online",
-        website: "https://ajebocv.com",
-      },
-      {
-        id: "6",
-        name: "skolarr",
-        description: {
-          en: "Cameroonian digital library with thousands of books, courses and educational resources.",
-          fr: "Bibliothèque numérique camerounaise avec des milliers de livres, cours et ressources éducatives.",
-          pid: "Cameroon digital library with plenty books, courses and educational materials.",
+        {
+          id: "6",
+          name: "skolarr",
+          description: {
+            en: "Cameroonian digital library with thousands of books, courses and educational resources.",
+            fr: "Bibliothèque numérique camerounaise avec des milliers de livres, cours et ressources éducatives.",
+            pid: "Cameroon digital library with plenty books, courses and educational materials.",
+          },
+          image: "skolarr.png",
+          rating: 4.7,
+          reviewCount: 778,
+          category: "Education",
+          location: "Online",
+          website: "https://skolarr.com",
         },
-        image: "skolarr.png",
-        rating: 4.7,
-        reviewCount: 778,
-        category: "Education",
-        location: "Online",
-        website: "https://skolarr.com",
-      },
-    ],
-    popular: [
-      {
-        id: "7",
-        name: "Skaleway",
-        description: {
-          en: "Complete IT services: web development, system maintenance, digital training.",
-          fr: "Services informatiques complets: développement web, maintenance système, formation digitale.",
-          pid: "Complete IT services: website building, system maintenance, digital training.",
+      ],
+      popular: [
+        {
+          id: "7",
+          name: "Skaleway",
+          description: {
+            en: "Complete IT services: web development, system maintenance, digital training.",
+            fr: "Services informatiques complets: développement web, maintenance système, formation digitale.",
+            pid: "Complete IT services: website building, system maintenance, digital training.",
+          },
+          image: "skaleway.jpeg",
+          rating: 4.8,
+          reviewCount: 654,
+          category: "IT Services",
+          isVerified: true,
+          location: "Buea",
+          website: "https://skaleway.com",
         },
-        image: "skaleway.jpeg",
-        rating: 4.8,
-        reviewCount: 654,
-        category: "IT Services",
-        isVerified: true,
-        location: "Buea",
-        website: "https://skaleway.com",
-      },
-      {
-        id: "8",
-        name: "Hustlers Engineering",
-        description: {
-          en: "Community of Cameroonian entrepreneurs and engineers. Networking, mentoring and business opportunities.",
-          fr: "Communauté d'entrepreneurs et ingénieurs camerounais. Networking, mentoring et opportunités business.",
-          pid: "Community of Cameroon entrepreneurs and engineers. Networking, mentoring and business opportunities.",
+        {
+          id: "8",
+          name: "Hustlers Engineering",
+          description: {
+            en: "Community of Cameroonian entrepreneurs and engineers. Networking, mentoring and business opportunities.",
+            fr: "Communauté d'entrepreneurs et ingénieurs camerounais. Networking, mentoring et opportunités business.",
+            pid: "Community of Cameroon entrepreneurs and engineers. Networking, mentoring and business opportunities.",
+          },
+          image: "hustler.png",
+          rating: 4.9,
+          reviewCount: 1203,
+          category: "Engineering Community",
+          location: "Buea",
+          website: "https://hustlersconf.com",
         },
-        image: "hustler.png",
-        rating: 4.9,
-        reviewCount: 1203,
-        category: "Engineering Community",
-        location: "Buea",
-        website: "https://hustlersconf.com",
-      },
-      {
-        id: "9",
-        name: "NervTek",
-        description: {
-          en: "Custom mobile and web application development for Cameroonian businesses.",
-          fr: "Développement d'applications mobiles et web sur mesure pour entreprises camerounaises.",
-          pid: "Custom mobile and web app development for Cameroon businesses.",
+        {
+          id: "9",
+          name: "lam bdaa",
+          description: {
+            en: "Custom mobile and web application development for Cameroonian businesses.",
+            fr: "Développement d'applications mobiles et web sur mesure pour entreprises camerounaises.",
+            pid: "Custom mobile and web app development for Cameroon businesses.",
+          },
+          image: "lambda.png",
+          rating: 4.6,
+          reviewCount: 432,
+          category: "App Development",
+          isVerified: true,
+          location: "Buea",
+          website: "https://lambdaa.org",
         },
-        image: "/nervtek.png",
-        rating: 4.6,
-        reviewCount: 432,
-        category: "App Development",
-        isVerified: true,
-        location: "Douala",
-        website: "https://nervtek.cm",
-      },
-    ],
-  }), []);
+      ],
+    }),
+    []
+  );
 
   // Memoize unique categories
   const uniqueCategories = React.useMemo(() => {
     const categories = new Set<string>();
-    Object.values(allServicesData).forEach(tabServices => {
-      tabServices.forEach(service => categories.add(service.category));
+    Object.values(allServicesData).forEach((tabServices) => {
+      tabServices.forEach((service) => categories.add(service.category));
     });
     return ["all", ...Array.from(categories).sort()];
   }, [allServicesData]);
@@ -192,7 +195,8 @@ const ServiceSection: React.FC<ServiceSectionProps> = ({ searchQuery }) => {
 
   // Filtering logic
   const finalFilteredServices = React.useMemo(() => {
-    let services = allServicesData[activeTab as keyof typeof allServicesData] || [];
+    let services =
+      allServicesData[activeTab as keyof typeof allServicesData] || [];
 
     // Filter by search query
     if (searchQuery) {
@@ -212,7 +216,9 @@ const ServiceSection: React.FC<ServiceSectionProps> = ({ searchQuery }) => {
 
     // Filter by category
     if (selectedCategory !== "all") {
-      services = services.filter(service => service.category === selectedCategory);
+      services = services.filter(
+        (service) => service.category === selectedCategory
+      );
     }
     return services;
   }, [activeTab, searchQuery, selectedCategory, allServicesData]);
@@ -220,7 +226,7 @@ const ServiceSection: React.FC<ServiceSectionProps> = ({ searchQuery }) => {
   const servicesToDisplay = finalFilteredServices.slice(0, visibleCount);
 
   const handleViewMore = () => {
-    setVisibleCount(prevCount => prevCount + ITEMS_TO_LOAD_MORE);
+    setVisibleCount((prevCount) => prevCount + ITEMS_TO_LOAD_MORE);
   };
 
   const tabs = [
@@ -229,7 +235,11 @@ const ServiceSection: React.FC<ServiceSectionProps> = ({ searchQuery }) => {
       label: "Recommended Services",
       count: allServicesData.recommended.length, // Show total count for the tab
     },
-    { id: "latest", label: "Latest Services", count: allServicesData.latest.length },
+    {
+      id: "latest",
+      label: "Latest Services",
+      count: allServicesData.latest.length,
+    },
     {
       id: "popular",
       label: "Popular Services",
@@ -275,13 +285,18 @@ const ServiceSection: React.FC<ServiceSectionProps> = ({ searchQuery }) => {
 
           {/* Controls */}
           <div className="flex items-center space-x-4">
-            <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-              <SelectTrigger className="w-auto min-w-[180px] sm:w-48"> {/* Adjusted width */}
+            <Select
+              value={selectedCategory}
+              onValueChange={setSelectedCategory}
+            >
+              <SelectTrigger className="w-auto min-w-[180px] sm:w-48">
+                {" "}
+                {/* Adjusted width */}
                 <Filter className="w-4 h-4 mr-2" />
                 <SelectValue placeholder="Filter by Category" />
               </SelectTrigger>
               <SelectContent>
-                {uniqueCategories.map(category => (
+                {uniqueCategories.map((category) => (
                   <SelectItem key={category} value={category}>
                     {category === "all" ? "All Categories" : category}
                   </SelectItem>

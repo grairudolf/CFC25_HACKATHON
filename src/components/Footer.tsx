@@ -13,7 +13,7 @@ import {
 
 const Footer = () => {
   return (
-    <footer className="bg-gradient-to-b from-blue-50 to-blue-900 text-white relative overflow-hidden">
+    <footer className="bg-gradient-to-b from-blue-200 to-blue-900 text-white relative overflow-hidden">
       {/* Connecting Wave */}
       <div className="absolute top-0 left-0 right-0 h-20">
         <svg
