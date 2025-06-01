@@ -5,18 +5,7 @@ const GOOGLE_CLIENT_ID = "594542956491-jg7btcblpi0t7joh898iblirg54atget.apps.goo
 
 declare global {
   interface Window {
-    google?: {
-      accounts?: {
-        id: {
-          initialize: (options: { client_id: string; callback: (response: any) => void }) => void;
-          renderButton?: (parent: HTMLElement | null, options: object) => void;
-          prompt: (callback?: (notification: any) => void) => void;
-          disableAutoSelect: () => void;
-          // Add other methods as needed
-        };
-        // Add other properties if needed
-      };
-    };
+    google?: any; // Or a more specific type if available and you're sure of its structure
   }
 }
 
