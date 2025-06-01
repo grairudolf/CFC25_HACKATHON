@@ -260,7 +260,7 @@ const SkillSection = () => {
             <Button 
               variant="outline" 
               size="lg"
-              className="border-2 border-white text-white hover:bg-white hover:text-blue-600 transition-all hover:scale-105 text-lg px-8 py-4"
+              className="border-2 border-white text-blue-500 hover:bg-white hover:text-blue-600 transition-all hover:scale-105 text-lg px-8 py-4"
             >
               Join Learning Community
             </Button>
