@@ -20,6 +20,14 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, allServices }) => {
   const navigate = useNavigate();
   const searchContainerRef = useRef<HTMLDivElement>(null); // Ref for the search container
 
+  const handleSmoothScroll = (event: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
+    event.preventDefault();
+    const targetElement = document.getElementById(targetId);
+    if (targetElement) {
+      targetElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   const languages = {
     en: {
       home: "Home",
@@ -139,19 +147,22 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, allServices }) => {
               {currentText.home}
             </Link>
             <a
-              href="/#services" // Assuming services is an ID on the homepage
+              href="#services"
+              onClick={(e) => handleSmoothScroll(e, 'services')}
               className="text-gray-700 hover:text-primary px-3 py-2 font-medium transition-all duration-300 hover:scale-105"
             >
               {currentText.services}
             </a>
             <a
-              href="/#skills" // Assuming skills is an ID on the homepage
+              href="#skills"
+              onClick={(e) => handleSmoothScroll(e, 'skills')}
               className="text-gray-700 hover:text-primary px-3 py-2 font-medium transition-all duration-300 hover:scale-105"
             >
               {currentText.skills}
             </a>
             <a
-              href="/#submit" // Assuming submit is an ID on the homepage
+              href="#submit"
+              onClick={(e) => handleSmoothScroll(e, 'submit')}
               className="text-gray-700 hover:text-primary px-3 py-2 font-medium transition-all duration-300 hover:scale-105"
             >
               {currentText.submit}
@@ -283,23 +294,23 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, allServices }) => {
                 {currentText.home}
               </Link>
               <a
-                href="/#services"
+                href="#services"
                 className="block px-3 py-2 text-gray-700 hover:text-primary font-medium transition-colors"
-                onClick={() => setIsMenuOpen(false)}
+                onClick={(e) => { handleSmoothScroll(e, 'services'); setIsMenuOpen(false); }}
               >
                 {currentText.services}
               </a>
               <a
-                href="/#skills"
+                href="#skills"
                 className="block px-3 py-2 text-gray-700 hover:text-primary font-medium transition-colors"
-                onClick={() => setIsMenuOpen(false)}
+                onClick={(e) => { handleSmoothScroll(e, 'skills'); setIsMenuOpen(false); }}
               >
                 {currentText.skills}
               </a>
               <a
-                href="/#submit"
+                href="#submit"
                 className="block px-3 py-2 text-gray-700 hover:text-primary font-medium transition-colors"
-                onClick={() => setIsMenuOpen(false)}
+                onClick={(e) => { handleSmoothScroll(e, 'submit'); setIsMenuOpen(false); }}
               >
                 {currentText.submit}
               </a>

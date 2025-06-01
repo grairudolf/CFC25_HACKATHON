@@ -149,8 +149,12 @@ const Index = () => {
       <Navbar onSearch={handleSearch} allServices={flattenedServices} />
       <HeroSection onSearch={handleSearch} />
       <ServiceSection searchQuery={searchQuery} /> {/* ServiceSection can keep its own data for now */}
-      <SkillSection />
-      <ServiceSubmissionForm />
+      <div id="skills">
+        <SkillSection />
+      </div>
+      <div id="submit">
+        <ServiceSubmissionForm />
+      </div>
       <FAQSection />
       <Footer />
       <AIAssistant />
