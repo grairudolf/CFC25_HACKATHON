@@ -28,6 +28,7 @@ const Index = () => {
       <ServiceSection searchQuery={searchQuery} />
       <SkillSection />
       <ServiceSubmissionForm />
+      <FAQSection />
       <Footer />
       <AIAssistant />
     </div>
