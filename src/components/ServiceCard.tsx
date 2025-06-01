@@ -1,7 +1,8 @@
 import React, { useState, useContext } from "react";
-import { Star, ExternalLink, Badge, MapPin } from "lucide-react";
+import { Star, ExternalLink, Badge, MapPin, ShoppingCart } from "lucide-react"; // Added ShoppingCart
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { useNavigate } from "react-router-dom";
 
 // Create a simple language context for now
 const LanguageContext = React.createContext("en");
@@ -19,7 +20,7 @@ interface ServiceCardProps {
   reviewCount: number;
   category: string;
   location?: string;
-  website: string;
+  website: string; // This will be the path for internal links like "/food-delivery-order"
   isVerified?: boolean;
   isLoggedIn?: boolean;
 }
@@ -40,6 +41,9 @@ const ServiceCard = ({
   const [userRating, setUserRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const currentLanguage = useContext(LanguageContext);
+  const navigate = useNavigate();
+
+  const isInternalLink = website.startsWith("/");
 
   const handleRating = (ratingValue: number) => {
     if (isLoggedIn) {
@@ -67,24 +71,64 @@ const ServiceCard = ({
     });
   };
 
-  // Get description based on current language, defaulting to English
   const getCurrentDescription = () => {
     return (
       description[currentLanguage as keyof typeof description] || description.en
     );
   };
 
+  const handleCardClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    // If the click is on a button or a link within a button, let the button's onClick handle it.
+    if ((e.target as HTMLElement).closest('button')) {
+      return;
+    }
+
+    // Prevent default if we were using an <a> tag, not strictly necessary for a div
+    // e.preventDefault();
+    if (isInternalLink) {
+      navigate(website);
+    } else {
+      window.open(website, "_blank", "noopener,noreferrer");
+    }
+  };
+
+  const handleUseServiceClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (isInternalLink) {
+      navigate(website);
+    } else {
+      window.open(website, "_blank", "noopener,noreferrer");
+    }
+  };
+
+  const handleLearnMoreClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (isInternalLink) {
+        // For "Learn More" on an internal service, navigate to its page.
+        navigate(website);
+    } else {
+        window.open(website, "_blank", "noopener,noreferrer");
+    }
+  };
+
   return (
-    <a
-      href={website}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="block"
+    <div
+      onClick={handleCardClick}
+      className="cursor-pointer block h-full" // Make div behave like a block, show cursor, and ensure full height for consistent click area
+      role="link" // Accessibility: indicate the div acts as a link
+      tabIndex={0} // Accessibility: make it focusable
+      onKeyDown={(e) => { // Accessibility: handle Enter/Space key press
+        if (e.key === 'Enter' || e.key === ' ') {
+          handleCardClick(e as any); // Cast needed as event type differs slightly
+        }
+      }}
     >
-      <Card className="group hover:shadow-2xl transition-all duration-700 transform hover:-translate-y-3 hover:scale-105 bg-white border-2 border-blue-100 hover:border-blue-300 rounded-xl overflow-hidden animate-fade-in">
+      <Card className="group hover:shadow-2xl transition-all duration-700 transform hover:-translate-y-3 hover:scale-105 bg-white border-2 border-blue-100 hover:border-blue-300 rounded-xl overflow-hidden animate-fade-in h-full flex flex-col"> {/* Ensure card takes full height and use flex column */}
         <div className="relative overflow-hidden">
           <img
-            src={image}
+            src={image} // Ensure image paths are correct, e.g., prefixed with / if in public
             alt={name}
             className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-700"
           />
@@ -116,7 +160,7 @@ const ServiceCard = ({
           )}
         </div>
 
-        <CardContent className="p-6">
+        <CardContent className="p-6 flex-grow"> {/* flex-grow to push footer down */}
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors duration-300">
               {name}
@@ -151,32 +195,26 @@ const ServiceCard = ({
           )}
         </CardContent>
 
-        <CardFooter className="p-6 pt-0 flex space-x-3">
+        <CardFooter className="p-6 pt-0 flex space-x-3 mt-auto"> {/* mt-auto to stick to bottom if CardContent is not enough */}
           <Button
             variant="outline"
             size="sm"
             className="flex-1 hover:bg-blue-50 hover:border-blue-300 transition-all hover:scale-105 duration-300 border-blue-200"
-            onClick={(e) => {
-              e.preventDefault(); // Prevent outer link's default if necessary, though not strictly needed here
-              window.open(website, "_blank", "noopener,noreferrer");
-            }}
+            onClick={handleLearnMoreClick}
           >
             Learn More
           </Button>
           <Button
             size="sm"
             className="flex-1 bg-blue-600 hover:bg-blue-700 transition-all hover:scale-105 duration-300 shadow-lg"
-            onClick={(e) => {
-              e.preventDefault(); // Prevent outer link's default
-              window.open(website, "_blank", "noopener,noreferrer");
-            }}
+            onClick={handleUseServiceClick}
           >
-            <ExternalLink className="w-4 h-4 mr-1" />
-            Use Service
+            {isInternalLink ? <ShoppingCart className="w-4 h-4 mr-1" /> : <ExternalLink className="w-4 h-4 mr-1" />}
+            {isInternalLink ? "Order Now" : "Use Service"}
           </Button>
         </CardFooter>
       </Card>
-    </a>
+    </div>
   );
 };
 
