@@ -116,6 +116,40 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, allServices }) => {
     navigate("/"); // Redirect to home page after logout
   };
 
+  const handleSmoothScroll = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    event.preventDefault();
+    const href = event.currentTarget.getAttribute('href');
+    if (href && href.startsWith("/#")) { // Ensure it's an internal hash link for the current page
+      const id = href.substring(2); // Remove '/#'
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // Update hash in URL without causing a page jump, after scrolling
+        // Using setTimeout to ensure scroll has initiated
+        setTimeout(() => {
+          // Check if the path is indeed the root path before setting hash
+          if (window.location.pathname === '/') {
+            window.history.pushState(null, "", `#${id}`);
+          } else {
+            // If not on the homepage, navigate to homepage with hash
+            navigate(`/#${id}`);
+          }
+        }, 0);
+      } else {
+        // Fallback if element not found on current page (e.g. link from /login to /#services)
+         navigate(`/${href}`);
+      }
+    } else if (href) {
+        // For other types of hrefs if any, or full URLs if not starting with /#
+        // This part might need adjustment based on whether these are internal SPA routes or external links
+        if (href.startsWith("/")) {
+             navigate(href); // Assumes it's an internal route handled by react-router
+        } else {
+            window.location.href = href; // External link
+        }
+    }
+  };
+
   return (
     <nav className="bg-white shadow-lg sticky top-0 z-50 border-b-2 border-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -139,19 +173,22 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, allServices }) => {
               {currentText.home}
             </Link>
             <a
-              href="/#services" // Assuming services is an ID on the homepage
+              href="/#services"
+              onClick={handleSmoothScroll}
               className="text-gray-700 hover:text-primary px-3 py-2 font-medium transition-all duration-300 hover:scale-105"
             >
               {currentText.services}
             </a>
             <a
-              href="/#skills" // Assuming skills is an ID on the homepage
+              href="/#skills"
+              onClick={handleSmoothScroll}
               className="text-gray-700 hover:text-primary px-3 py-2 font-medium transition-all duration-300 hover:scale-105"
             >
               {currentText.skills}
             </a>
             <a
-              href="/#submit" // Assuming submit is an ID on the homepage
+              href="/#submit"
+              onClick={handleSmoothScroll}
               className="text-gray-700 hover:text-primary px-3 py-2 font-medium transition-all duration-300 hover:scale-105"
             >
               {currentText.submit}
@@ -285,21 +322,21 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, allServices }) => {
               <a
                 href="/#services"
                 className="block px-3 py-2 text-gray-700 hover:text-primary font-medium transition-colors"
-                onClick={() => setIsMenuOpen(false)}
+                onClick={(e) => { handleSmoothScroll(e); setIsMenuOpen(false); }}
               >
                 {currentText.services}
               </a>
               <a
                 href="/#skills"
                 className="block px-3 py-2 text-gray-700 hover:text-primary font-medium transition-colors"
-                onClick={() => setIsMenuOpen(false)}
+                onClick={(e) => { handleSmoothScroll(e); setIsMenuOpen(false); }}
               >
                 {currentText.skills}
               </a>
               <a
                 href="/#submit"
                 className="block px-3 py-2 text-gray-700 hover:text-primary font-medium transition-colors"
-                onClick={() => setIsMenuOpen(false)}
+                onClick={(e) => { handleSmoothScroll(e); setIsMenuOpen(false); }}
               >
                 {currentText.submit}
               </a>

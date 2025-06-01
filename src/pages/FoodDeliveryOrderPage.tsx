@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import React, { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Input } from "@/components/ui/input";
@@ -12,6 +13,8 @@ import {
   SelectItem,
   SelectValue,
 } from "@/components/ui/select";
+import { Link } from "react-router-dom"; // Import Link
+import { Home } from "lucide-react"; // Import Home icon
 
 const FoodDeliveryOrderPage = () => {
   const [paymentMethod, setPaymentMethod] = useState<string>("credit-card");
@@ -41,6 +44,12 @@ const FoodDeliveryOrderPage = () => {
     <div className="min-h-screen bg-white">
       <Navbar onSearch={() => {}} allServices={[]} />
       <main className="max-w-3xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <div className="mb-8">
+          <Link to="/" className="flex items-center text-blue-600 hover:text-blue-800 hover:underline transition-colors duration-150 text-sm">
+            <Home className="w-4 h-4 mr-1.5" />
+            Return to Home
+          </Link>
+        </div>
         <div className="text-center mb-10">
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
             Food Delivery Order

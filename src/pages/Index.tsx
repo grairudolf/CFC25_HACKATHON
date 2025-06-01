@@ -153,7 +153,7 @@ const Index = () => {
       <ServiceSubmissionForm />
       <FAQSection />
       <Footer />
-      <AIAssistant />
+      <AIAssistant allServices={flattenedServices} onSearchTrigger={handleSearch}/>
     </div>
   );
 };
