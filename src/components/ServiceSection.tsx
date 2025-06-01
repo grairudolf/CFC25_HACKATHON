@@ -26,7 +26,7 @@ const ServiceSection: React.FC<ServiceSectionProps> = ({ searchQuery }) => {
 
   // Cameroonian services data with multi-language support
   // In a real app, this would come from an API or a global state
-  const allServicesData = {
+  const allServicesData = React.useMemo(() => ({
     recommended: [
       {
         id: "1",
@@ -174,7 +174,7 @@ const ServiceSection: React.FC<ServiceSectionProps> = ({ searchQuery }) => {
         website: "https://nervtek.cm",
       },
     ],
-  };
+  }), []);
 
   // Memoize unique categories
   const uniqueCategories = React.useMemo(() => {
