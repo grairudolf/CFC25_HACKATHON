@@ -9,11 +9,22 @@ import Footer from '@/components/Footer';
 import AIAssistant from '@/components/AIAssistant';
 
 const Index = () => {
+  const [searchQuery, setSearchQuery] = React.useState("");
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+    // Optional: scroll to services section when a search is performed
+    const servicesSection = document.getElementById("services");
+    if (servicesSection) {
+      servicesSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white">
-      <Navbar />
-      <HeroSection />
-      <ServiceSection />
+      <Navbar onSearch={handleSearch} />
+      <HeroSection onSearch={handleSearch} />
+      <ServiceSection searchQuery={searchQuery} />
       <SkillSection />
       <ServiceSubmissionForm />
       <Footer />

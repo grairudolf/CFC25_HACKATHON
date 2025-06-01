@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const HeroSection = () => {
+const HeroSection = ({ onSearch }: { onSearch: (query: string) => void }) => { // Added onSearch prop
   const [searchQuery, setSearchQuery] = useState("");
   const [showAISuggestions, setShowAISuggestions] = useState(false);
   const [currentLanguage, setCurrentLanguage] = useState("en");
@@ -100,6 +100,29 @@ const HeroSection = () => {
   const handleSuggestionClick = (suggestion: string) => {
     setSearchQuery(suggestion);
     setShowAISuggestions(false);
+    // Optionally, trigger search immediately on suggestion click
+    // onSearch(suggestion); 
+  };
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSearch(searchQuery);
+    // For now, we're calling onSearch. Navigation or filtering logic will be handled by the parent.
+    console.log("Search submitted in HeroSection:", searchQuery);
+    setShowAISuggestions(false); // Hide suggestions on submit
+  };
+
+  const smoothScrollTo = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    } else {
+      // Fallback if element not immediately found (e.g. different page)
+      window.location.hash = id;
+    }
   };
 
   return (
@@ -151,21 +174,23 @@ const HeroSection = () => {
           </p>
 
           {/* AI-Powered Search Bar */}
-          <div className="max-w-2xl mx-auto mb-8 relative animate-scale-in delay-500">
+          <form onSubmit={handleSearchSubmit} className="max-w-2xl mx-auto mb-8 relative animate-scale-in delay-500">
             <div className="relative">
               <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-              <Sparkles className="absolute right-16 top-1/2 transform -translate-y-1/2 text-blue-500 w-5 h-5 animate-pulse" />
+              <Sparkles className="absolute right-20 sm:right-24 md:right-28 top-1/2 transform -translate-y-1/2 text-blue-500 w-5 h-5 animate-pulse" /> {/* Adjusted right padding for button */}
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onFocus={handleSearchFocus}
+                // onBlur={() => setTimeout(() => setShowAISuggestions(false), 100)} // Hide suggestions on blur with a delay
                 placeholder={currentText.searchPlaceholder}
-                className="w-full pl-12 pr-20 py-4 text-lg border-2 border-blue-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-lg transition-all hover:shadow-xl"
+                className="w-full pl-12 pr-24 sm:pr-28 md:pr-32 py-4 text-lg border-2 border-blue-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-lg transition-all hover:shadow-xl" // Increased pr for button
               />
               <Button
-                className="absolute right-2 top-2 bg-blue-600 hover:bg-blue-700 transition-all hover:scale-105"
-                size="sm"
+                type="submit"
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-600 hover:bg-blue-700 transition-all hover:scale-105 px-4 py-2 text-sm sm:text-base" // Adjusted padding and ensured it's vertically centered
+                size="lg" // Made button larger to fit text better
               >
                 {currentText.searchButton}
               </Button>
@@ -203,6 +228,7 @@ const HeroSection = () => {
             <Button
               size="lg"
               className="bg-blue-600 hover:bg-blue-700 text-lg px-8 py-3 transition-all hover:scale-105 shadow-lg"
+              onClick={() => smoothScrollTo("services")}
             >
               {currentText.exploreServices}
             </Button>
@@ -210,6 +236,7 @@ const HeroSection = () => {
               variant="outline"
               size="lg"
               className="text-lg px-8 py-3 border-2 border-blue-300 hover:bg-blue-50 transition-all hover:scale-105 shadow-lg"
+              onClick={() => smoothScrollTo("submit")}
             >
               {currentText.addService}
             </Button>

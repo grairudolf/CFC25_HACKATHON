@@ -4,8 +4,9 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext"; // Import useAuth
 import { Link, useNavigate } from "react-router-dom"; // Import Link and useNavigate
 
-const Navbar = () => {
+const Navbar = ({ onSearch }: { onSearch: (query: string) => void }) => { // Added onSearch prop
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState(""); // Added search query state
   // const [isLoggedIn, setIsLoggedIn] = useState(false); // Remove local state
   const [currentLanguage, setCurrentLanguage] = useState("en");
   const { currentUser, logout } = useAuth(); // Use auth context
@@ -51,6 +52,13 @@ const Navbar = () => {
   };
 
   const currentText = languages[currentLanguage as keyof typeof languages];
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSearch(searchQuery);
+    // For now, we're calling onSearch. Navigation or filtering logic will be handled by the parent.
+    console.log("Search submitted in Navbar:", searchQuery);
+  };
 
   const handleLogout = () => {
     logout();
@@ -101,14 +109,16 @@ const Navbar = () => {
 
           {/* Search, Language and Auth */}
           <div className="hidden md:flex items-center space-x-4">
-            <div className="relative">
+            <form onSubmit={handleSearchSubmit} className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
               <input
                 type="text"
                 placeholder={currentText.search}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-10 pr-4 py-2 border-2 border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
               />
-            </div>
+            </form>
 
             <div className="flex items-center bg-blue-50 rounded-lg p-1">
               <Globe className="w-4 h-4 text-blue-600 mx-1" />
