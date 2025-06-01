@@ -41,7 +41,7 @@ const HeroSection = () => {
       ],
     },
     fr: {
-      title: "Bienvenue sur Silicon",
+      title: "Bienvenue à Silicon",
       subtitle:
         "Connectez-vous aux meilleurs services numériques camerounais. De la nourriture aux emplois, en passant par la tech - tout ce dont vous avez besoin à portée de main.",
       searchPlaceholder:

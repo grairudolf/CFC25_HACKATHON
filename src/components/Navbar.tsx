@@ -1,11 +1,15 @@
 import React, { useState } from "react";
-import { Menu, X, Search, User, Globe } from "lucide-react";
+import { Menu, X, Search, User, Globe, LogOut } from "lucide-react"; // Added LogOut
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext"; // Import useAuth
+import { Link, useNavigate } from "react-router-dom"; // Import Link and useNavigate
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // const [isLoggedIn, setIsLoggedIn] = useState(false); // Remove local state
   const [currentLanguage, setCurrentLanguage] = useState("en");
+  const { currentUser, logout } = useAuth(); // Use auth context
+  const navigate = useNavigate();
 
   const languages = {
     en: {
@@ -18,6 +22,7 @@ const Navbar = () => {
       login: "Login",
       signup: "Sign Up",
       logout: "Logout",
+      loggedInAs: "Logged in as:",
     },
     fr: {
       home: "Accueil",
@@ -29,6 +34,7 @@ const Navbar = () => {
       login: "Connexion",
       signup: "Inscription",
       logout: "Déconnexion",
+      loggedInAs: "Connecté en tant que:",
     },
     pid: {
       home: "Home",
@@ -40,47 +46,53 @@ const Navbar = () => {
       login: "Login",
       signup: "Sign Up",
       logout: "Logout",
+      loggedInAs: "Logged in as:",
     },
   };
 
   const currentText = languages[currentLanguage as keyof typeof languages];
+
+  const handleLogout = () => {
+    logout();
+    navigate("/"); // Redirect to home page after logout
+  };
 
   return (
     <nav className="bg-white shadow-lg sticky top-0 z-50 border-b-2 border-blue-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <div className="flex-shrink-0 flex items-center animate-fade-in">
+            <Link to="/" className="flex-shrink-0 flex items-center animate-fade-in"> {/* Link logo to home */}
               <img
                 src="/logo_transparent.png"
                 alt="Logo"
                 className="ml-2 h-10 w-auto"
               />
-            </div>
+            </Link>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <a
-              href="#"
+            <Link // Changed from <a> to <Link>
+              to="/"
               className="text-gray-700 hover:text-blue-600 px-3 py-2 font-medium transition-all duration-300 hover:scale-105"
             >
               {currentText.home}
-            </a>
+            </Link>
             <a
-              href="#services"
+              href="/#services" // Assuming services is an ID on the homepage
               className="text-gray-700 hover:text-blue-600 px-3 py-2 font-medium transition-all duration-300 hover:scale-105"
             >
               {currentText.services}
             </a>
             <a
-              href="#skills"
+              href="/#skills" // Assuming skills is an ID on the homepage
               className="text-gray-700 hover:text-blue-600 px-3 py-2 font-medium transition-all duration-300 hover:scale-105"
             >
               {currentText.skills}
             </a>
             <a
-              href="#submit"
+              href="/#submit" // Assuming submit is an ID on the homepage
               className="text-gray-700 hover:text-blue-600 px-3 py-2 font-medium transition-all duration-300 hover:scale-105"
             >
               {currentText.submit}
@@ -98,7 +110,6 @@ const Navbar = () => {
               />
             </div>
 
-            {/* Language Selector */}
             <div className="flex items-center bg-blue-50 rounded-lg p-1">
               <Globe className="w-4 h-4 text-blue-600 mx-1" />
               {Object.keys(languages).map((lang) => (
@@ -116,22 +127,21 @@ const Navbar = () => {
               ))}
             </div>
 
-            {isLoggedIn ? (
+            {currentUser ? (
               <div className="flex items-center space-x-2">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="hover:bg-blue-50 transition-all hover:scale-105"
-                >
-                  <User className="w-4 h-4 mr-2" />
-                  {currentText.profile}
-                </Button>
+                {currentUser.picture && (
+                  <img src={currentUser.picture} alt="profile" className="w-8 h-8 rounded-full" />
+                )}
+                <span className="text-sm text-gray-700">
+                  {currentUser.name || currentUser.email}
+                </span>
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => setIsLoggedIn(false)}
+                  onClick={handleLogout}
                   className="border-blue-200 hover:bg-blue-50 transition-all hover:scale-105"
                 >
+                  <LogOut className="w-4 h-4 mr-2" /> {/* Added icon */}
                   {currentText.logout}
                 </Button>
               </div>
@@ -140,7 +150,7 @@ const Navbar = () => {
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={() => setIsLoggedIn(true)}
+                  onClick={() => navigate("/login")} // Navigate to /login
                   className="hover:bg-blue-50 transition-all hover:scale-105"
                 >
                   {currentText.login}
@@ -148,7 +158,7 @@ const Navbar = () => {
                 <Button
                   size="sm"
                   className="bg-blue-600 hover:bg-blue-700 transition-all hover:scale-105 shadow-lg"
-                  onClick={() => setIsLoggedIn(true)}
+                  onClick={() => navigate("/signup")} // Navigate to /signup
                 >
                   {currentText.signup}
                 </Button>
@@ -175,32 +185,35 @@ const Navbar = () => {
         {isMenuOpen && (
           <div className="md:hidden animate-fade-in">
             <div className="px-2 pt-2 pb-3 space-y-1 bg-white border-t border-blue-100">
-              <a
-                href="#"
+              <Link // Changed from <a> to <Link>
+                to="/"
                 className="block px-3 py-2 text-gray-700 hover:text-blue-600 font-medium transition-colors"
+                onClick={() => setIsMenuOpen(false)}
               >
                 {currentText.home}
-              </a>
+              </Link>
               <a
-                href="#services"
+                href="/#services"
                 className="block px-3 py-2 text-gray-700 hover:text-blue-600 font-medium transition-colors"
+                onClick={() => setIsMenuOpen(false)}
               >
                 {currentText.services}
               </a>
               <a
-                href="#skills"
+                href="/#skills"
                 className="block px-3 py-2 text-gray-700 hover:text-blue-600 font-medium transition-colors"
+                onClick={() => setIsMenuOpen(false)}
               >
                 {currentText.skills}
               </a>
               <a
-                href="#submit"
+                href="/#submit"
                 className="block px-3 py-2 text-gray-700 hover:text-blue-600 font-medium transition-colors"
+                onClick={() => setIsMenuOpen(false)}
               >
                 {currentText.submit}
               </a>
 
-              {/* Mobile Language Selector */}
               <div className="flex items-center px-3 py-2 space-x-2">
                 <Globe className="w-4 h-4 text-blue-600" />
                 <span className="text-sm font-medium text-gray-700">
@@ -209,7 +222,7 @@ const Navbar = () => {
                 {Object.keys(languages).map((lang) => (
                   <button
                     key={lang}
-                    onClick={() => setCurrentLanguage(lang)}
+                    onClick={() => {setCurrentLanguage(lang); /* setIsMenuOpen(false); */}} // Keep menu open on lang change for mobile
                     className={`px-2 py-1 rounded text-xs font-medium transition-all ${
                       currentLanguage === lang
                         ? "bg-blue-600 text-white"
@@ -221,34 +234,45 @@ const Navbar = () => {
                 ))}
               </div>
 
-              <div className="pt-4 pb-2 space-y-2">
-                {!isLoggedIn ? (
+              <div className="pt-4 pb-2 space-y-2 border-t mt-2">
+                {currentUser ? (
+                  <>
+                    <div className="flex items-center space-x-2 px-3 py-2">
+                      {currentUser.picture && (
+                        <img src={currentUser.picture} alt="profile" className="w-8 h-8 rounded-full" />
+                      )}
+                      <span className="text-sm font-medium text-gray-700">
+                        {currentUser.name || currentUser.email}
+                      </span>
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="w-full border-blue-200 hover:bg-blue-50"
+                      onClick={() => { handleLogout(); setIsMenuOpen(false); }}
+                    >
+                      <LogOut className="w-4 h-4 mr-2" />
+                      {currentText.logout}
+                    </Button>
+                  </>
+                ) : (
                   <>
                     <Button
                       variant="ghost"
                       size="sm"
                       className="w-full hover:bg-blue-50"
-                      onClick={() => setIsLoggedIn(true)}
+                      onClick={() => { navigate("/login"); setIsMenuOpen(false); }}
                     >
                       {currentText.login}
                     </Button>
                     <Button
                       size="sm"
                       className="w-full bg-blue-600 hover:bg-blue-700"
-                      onClick={() => setIsLoggedIn(true)}
+                      onClick={() => { navigate("/signup"); setIsMenuOpen(false); }}
                     >
                       {currentText.signup}
                     </Button>
                   </>
-                ) : (
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="w-full border-blue-200 hover:bg-blue-50"
-                    onClick={() => setIsLoggedIn(false)}
-                  >
-                    {currentText.logout}
-                  </Button>
                 )}
               </div>
             </div>
