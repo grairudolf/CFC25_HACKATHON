@@ -16,7 +16,7 @@ const HeroSection = ({ onSearch }: { onSearch: (query: string) => void }) => { /
 
   const languages = {
     en: {
-      title: "Welcome to Silicon",
+      title: "Welcome to SiliconHub",
       subtitle:
         "One hub for all things Cameroonian! Find food, jobs, tech & training from top local providers—support your community while simplifying your life. Discover, connect, thrive! 🚀 #ProudlyCameroonian",
       searchPlaceholder:
@@ -41,7 +41,7 @@ const HeroSection = ({ onSearch }: { onSearch: (query: string) => void }) => { /
       ],
     },
     fr: {
-      title: "Bienvenue à Silicon",
+      title: "Bienvenue à SiliconHub",
       subtitle:
         "Un seul hub pour tout le Cameroun ! Trouvez nourriture, emplois, tech et formations auprès des meilleurs prestataires locaux - soutenez votre communauté tout en simplifiant votre vie. Découvrez, connectez-vous, prospérez ! 🚀 #FièrementCamerounais",
       searchPlaceholder:
