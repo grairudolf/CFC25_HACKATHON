@@ -18,7 +18,7 @@ const HeroSection = ({ onSearch }: { onSearch: (query: string) => void }) => { /
     en: {
       title: "Welcome to Silicon",
       subtitle:
-        "Connect with the best Cameroonian digital services. From food to jobs, tech to training - everything you need at your fingertips. Discover local solutions, support your community, and simplify your digital life.",
+        "One hub for all things Cameroonian! Find food, jobs, tech & training from top local providers—support your community while simplifying your life. Discover, connect, thrive! 🚀 #ProudlyCameroonian",
       searchPlaceholder:
         "What are you looking for today? 'food', 'jobs', 'tech'...",
       searchButton: "Search",
@@ -43,7 +43,7 @@ const HeroSection = ({ onSearch }: { onSearch: (query: string) => void }) => { /
     fr: {
       title: "Bienvenue à Silicon",
       subtitle:
-        "Connectez-vous aux meilleurs services numériques camerounais. De la nourriture aux emplois, en passant par la tech - tout ce dont vous avez besoin à portée de main. Découvrez des solutions locales, soutenez votre communauté et simplifiez votre vie numérique.",
+        "Un seul hub pour tout le Cameroun ! Trouvez nourriture, emplois, tech et formations auprès des meilleurs prestataires locaux - soutenez votre communauté tout en simplifiant votre vie. Découvrez, connectez-vous, prospérez ! 🚀 #FièrementCamerounais",
       searchPlaceholder:
         "Que cherchez-vous aujourd'hui? 'nourriture', 'emplois', 'tech'...",
       searchButton: "Chercher",
@@ -66,13 +66,13 @@ const HeroSection = ({ onSearch }: { onSearch: (query: string) => void }) => { /
       ],
     },
     pid: {
-      title: "Welcome for Silicon",
+      title: "We di glad for see you for Silicon",
       subtitle:
-        "Connect with the best Cameroon digital services dem. From chop to work, tech to training - everything wey you need dey here. Discover local solutions, support your community, and make your digital life simple.",
+        "Join hand wit di best digital service dem for Cameroon. From chop, work, computer dem, to learn handiwork – all thing dey na for your corner. Make you support your own, sabi wetin dey, and enjoy better digital life wey e no get wahala.",
       searchPlaceholder: "Wetin you dey find today? 'chop', 'work', 'tech'...",
       searchButton: "Search",
-      exploreServices: "Check Services",
-      addService: "Add My Service",
+      exploreServices: "Check our Services dem",
+      addService: "You wan add you own handwork",
       services: "500+ Services",
       servicesDesc: "Cameroon Services",
       users: "1000+ Users",

@@ -53,8 +53,7 @@ const Footer = () => {
               />
             </div>
             <p className="text-white-100 mb-6 leading-relaxed">
-              Connecting Cameroonians to the best local digital services. From
-              food delivery to tech solutions - empowering our digital economy.
+              Silicon Mountain: Where Cameroon’s tech future grows. Connect. Build. Rise together. 🚀
             </p>
             <div className="flex space-x-4">
               <a
