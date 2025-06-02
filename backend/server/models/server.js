@@ -18,6 +18,7 @@ import bodyParser from "body-parser";
 import USERS_ROUTE from "../routes/user.routes.js";
 import nkwaRouter  from "../routes/nkwa.routes.js";
 import SERVICE_ROUTES from "../routes/services.routes.js";
+import FEEDBACK_ROUTES from "../routes/feedback.routes.js";
 
 // Definition of the server class :
 
@@ -29,7 +30,7 @@ class Server {
         this.DB_URI = databaseURI;
 
         this.Application = express();
-        this.MiddleWares = [ USERS_ROUTE, SERVICE_ROUTES, nkwaRouter ];
+        this.MiddleWares = [ USERS_ROUTE, SERVICE_ROUTES, nkwaRouter, FEEDBACK_ROUTES ];
     }
 
     start () {
