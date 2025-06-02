@@ -18,7 +18,7 @@ const HeroSection = ({ onSearch }: { onSearch: (query: string) => void }) => { /
     en: {
       title: "Welcome to Silicon",
       subtitle:
-        "Connect with the best Cameroonian digital services. From food to jobs, tech to training - everything you need at your fingertips.",
+        "Connect with the best Cameroonian digital services. From food to jobs, tech to training - everything you need at your fingertips. Discover local solutions, support your community, and simplify your digital life.",
       searchPlaceholder:
         "What are you looking for today? 'food', 'jobs', 'tech'...",
       searchButton: "Search",
@@ -43,7 +43,7 @@ const HeroSection = ({ onSearch }: { onSearch: (query: string) => void }) => { /
     fr: {
       title: "Bienvenue à Silicon",
       subtitle:
-        "Connectez-vous aux meilleurs services numériques camerounais. De la nourriture aux emplois, en passant par la tech - tout ce dont vous avez besoin à portée de main.",
+        "Connectez-vous aux meilleurs services numériques camerounais. De la nourriture aux emplois, en passant par la tech - tout ce dont vous avez besoin à portée de main. Découvrez des solutions locales, soutenez votre communauté et simplifiez votre vie numérique.",
       searchPlaceholder:
         "Que cherchez-vous aujourd'hui? 'nourriture', 'emplois', 'tech'...",
       searchButton: "Chercher",
@@ -68,7 +68,7 @@ const HeroSection = ({ onSearch }: { onSearch: (query: string) => void }) => { /
     pid: {
       title: "Welcome for Silicon",
       subtitle:
-        "Connect with the best Cameroon digital services dem. From chop to work, tech to training - everything wey you need dey here.",
+        "Connect with the best Cameroon digital services dem. From chop to work, tech to training - everything wey you need dey here. Discover local solutions, support your community, and make your digital life simple.",
       searchPlaceholder: "Wetin you dey find today? 'chop', 'work', 'tech'...",
       searchButton: "Search",
       exploreServices: "Check Services",
