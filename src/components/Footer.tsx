@@ -11,7 +11,7 @@ import {
   Heart,
 } from "lucide-react";
 // import FeedbackForm from './FeedbackForm'; // Removed
-import { Link } from 'react-router-dom'; // Added
+import { Link } from "react-router-dom"; // Added
 
 const Footer = () => {
   return (
@@ -55,7 +55,8 @@ const Footer = () => {
               />
             </div>
             <p className="text-secondary-foreground mb-6 leading-relaxed">
-              Silicon Mountain: Where Cameroon’s tech future grows. Connect. Build. Rise together. 🚀
+              Silicon Mountain: Where Cameroon’s tech future grows. Connect.
+              Build. Rise together. 🚀
             </p>
             <div className="flex space-x-4">
               <a
@@ -150,7 +151,9 @@ const Footer = () => {
 
           {/* Learning */}
           <div className="animate-fade-in delay-200">
-            <h3 className="text-secondary-foreground font-semibold mb-6 text-lg">Resources</h3>
+            <h3 className="text-secondary-foreground font-semibold mb-6 text-lg">
+              Resources
+            </h3>
             <ul className="space-y-3">
               <li>
                 <a
@@ -230,7 +233,9 @@ const Footer = () => {
             </div>
 
             <div className="mt-8">
-              <h4 className="text-secondary-foreground font-medium mb-3">Stay Updated</h4>
+              <h4 className="text-secondary-foreground font-medium mb-3">
+                Stay Updated
+              </h4>
               <div className="flex">
                 <input
                   type="email"
@@ -246,7 +251,9 @@ const Footer = () => {
         </div>
 
         {/* Add Feedback Button/Link here */}
-        <div className="mt-12 text-center"> {/* Added text-center for button alignment */}
+        <div className="mt-12 text-center">
+          {" "}
+          {/* Added text-center for button alignment */}
           <Link to="/feedback">
             <button className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105">
               Give Feedback

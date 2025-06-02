@@ -1,20 +1,25 @@
-
-import React, { useState } from 'react';
-import { Upload, X, Check, Loader2 } from 'lucide-react'; // Added Loader2
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import React, { useState } from "react";
+import { Upload, X, Check, Loader2 } from "lucide-react"; // Added Loader2
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const ServiceSubmissionForm = () => {
   const [formData, setFormData] = useState({
-    name: '', // Renamed from serviceName
-    category: '',
-    website: '',
+    name: "", // Renamed from serviceName
+    category: "",
+    website: "",
     // contactInfo and tags removed
   });
-  const [description_en, setDescription_en] = useState('');
-  const [description_fr, setDescription_fr] = useState('');
-  const [description_pid, setDescription_pid] = useState('');
+  const [description_en, setDescription_en] = useState("");
+  const [description_fr, setDescription_fr] = useState("");
+  const [description_pid, setDescription_pid] = useState("");
 
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null); // Type string for preview
@@ -26,20 +31,20 @@ const ServiceSubmissionForm = () => {
   // const [currentTag, setCurrentTag] = useState(''); // Tags removed
 
   const categories = [
-    'Technology',
-    'Education',
-    'Health',
-    'Finance',
-    'Agriculture',
-    'Marketing',
-    'Design',
-    'Business Services',
-    'Creative Arts',
-    'Consulting'
+    "Technology",
+    "Education",
+    "Health",
+    "Finance",
+    "Agriculture",
+    "Marketing",
+    "Design",
+    "Business Services",
+    "Creative Arts",
+    "Consulting",
   ];
 
   const handleInputChange = (field: keyof typeof formData, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,7 +52,8 @@ const ServiceSubmissionForm = () => {
     if (file) {
       setImageFile(file); // Set the file object
       const reader = new FileReader();
-      reader.onloadend = () => { // Use onloadend to ensure result is available
+      reader.onloadend = () => {
+        // Use onloadend to ensure result is available
         setImagePreview(reader.result as string);
       };
       reader.readAsDataURL(file);
@@ -61,9 +67,11 @@ const ServiceSubmissionForm = () => {
     setImageFile(null);
     setImagePreview(null);
     // Also clear the file input if possible, or instruct user to re-select
-    const fileInput = document.getElementById('imageUploadInput') as HTMLInputElement;
+    const fileInput = document.getElementById(
+      "imageUploadInput"
+    ) as HTMLInputElement;
     if (fileInput) {
-        fileInput.value = ""; // This might not work in all browsers for security reasons
+      fileInput.value = ""; // This might not work in all browsers for security reasons
     }
   };
 
@@ -71,20 +79,22 @@ const ServiceSubmissionForm = () => {
 
   const resetForm = () => {
     setFormData({
-      name: '',
-      category: '',
-      website: '',
+      name: "",
+      category: "",
+      website: "",
     });
-    setDescription_en('');
-    setDescription_fr('');
-    setDescription_pid('');
+    setDescription_en("");
+    setDescription_fr("");
+    setDescription_pid("");
     setImageFile(null);
     setImagePreview(null);
     setApiError(null);
     // Optionally reset file input
-    const fileInput = document.getElementById('imageUploadInput') as HTMLInputElement;
+    const fileInput = document.getElementById(
+      "imageUploadInput"
+    ) as HTMLInputElement;
     if (fileInput) {
-        fileInput.value = "";
+      fileInput.value = "";
     }
   };
 
@@ -94,25 +104,31 @@ const ServiceSubmissionForm = () => {
     setApiError(null);
 
     const submissionData = new FormData();
-    submissionData.append('name', formData.name);
-    submissionData.append('category', formData.category);
-    submissionData.append('website', formData.website || ''); // Ensure website is not undefined
-    submissionData.append('description', JSON.stringify({
-      "en": description_en,
-      "fr": description_fr,
-      "pid": description_pid
-    }));
+    submissionData.append("name", formData.name);
+    submissionData.append("category", formData.category);
+    submissionData.append("website", formData.website || ""); // Ensure website is not undefined
+    submissionData.append(
+      "description",
+      JSON.stringify({
+        en: description_en,
+        fr: description_fr,
+        pid: description_pid,
+      })
+    );
 
     if (imageFile) {
-      submissionData.append('image', imageFile);
+      submissionData.append("image", imageFile);
     }
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/services`, {
-        method: 'POST',
-        body: submissionData,
-        // Do not set 'Content-Type' header for FormData, browser does it
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_BASE_URL}/api/services`,
+        {
+          method: "POST",
+          body: submissionData,
+          // Do not set 'Content-Type' header for FormData, browser does it
+        }
+      );
 
       if (response.ok) {
         // const result = await response.json(); // Assuming backend sends JSON response
@@ -120,13 +136,20 @@ const ServiceSubmissionForm = () => {
         setIsSubmitted(true);
         resetForm();
       } else {
-        const errorData = await response.json().catch(() => ({ message: 'Failed to submit. Please try again.' }));
-        setApiError(errorData?.message || `Error: ${response.status} ${response.statusText}`);
-        console.error('Submission failed:', errorData);
+        const errorData = await response
+          .json()
+          .catch(() => ({ message: "Failed to submit. Please try again." }));
+        setApiError(
+          errorData?.message ||
+            `Error: ${response.status} ${response.statusText}`
+        );
+        console.error("Submission failed:", errorData);
       }
     } catch (error) {
-      console.error('Network or other error:', error);
-      setApiError(error instanceof Error ? error.message : 'An unexpected error occurred.');
+      console.error("Network or other error:", error);
+      setApiError(
+        error instanceof Error ? error.message : "An unexpected error occurred."
+      );
     } finally {
       setLoading(false);
     }
@@ -147,8 +170,8 @@ const ServiceSubmissionForm = () => {
               Service Submitted Successfully! 🎉
             </h2>
             <p className="text-green-700 mb-6">
-              Thank you for contributing to Silicon Hub! Your service is now under review
-              and will be published once approved by our team.
+              Thank you for contributing to Silicon Hub! Your service is now
+              under review and will be published once approved by our team.
             </p>
             <Button
               onClick={() => {
@@ -173,22 +196,28 @@ const ServiceSubmissionForm = () => {
             Share Your Service with Africa
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Join our community of innovative service creators. Submit your digital service
-            and help other businesses and individuals across Africa succeed.
+            Join our community of innovative service creators. Submit your
+            digital service and help other businesses and individuals across
+            Africa succeed.
           </p>
         </div>
 
         <Card className="bg-white shadow-xl">
           <CardHeader className="bg-gradient-to-r from-blue-600 to-green-500 text-white rounded-t-lg">
             <CardTitle className="text-2xl">Service Submission Form</CardTitle>
-            <p className="text-blue-100">Fill out the details below to list your service</p>
+            <p className="text-blue-100">
+              Fill out the details below to list your service
+            </p>
           </CardHeader>
 
           <CardContent className="p-8">
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Service Name -> Name */}
               <div>
-                <label htmlFor="serviceName" className="block text-sm font-medium text-gray-700 mb-2">
+                <label
+                  htmlFor="serviceName"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
                   Service Name *
                 </label>
                 <input
@@ -196,7 +225,7 @@ const ServiceSubmissionForm = () => {
                   type="text"
                   required
                   value={formData.name}
-                  onChange={(e) => handleInputChange('name', e.target.value)}
+                  onChange={(e) => handleInputChange("name", e.target.value)}
                   placeholder="e.g., Professional Website Development"
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
@@ -204,10 +233,18 @@ const ServiceSubmissionForm = () => {
 
               {/* Category */}
               <div>
-                <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-2">
+                <label
+                  htmlFor="category"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
                   Category *
                 </label>
-                <Select value={formData.category} onValueChange={(value) => handleInputChange('category', value)}>
+                <Select
+                  value={formData.category}
+                  onValueChange={(value) =>
+                    handleInputChange("category", value)
+                  }
+                >
                   <SelectTrigger id="category" className="w-full">
                     <SelectValue placeholder="Select a category" />
                   </SelectTrigger>
@@ -223,7 +260,10 @@ const ServiceSubmissionForm = () => {
 
               {/* Image Upload */}
               <div>
-                <label htmlFor="imageUploadInput" className="block text-sm font-medium text-gray-700 mb-2">
+                <label
+                  htmlFor="imageUploadInput"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
                   Service Logo/Image (Optional)
                 </label>
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-400 transition-colors">
@@ -246,7 +286,10 @@ const ServiceSubmissionForm = () => {
                     <div>
                       <Upload className="mx-auto h-12 w-12 text-gray-400" />
                       <div className="mt-4">
-                        <label htmlFor="imageUploadInput" className="cursor-pointer">
+                        <label
+                          htmlFor="imageUploadInput"
+                          className="cursor-pointer"
+                        >
                           <span className="text-blue-600 hover:text-blue-500 font-medium">
                             Upload an image
                           </span>
@@ -269,7 +312,10 @@ const ServiceSubmissionForm = () => {
 
               {/* Descriptions */}
               <div>
-                <label htmlFor="description_en" className="block text-sm font-medium text-gray-700 mb-2">
+                <label
+                  htmlFor="description_en"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
                   Description (English) *
                 </label>
                 <textarea
@@ -283,7 +329,10 @@ const ServiceSubmissionForm = () => {
                 />
               </div>
               <div>
-                <label htmlFor="description_fr" className="block text-sm font-medium text-gray-700 mb-2">
+                <label
+                  htmlFor="description_fr"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
                   Description (French) *
                 </label>
                 <textarea
@@ -297,7 +346,10 @@ const ServiceSubmissionForm = () => {
                 />
               </div>
               <div>
-                <label htmlFor="description_pid" className="block text-sm font-medium text-gray-700 mb-2">
+                <label
+                  htmlFor="description_pid"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
                   Description (Pidgin) *
                 </label>
                 <textarea
@@ -313,14 +365,17 @@ const ServiceSubmissionForm = () => {
 
               {/* Website (Optional) */}
               <div>
-                <label htmlFor="website" className="block text-sm font-medium text-gray-700 mb-2">
+                <label
+                  htmlFor="website"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
                   Website (Optional)
                 </label>
                 <input
                   id="website"
                   type="url"
                   value={formData.website}
-                  onChange={(e) => handleInputChange('website', e.target.value)}
+                  onChange={(e) => handleInputChange("website", e.target.value)}
                   placeholder="https://yourwebsite.com"
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
@@ -335,9 +390,13 @@ const ServiceSubmissionForm = () => {
 
               {/* Terms */}
               <div className="bg-gray-50 p-4 rounded-lg">
-                <h4 className="font-medium text-gray-900 mb-2">Submission Guidelines</h4>
+                <h4 className="font-medium text-gray-900 mb-2">
+                  Submission Guidelines
+                </h4>
                 <ul className="text-sm text-gray-600 space-y-1">
-                  <li>• Your service will be reviewed before being published.</li>
+                  <li>
+                    • Your service will be reviewed before being published.
+                  </li>
                   <li>• Ensure all information is accurate and up-to-date.</li>
                   <li>• Services must be legitimate and provide real value.</li>
                   <li>• You'll be notified once your service is approved.</li>
@@ -358,7 +417,7 @@ const ServiceSubmissionForm = () => {
                       Submitting...
                     </>
                   ) : (
-                    'Submit Service for Review'
+                    "Submit Service for Review"
                   )}
                 </Button>
               </div>

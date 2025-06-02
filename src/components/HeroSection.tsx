@@ -9,7 +9,8 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const HeroSection = ({ onSearch }: { onSearch: (query: string) => void }) => { // Added onSearch prop
+const HeroSection = ({ onSearch }: { onSearch: (query: string) => void }) => {
+  // Added onSearch prop
   const [searchQuery, setSearchQuery] = useState("");
   const [showAISuggestions, setShowAISuggestions] = useState(false);
   const [currentLanguage, setCurrentLanguage] = useState("en");
@@ -161,7 +162,7 @@ const HeroSection = ({ onSearch }: { onSearch: (query: string) => void }) => { /
               <span
                 key={index}
                 className={`inline-block mr-2 ${
-                  word === "Silicon" ? "text-blue-600" : ""
+                  word === "SiliconHub" ? "text-blue-600" : ""
                 } animate-slide-up`}
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
@@ -174,16 +175,22 @@ const HeroSection = ({ onSearch }: { onSearch: (query: string) => void }) => { /
           </p>
 
           {/* AI-Powered Search Bar */}
-          <form onSubmit={handleSearchSubmit} className="max-w-2xl mx-auto mb-8 relative animate-scale-in delay-500">
+          <form
+            onSubmit={handleSearchSubmit}
+            className="max-w-2xl mx-auto mb-8 relative animate-scale-in delay-500"
+          >
             <div className="relative">
               <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-              <Sparkles className="absolute right-20 sm:right-24 md:right-28 top-1/2 transform -translate-y-1/2 text-blue-500 w-5 h-5 animate-pulse" /> {/* Adjusted right padding for button */}
+              <Sparkles className="absolute right-20 sm:right-24 md:right-28 top-1/2 transform -translate-y-1/2 text-blue-500 w-5 h-5 animate-pulse" />{" "}
+              {/* Adjusted right padding for button */}
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onFocus={handleSearchFocus}
-                onBlur={() => setTimeout(() => setShowAISuggestions(false), 100)} // Hide suggestions on blur with a delay
+                onBlur={() =>
+                  setTimeout(() => setShowAISuggestions(false), 100)
+                } // Hide suggestions on blur with a delay
                 placeholder={currentText.searchPlaceholder}
                 className="w-full pl-12 pr-24 sm:pr-28 md:pr-32 py-4 text-lg border-2 border-blue-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-lg transition-all hover:shadow-xl" // Increased pr for button
               />

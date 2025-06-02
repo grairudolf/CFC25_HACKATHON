@@ -20,19 +20,26 @@ const languageResources = {
     ],
     responses: {
       food: "Perfect! FastChops is the best delivery service in Cameroon. They deliver throughout Douala and Yaoundé. You can order ndolé, roasted chicken, or even continental dishes. Would you like me to show you other options?",
-      ecommerce: "For online shopping in Cameroon, check out Jumia (general goods), Kikuu (fashion & electronics), or local Facebook groups for specific items. Many entrepreneurs also sell directly via WhatsApp!",
-      techCommunity: "Cameroon has a vibrant tech scene! Look into Google Developer Groups (GDG), forLoop Africa, Silicon Mountain conferences, and local university tech clubs for meetups and events. Hustlers Engineering is also a great online community.",
+      ecommerce:
+        "For online shopping in Cameroon, check out Jumia (general goods), Kikuu (fashion & electronics), or local Facebook groups for specific items. Many entrepreneurs also sell directly via WhatsApp!",
+      techCommunity:
+        "Cameroon has a vibrant tech scene! Look into Google Developer Groups (GDG), forLoop Africa, Silicon Mountain conferences, and local university tech clubs for meetups and events. Hustlers Engineering is also a great online community.",
       job: "237Jobs is THE platform to find a job in Cameroon! They have over 5000 offers in all sectors. I also recommend joining the Hustlers Engineering community for networking. What field are you looking in?",
       dev: "Excellent idea! lambda Solutions and TIC Cameroun specialize in app and website development. To learn yourself, DeltechHub offers comprehensive training. Do you want to develop or learn?",
       learn:
         "Knowledge Center has an excellent Cameroonian digital library. DeltechHub offers practical tech training. For international online courses adapted to the local context, I can guide you. What field interests you?",
       payment:
         "Nkwa.cm is perfect for payments! Would you like to try initiating a payment?",
-      promptForPhoneNumber: "Okay, I can help with that. Please provide your phone number.",
-      paymentInitiationNoted: "Got it. I'll use the next message as your phone number for the payment.",
-      paymentApiSuccess: "Your payment request has been initiated successfully.",
-      paymentApiFail: "Sorry, I couldn't initiate the payment. Please try again later.",
-      invalidPhoneNumber: "The phone number provided seems invalid. Please provide a valid number.",
+      promptForPhoneNumber:
+        "Okay, I can help with that. Please provide your phone number.",
+      paymentInitiationNoted:
+        "Got it. I'll use the next message as your phone number for the payment.",
+      paymentApiSuccess:
+        "Your payment request has been initiated successfully.",
+      paymentApiFail:
+        "Sorry, I couldn't initiate the payment. Please try again later.",
+      invalidPhoneNumber:
+        "The phone number provided seems invalid. Please provide a valid number.",
       default:
         "I'm here to help you navigate the Cameroonian digital ecosystem! You can ask me about delivery services, job opportunities, tech training, or even advice on local entrepreneurship. What do you want to explore? 🚀",
     },
@@ -62,19 +69,25 @@ const languageResources = {
     ],
     responses: {
       food: "Perfect! FastChops est le meilleur service de livraison au Cameroun. Ils livrent partout à Douala et Yaoundé. Vous pouvez commander du ndolé, du poulet braisé, ou même des plats continentaux. Voulez-vous que je vous montre d'autres options?",
-      ecommerce: "Pour les achats en ligne au Cameroun, explorez Jumia (articles variés), Kikuu (mode & électronique), ou les groupes Facebook locaux pour des articles spécifiques. Beaucoup d'entrepreneurs vendent aussi directement via WhatsApp !",
-      techCommunity: "Le Cameroun a une scène tech dynamique ! Renseignez-vous sur les Google Developer Groups (GDG), forLoop Africa, les conférences Silicon Mountain, et les clubs tech des universités locales pour des meetups et événements. Hustlers Engineering est aussi une excellente communauté en ligne.",
+      ecommerce:
+        "Pour les achats en ligne au Cameroun, explorez Jumia (articles variés), Kikuu (mode & électronique), ou les groupes Facebook locaux pour des articles spécifiques. Beaucoup d'entrepreneurs vendent aussi directement via WhatsApp !",
+      techCommunity:
+        "Le Cameroun a une scène tech dynamique ! Renseignez-vous sur les Google Developer Groups (GDG), forLoop Africa, les conférences Silicon Mountain, et les clubs tech des universités locales pour des meetups et événements. Hustlers Engineering est aussi une excellente communauté en ligne.",
       job: "237Jobs est LA plateforme pour trouver un emploi au Cameroun! Ils ont plus de 5000 offres dans tous les secteurs. Je recommande aussi de rejoindre la communauté Hustlers Engineering pour le networking. Dans quel domaine cherchez-vous?",
       dev: "Excellente idée! lambda Solutions et TIC Cameroun sont spécialisés dans le développement d'apps et sites web. Pour apprendre vous-même, DeltechHub offre des formations complètes. Voulez-vous développer ou apprendre?",
       learn:
         "Knowledge Center a une excellente bibliothèque numérique camerounaise. DeltechHub offre des formations tech pratiques. Pour les cours en ligne internationaux mais adaptés au contexte local, je peux vous guider. Quel domaine vous intéresse?",
       payment:
         "Nkwa.cm est parfait pour les paiements! Voulez-vous essayer d'initier un paiement?",
-      promptForPhoneNumber: "D'accord, je peux vous aider avec ça. Veuillez fournir votre numéro de téléphone.",
-      paymentInitiationNoted: "Compris. J'utiliserai le prochain message comme numéro de téléphone pour le paiement.",
+      promptForPhoneNumber:
+        "D'accord, je peux vous aider avec ça. Veuillez fournir votre numéro de téléphone.",
+      paymentInitiationNoted:
+        "Compris. J'utiliserai le prochain message comme numéro de téléphone pour le paiement.",
       paymentApiSuccess: "Votre demande de paiement a été initiée avec succès.",
-      paymentApiFail: "Désolé, je n'ai pas pu initier le paiement. Veuillez réessayer plus tard.",
-      invalidPhoneNumber: "Le numéro de téléphone fourni semble invalide. Veuillez fournir un numéro valide.",
+      paymentApiFail:
+        "Désolé, je n'ai pas pu initier le paiement. Veuillez réessayer plus tard.",
+      invalidPhoneNumber:
+        "Le numéro de téléphone fourni semble invalide. Veuillez fournir un numéro valide.",
       default:
         "Je suis là pour vous aider à naviguer dans l'écosystème numérique camerounais! Vous pouvez me demander des services de livraison, des opportunités d'emploi, des formations tech, ou même des conseils sur l'entrepreneuriat local. Que souhaitez-vous explorer? 🚀",
     },
@@ -104,19 +117,24 @@ const languageResources = {
     ],
     responses: {
       food: "Correct! FastChops na correct delivery service for Cameroon. Dem dey deliver for Douala and Yaoundé. You fit order ndolé, roast chicken, or even oyibo food. You want make I show you other places?",
-      ecommerce: "For online market for Cameroon, check Jumia (all kind ting), Kikuu (fashion & electronics), or local Facebook groups for specific items. Plenty people too di sell direct for WhatsApp!",
-      techCommunity: "Cameroon get correct tech people! Check Google Developer Groups (GDG), forLoop Africa, Silicon Mountain conferences, and local university tech clubs for meetups and events. Hustlers Engineering too na better online group.",
+      ecommerce:
+        "For online market for Cameroon, check Jumia (all kind ting), Kikuu (fashion & electronics), or local Facebook groups for specific items. Plenty people too di sell direct for WhatsApp!",
+      techCommunity:
+        "Cameroon get correct tech people! Check Google Developer Groups (GDG), forLoop Africa, Silicon Mountain conferences, and local university tech clubs for meetups and events. Hustlers Engineering too na better online group.",
       job: "237Jobs na THE place for find work for Cameroon! Dem get pass 5000 jobs for all kind work. I go tell you say make you join Hustlers Engineering community for networking. Which kind work you dey find?",
       dev: "Good idea! lambda Solutions and TIC Cameroun dem sabi for make app and website. For learnam yourself, DeltechHub get correct training. You want make app or you want learn?",
       learn:
         "Knowledge Center get correct Cameroon digital library. DeltechHub get practical tech training. For online courses from oyibo people wey dem arrange for local style, I fit guide you. Which side you want learn?",
-      payment:
-        "Nkwa.cm na fine for payment! You wan try initiate payment?",
-      promptForPhoneNumber: "Okay, I fit help you with dat. Abeg, give me your phone number.",
-      paymentInitiationNoted: "I don hear you. I go use the next message as your phone number for the payment.",
+      payment: "Nkwa.cm na fine for payment! You wan try initiate payment?",
+      promptForPhoneNumber:
+        "Okay, I fit help you with dat. Abeg, give me your phone number.",
+      paymentInitiationNoted:
+        "I don hear you. I go use the next message as your phone number for the payment.",
       paymentApiSuccess: "Your payment request don start successfully.",
-      paymentApiFail: "Sorry, I no fit start the payment. Abeg try again later.",
-      invalidPhoneNumber: "The phone number wey you give no be correct one. Abeg give correct number.",
+      paymentApiFail:
+        "Sorry, I no fit start the payment. Abeg try again later.",
+      invalidPhoneNumber:
+        "The phone number wey you give no be correct one. Abeg give correct number.",
       default:
         "I dey here for helep you waka inside Cameroon digital world! You fit ask me for delivery services, work opportunities, tech training, or even advice for local business. Wetin you want check? 🚀",
     },
@@ -151,7 +169,8 @@ const AIAssistant = () => {
   ]);
   const [inputMessage, setInputMessage] = useState<string>("");
   const [isTyping, setIsTyping] = useState(false);
-  const [isAwaitingPhoneNumberForPayment, setIsAwaitingPhoneNumberForPayment] = useState(false);
+  const [isAwaitingPhoneNumberForPayment, setIsAwaitingPhoneNumberForPayment] =
+    useState(false);
 
   useEffect(() => {
     setMessages([
@@ -183,7 +202,8 @@ const AIAssistant = () => {
         if (!phoneRegex.test(phoneNumber)) {
           const botResponse = {
             type: "bot" as const,
-            content: languageResources[currentLanguage].responses.invalidPhoneNumber,
+            content:
+              languageResources[currentLanguage].responses.invalidPhoneNumber,
             timestamp: new Date(),
           };
           setMessages((prev) => [...prev, botResponse]);
@@ -195,7 +215,8 @@ const AIAssistant = () => {
         // Confirmation message before API call
         const confirmationMessage = {
           type: "bot" as const,
-          content: languageResources[currentLanguage].responses.paymentInitiationNoted, // Using this as a placeholder for "Okay, I have your number..."
+          content:
+            languageResources[currentLanguage].responses.paymentInitiationNoted, // Using this as a placeholder for "Okay, I have your number..."
           timestamp: new Date(),
         };
         setMessages((prev) => [...prev, confirmationMessage]);
@@ -203,18 +224,19 @@ const AIAssistant = () => {
         // API Call
         fetch(`/api/nkwa/pay/${phoneNumber}`, { method: "GET" })
           .then(async (response) => {
-            let responseKey: keyof typeof languageResources[typeof currentLanguage]['responses'];
+            let responseKey: keyof (typeof languageResources)[typeof currentLanguage]["responses"];
             if (response.ok) {
               // Optionally check response body if backend sends a specific success flag
               // const data = await response.json();
               // if (data.success) { ... }
-              responseKey = 'paymentApiSuccess';
+              responseKey = "paymentApiSuccess";
             } else {
-              responseKey = 'paymentApiFail';
+              responseKey = "paymentApiFail";
             }
             const botResponse = {
               type: "bot" as const,
-              content: languageResources[currentLanguage].responses[responseKey],
+              content:
+                languageResources[currentLanguage].responses[responseKey],
               timestamp: new Date(),
             };
             setMessages((prev) => [...prev, botResponse]);
@@ -222,7 +244,8 @@ const AIAssistant = () => {
           .catch(() => {
             const botResponse = {
               type: "bot" as const,
-              content: languageResources[currentLanguage].responses.paymentApiFail,
+              content:
+                languageResources[currentLanguage].responses.paymentApiFail,
               timestamp: new Date(),
             };
             setMessages((prev) => [...prev, botResponse]);
@@ -335,16 +358,17 @@ const AIAssistant = () => {
       lowerInput.includes("make payment") || // pid
       lowerInput.includes("begin payment") // pid
     ) {
-      if (lowerInput.includes("start payment") ||
-          lowerInput.includes("initiate payment") ||
-          lowerInput.includes("pay now") ||
-          lowerInput.includes("make payment") ||
-          lowerInput.includes("begin payment") ||
-          lowerInput.includes("commencer le paiement") || // fr
-          lowerInput.includes("initier le paiement") || // fr
-          lowerInput.includes("payer maintenant") || // fr
-          lowerInput.includes("effectuer le paiement") || // fr
-          lowerInput.includes("commencer paiement") // fr
+      if (
+        lowerInput.includes("start payment") ||
+        lowerInput.includes("initiate payment") ||
+        lowerInput.includes("pay now") ||
+        lowerInput.includes("make payment") ||
+        lowerInput.includes("begin payment") ||
+        lowerInput.includes("commencer le paiement") || // fr
+        lowerInput.includes("initier le paiement") || // fr
+        lowerInput.includes("payer maintenant") || // fr
+        lowerInput.includes("effectuer le paiement") || // fr
+        lowerInput.includes("commencer paiement") // fr
       ) {
         setIsAwaitingPhoneNumberForPayment(true);
         return responses.promptForPhoneNumber;

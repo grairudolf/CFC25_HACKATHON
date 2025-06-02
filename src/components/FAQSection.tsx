@@ -60,7 +60,7 @@ const faqData = [
   {
     question: "I found a bug. How can I report it?",
     answer:
-      "You can report issues directly through the 'Feedback' section on the platform or email us at support@siliconhub.dev.",
+      "You can report issues directly through the 'Feedback' section on the platform or email us at support@Siliconhub.dev.",
   },
   {
     question: "Can I contribute to SiliconHub’s growth?",

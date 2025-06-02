@@ -19,42 +19,42 @@ Silicon Hub aims to foster growth, learning, and collaboration within the tech s
 The project is organized into a monorepo structure with separate `frontend` and `backend` directories.
 
 ```markdown
-silicon-hub/
+Silicon-hub/
 ├── backend/
-│   ├── server/
-│   │   ├── configurations/ # Configuration files for database, cloud services (Cloudinary), etc.
-│   │   ├── controllers/    # Contains the business logic and request handlers for API endpoints.
-│   │   ├── middlewares/    # Custom Express middleware for tasks like auth, logging, error handling.
-│   │   ├── models/         # Mongoose schemas defining the structure of data in MongoDB.
-│   │   ├── routes/         # Defines the API routes and maps them to controller functions.
-│   │   ├── utilities/      # Helper functions and utility scripts used across the backend.
-│   │   └── index.js        # Main entry point for the backend server.
-│   ├── .gitignore          # Specifies intentionally untracked files that Git should ignore.
-│   ├── LICENSE             # Backend-specific license information (if different).
-│   ├── package.json        # Backend dependencies and project metadata.
-│   └── README.md           # Backend-specific documentation.
+│ ├── server/
+│ │ ├── configurations/ # Configuration files for database, cloud services (Cloudinary), etc.
+│ │ ├── controllers/ # Contains the business logic and request handlers for API endpoints.
+│ │ ├── middlewares/ # Custom Express middleware for tasks like auth, logging, error handling.
+│ │ ├── models/ # Mongoose schemas defining the structure of data in MongoDB.
+│ │ ├── routes/ # Defines the API routes and maps them to controller functions.
+│ │ ├── utilities/ # Helper functions and utility scripts used across the backend.
+│ │ └── index.js # Main entry point for the backend server.
+│ ├── .gitignore # Specifies intentionally untracked files that Git should ignore.
+│ ├── LICENSE # Backend-specific license information (if different).
+│ ├── package.json # Backend dependencies and project metadata.
+│ └── README.md # Backend-specific documentation.
 │
 ├── frontend/
-│   ├── public/
-│   │   └── index.html      # Main HTML page for the React application.
-│   │
-│   ├── src/
-│   │   ├── assets/         # Static files like images, fonts.
-│   │   ├── components/     # Reusable UI components used throughout the application.
-│   │   │   └── ui/         # Specialized UI components, often primitive or base elements for building more complex interfaces.
-│   │   ├── contexts/       # React Context API providers for global state management.
-│   │   ├── hooks/          # Custom React Hooks to encapsulate reusable stateful logic.
-│   │   ├── lib/            # Utility functions, helper scripts, or library-like modules for the frontend.
-│   │   ├── pages/          # Top-level components representing distinct application views or routes.
-│   │   ├── styles/         # Global styles, CSS resets, or theme configurations.
-│   │   └── index.tsx       # Main entry point for the React frontend application.
-│   │
-│   ├── .eslintrc.js        # ESLint configuration for frontend code linting.
-│   ├── package.json        # Frontend dependencies and project metadata.
-│   └── README.md           # Frontend-specific documentation (if any).
+│ ├── public/
+│ │ └── index.html # Main HTML page for the React application.
+│ │
+│ ├── src/
+│ │ ├── assets/ # Static files like images, fonts.
+│ │ ├── components/ # Reusable UI components used throughout the application.
+│ │ │ └── ui/ # Specialized UI components, often primitive or base elements for building more complex interfaces.
+│ │ ├── contexts/ # React Context API providers for global state management.
+│ │ ├── hooks/ # Custom React Hooks to encapsulate reusable stateful logic.
+│ │ ├── lib/ # Utility functions, helper scripts, or library-like modules for the frontend.
+│ │ ├── pages/ # Top-level components representing distinct application views or routes.
+│ │ ├── styles/ # Global styles, CSS resets, or theme configurations.
+│ │ └── index.tsx # Main entry point for the React frontend application.
+│ │
+│ ├── .eslintrc.js # ESLint configuration for frontend code linting.
+│ ├── package.json # Frontend dependencies and project metadata.
+│ └── README.md # Frontend-specific documentation (if any).
 │
-├── .gitignore              # Specifies intentionally untracked files that Git should ignore at the root level.
-└── README.md               # Main project README (this file).
+├── .gitignore # Specifies intentionally untracked files that Git should ignore at the root level.
+└── README.md # Main project README (this file).
 ```
 
 ## Installation
@@ -68,12 +68,14 @@ silicon-hub/
 ### Setup
 
 1.  Clone the repository (replace with the actual repository URL if different):
+
     ```bash
-    git clone https://github.com/your-repo/silicon-hub.git
-    cd silicon-hub
+    git clone https://github.com/your-repo/Silicon-hub.git
+    cd Silicon-hub
     ```
 
 2.  Install dependencies for both frontend and backend:
+
     ```bash
     # Install frontend dependencies
     cd frontend
@@ -94,6 +96,7 @@ silicon-hub/
     Both frontend and backend projects might require environment variables (e.g., API keys, database URIs). Create `.env` files in the respective `frontend` and `backend` directories based on provided `.env.example` files (if available).
 
 4.  Start the development servers:
+
     ```bash
     # Start frontend development server (typically from frontend directory)
     cd frontend
@@ -164,6 +167,7 @@ Silicon Hub is designed to be intuitive and user-friendly. Here’s a brief guid
 Deployment strategies can vary based on your hosting provider and infrastructure.
 
 1.  **Build for Production**:
+
     ```bash
     # Build frontend application (typically from frontend directory)
     cd frontend
@@ -178,11 +182,13 @@ Deployment strategies can vary based on your hosting provider and infrastructure
     ```
 
 2.  **Serve the Production Build**:
-    -   The backend (Node.js/Express.js) can be configured to serve the static frontend assets from its build directory.
-    -   Alternatively, frontend assets can be uploaded to a static hosting service (e.g., Netlify, Vercel, AWS S3) and the backend API run on a separate server/platform (e.g., Heroku, AWS EC2, Google Cloud Run).
-    -   Ensure production environment variables are set for both frontend (if any build-time variables are needed) and backend.
+
+    - The backend (Node.js/Express.js) can be configured to serve the static frontend assets from its build directory.
+    - Alternatively, frontend assets can be uploaded to a static hosting service (e.g., Netlify, Vercel, AWS S3) and the backend API run on a separate server/platform (e.g., Heroku, AWS EC2, Google Cloud Run).
+    - Ensure production environment variables are set for both frontend (if any build-time variables are needed) and backend.
 
     Example for starting backend in production mode (from `backend` directory):
+
     ```bash
     npm start # Ensure your package.json's start script is configured for production
     # or

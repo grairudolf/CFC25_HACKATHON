@@ -1,12 +1,12 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import HeroSection from './HeroSection'; // Adjust path as needed
-import React from 'react';
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import HeroSection from "./HeroSection"; // Adjust path as needed
+import React from "react";
 
 // Mock the smoothScrollTo function if it's exported, or spy on window.scrollIntoView
 // For this test, let's assume smoothScrollTo is an internal helper and spy on element.scrollIntoView
 
-describe('HeroSection Component', () => {
+describe("HeroSection Component", () => {
   const mockOnSearch = vi.fn();
 
   beforeEach(() => {
@@ -16,111 +16,143 @@ describe('HeroSection Component', () => {
     // IntersectionObserver mock for animations
     const mockIntersectionObserver = vi.fn();
     mockIntersectionObserver.mockReturnValue({
-        observe: vi.fn(),
-        unobserve: vi.fn(),
-        disconnect: vi.fn(),
+      observe: vi.fn(),
+      unobserve: vi.fn(),
+      disconnect: vi.fn(),
     });
     window.IntersectionObserver = mockIntersectionObserver;
   });
 
-  it('renders correctly with title, subtitle, and search bar', () => {
+  it("renders correctly with title, subtitle, and search bar", () => {
     render(<HeroSection onSearch={mockOnSearch} />);
     expect(screen.getByText(/Welcome to Silicon/i)).toBeInTheDocument(); // Part of English title
     // Updated to check for the new part of the English subtitle
-    expect(screen.getByText(/Discover local solutions, support your community, and simplify your digital life./i)).toBeInTheDocument();
-    expect(screen.getByPlaceholderText(/What are you looking for today?/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /Search/i })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /Explore Services/i })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /Add My Service/i })).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /Discover local solutions, support your community, and simplify your digital life./i
+      )
+    ).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText(/What are you looking for today?/i)
+    ).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Search/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /Explore Services/i })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /Add My Service/i })
+    ).toBeInTheDocument();
   });
 
-  it('calls onSearch when the search form is submitted', () => {
+  it("calls onSearch when the search form is submitted", () => {
     render(<HeroSection onSearch={mockOnSearch} />);
-    const searchInput = screen.getByPlaceholderText(/What are you looking for today?/i);
-    const searchButton = screen.getByRole('button', { name: /Search/i });
+    const searchInput = screen.getByPlaceholderText(
+      /What are you looking for today?/i
+    );
+    const searchButton = screen.getByRole("button", { name: /Search/i });
 
-    fireEvent.change(searchInput, { target: { value: 'find jobs' } });
+    fireEvent.change(searchInput, { target: { value: "find jobs" } });
     fireEvent.click(searchButton); // Simulate form submission by clicking button
 
-    expect(mockOnSearch).toHaveBeenCalledWith('find jobs');
+    expect(mockOnSearch).toHaveBeenCalledWith("find jobs");
   });
 
   it('calls scrollIntoView for "Explore Services" button', () => {
     // Mock getElementById to return a dummy element
-    const mockElement = document.createElement('div');
-    vi.spyOn(document, 'getElementById').mockReturnValue(mockElement);
+    const mockElement = document.createElement("div");
+    vi.spyOn(document, "getElementById").mockReturnValue(mockElement);
     // Spy on the method of the specific mockElement is better if possible,
     // but spying on prototype is fine for this case.
     // const scrollIntoViewSpy = vi.spyOn(mockElement, 'scrollIntoView'); // This would be ideal
 
     render(<HeroSection onSearch={mockOnSearch} />);
-    const exploreButton = screen.getByRole('button', { name: /Explore Services/i });
+    const exploreButton = screen.getByRole("button", {
+      name: /Explore Services/i,
+    });
     fireEvent.click(exploreButton);
 
-    expect(document.getElementById).toHaveBeenCalledWith('services');
+    expect(document.getElementById).toHaveBeenCalledWith("services");
     expect(window.HTMLElement.prototype.scrollIntoView).toHaveBeenCalledWith({
-      behavior: 'smooth',
-      block: 'start',
+      behavior: "smooth",
+      block: "start",
     });
     // if (scrollIntoViewSpy) expect(scrollIntoViewSpy).toHaveBeenCalledWith({ behavior: 'smooth', block: 'start' });
   });
 
   it('calls scrollIntoView for "Add My Service" button', () => {
-    const mockElement = document.createElement('div');
-    vi.spyOn(document, 'getElementById').mockReturnValue(mockElement);
+    const mockElement = document.createElement("div");
+    vi.spyOn(document, "getElementById").mockReturnValue(mockElement);
     // const scrollIntoViewSpy = vi.spyOn(mockElement, 'scrollIntoView');
 
     render(<HeroSection onSearch={mockOnSearch} />);
-    const addServiceButton = screen.getByRole('button', { name: /Add My Service/i });
+    const addServiceButton = screen.getByRole("button", {
+      name: /Add My Service/i,
+    });
     fireEvent.click(addServiceButton);
 
-    expect(document.getElementById).toHaveBeenCalledWith('submit');
+    expect(document.getElementById).toHaveBeenCalledWith("submit");
     expect(window.HTMLElement.prototype.scrollIntoView).toHaveBeenCalledWith({
-      behavior: 'smooth',
-      block: 'start',
+      behavior: "smooth",
+      block: "start",
     });
     // if (scrollIntoViewSpy) expect(scrollIntoViewSpy).toHaveBeenCalledWith({ behavior: 'smooth', block: 'start' });
   });
 
-  it('renders the updated subtitle in French when language is switched', () => {
+  it("renders the updated subtitle in French when language is switched", () => {
     render(<HeroSection onSearch={mockOnSearch} />);
-    const frenchButton = screen.getByRole('button', { name: /FR/i });
+    const frenchButton = screen.getByRole("button", { name: /FR/i });
     fireEvent.click(frenchButton);
-    expect(screen.getByText(/Découvrez des solutions locales, soutenez votre communauté et simplifiez votre vie numérique./i)).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /Découvrez des solutions locales, soutenez votre communauté et simplifiez votre vie numérique./i
+      )
+    ).toBeInTheDocument();
   });
 
-  it('renders the updated subtitle in Pidgin when language is switched', () => {
+  it("renders the updated subtitle in Pidgin when language is switched", () => {
     render(<HeroSection onSearch={mockOnSearch} />);
-    const pidginButton = screen.getByRole('button', { name: /PID/i });
+    const pidginButton = screen.getByRole("button", { name: /PID/i });
     fireEvent.click(pidginButton);
-    expect(screen.getByText(/Discover local solutions, support your community, and make your digital life simple./i)).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /Discover local solutions, support your community, and make your digital life simple./i
+      )
+    ).toBeInTheDocument();
   });
 
-  it('shows AI suggestions on search input focus', () => {
+  it("shows AI suggestions on search input focus", () => {
     render(<HeroSection onSearch={mockOnSearch} />);
-    const searchInput = screen.getByPlaceholderText(/What are you looking for today?/i);
+    const searchInput = screen.getByPlaceholderText(
+      /What are you looking for today?/i
+    );
     fireEvent.focus(searchInput);
     expect(screen.getByText(/AI suggestions for you/i)).toBeInTheDocument();
-    expect(screen.getByText('I want to eat something 🍽️')).toBeInTheDocument(); // One of the suggestions
+    expect(screen.getByText("I want to eat something 🍽️")).toBeInTheDocument(); // One of the suggestions
   });
 
-  it('sets search query and hides suggestions on suggestion click', () => {
+  it("sets search query and hides suggestions on suggestion click", () => {
     render(<HeroSection onSearch={mockOnSearch} />);
-    const searchInput = screen.getByPlaceholderText(/What are you looking for today?/i);
+    const searchInput = screen.getByPlaceholderText(
+      /What are you looking for today?/i
+    );
     fireEvent.focus(searchInput); // Open suggestions
 
-    const suggestionButton = screen.getByText('I need a website 💻');
+    const suggestionButton = screen.getByText("I need a website 💻");
     fireEvent.click(suggestionButton);
 
-    expect((searchInput as HTMLInputElement).value).toBe('I need a website 💻');
-    expect(screen.queryByText(/AI suggestions for you/i)).not.toBeInTheDocument();
+    expect((searchInput as HTMLInputElement).value).toBe("I need a website 💻");
+    expect(
+      screen.queryByText(/AI suggestions for you/i)
+    ).not.toBeInTheDocument();
     // Optional: check if onSearch is called immediately on suggestion click (current behavior is not to)
     // expect(mockOnSearch).toHaveBeenCalledWith('I need a website 💻');
   });
 
-  it('hides AI suggestions on search input blur', async () => {
+  it("hides AI suggestions on search input blur", async () => {
     render(<HeroSection onSearch={mockOnSearch} />);
-    const searchInput = screen.getByPlaceholderText(/What are you looking for today?/i);
+    const searchInput = screen.getByPlaceholderText(
+      /What are you looking for today?/i
+    );
 
     // 1. Simulate focus to show suggestions
     fireEvent.focus(searchInput);
@@ -131,40 +163,56 @@ describe('HeroSection Component', () => {
 
     // 3. Wait for suggestions to disappear
     await waitFor(() => {
-      expect(screen.queryByText(/AI suggestions for you/i)).not.toBeInTheDocument();
+      expect(
+        screen.queryByText(/AI suggestions for you/i)
+      ).not.toBeInTheDocument();
     });
     await waitFor(() => {
-      expect(screen.queryByText('I want to eat something 🍽️')).not.toBeInTheDocument();
+      expect(
+        screen.queryByText("I want to eat something 🍽️")
+      ).not.toBeInTheDocument();
     });
   });
 
-  it('shows AI suggestions in the selected language after language change and refocus', async () => {
+  it("shows AI suggestions in the selected language after language change and refocus", async () => {
     render(<HeroSection onSearch={mockOnSearch} />);
 
     // 2. Get the language selector button for French and click it
-    const frenchButton = screen.getByRole('button', { name: 'FR' });
+    const frenchButton = screen.getByRole("button", { name: "FR" });
     fireEvent.click(frenchButton);
 
-    const searchInput = screen.getByPlaceholderText(/Que cherchez-vous aujourd'hui?/i); // Placeholder changes with language
+    const searchInput = screen.getByPlaceholderText(
+      /Que cherchez-vous aujourd'hui?/i
+    ); // Placeholder changes with language
 
     // 5. Simulate focus
     fireEvent.focus(searchInput);
 
     // 6. Assert French suggestion is visible
-    expect(screen.getByText('Je veux manger quelque chose 🍽️')).toBeInTheDocument();
-    expect(screen.queryByText('I want to eat something 🍽️')).not.toBeInTheDocument(); // English suggestion should not be there
+    expect(
+      screen.getByText("Je veux manger quelque chose 🍽️")
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText("I want to eat something 🍽️")
+    ).not.toBeInTheDocument(); // English suggestion should not be there
 
     // 7. Simulate blur
     fireEvent.blur(searchInput);
     await waitFor(() => {
-      expect(screen.queryByText('Je veux manger quelque chose 🍽️')).not.toBeInTheDocument();
+      expect(
+        screen.queryByText("Je veux manger quelque chose 🍽️")
+      ).not.toBeInTheDocument();
     });
 
     // 8. Simulate focus again
     fireEvent.focus(searchInput);
 
     // 9. Assert French suggestion is still visible
-    expect(screen.getByText('Je veux manger quelque chose 🍽️')).toBeInTheDocument();
-    expect(screen.queryByText('I want to eat something 🍽️')).not.toBeInTheDocument();
+    expect(
+      screen.getByText("Je veux manger quelque chose 🍽️")
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText("I want to eat something 🍽️")
+    ).not.toBeInTheDocument();
   });
 });
