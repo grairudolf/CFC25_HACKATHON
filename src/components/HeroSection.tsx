@@ -67,7 +67,7 @@ const HeroSection = ({ onSearch }: { onSearch: (query: string) => void }) => {
       ],
     },
     pid: {
-      title: "We di glad for see you for Silicon",
+      title: "We di glad for see you for SiliconHub",
       subtitle:
         "Join hand wit di best digital service dem for Cameroon. From chop, work, computer dem, to learn handiwork – all thing dey na for your corner. Make you support your own, sabi wetin dey, and enjoy better digital life wey e no get wahala.",
       searchPlaceholder: "Wetin you dey find today? 'chop', 'work', 'tech'...",
