@@ -51,7 +51,7 @@ const Footer = () => {
               <img
                 src="/logo_transparent.png"
                 alt="Logo"
-                className="ml-2 h-18 w-auto"
+                className="ml-2 h-14 w-auto"
               />
             </div>
             <p className="text-secondary-foreground mb-6 leading-relaxed">

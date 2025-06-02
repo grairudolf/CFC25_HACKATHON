@@ -126,7 +126,7 @@ type Message = {
 
 const AIAssistant = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [currentLanguage, setCurrentLanguage] = useState<LanguageKey>("fr");
+  const [currentLanguage, setCurrentLanguage] = useState<LanguageKey>("en");
   const [messages, setMessages] = useState<Message[]>(() => [
     {
       type: "bot" as const,
