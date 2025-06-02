@@ -160,13 +160,15 @@ const FoodDeliveryOrderPage = () => {
                   <SelectContent>
                     {/* <SelectItem value="credit-card">Credit Card</SelectItem> */}
                     <SelectItem value="mobile-money">Mobile Money</SelectItem>
+                    <SelectItem value="orange-money">Orange Money</SelectItem>
                     <SelectItem value="cash-on-delivery">
                       Cash on Delivery
                     </SelectItem>
                   </SelectContent>
                 </Select>
               </div>
-              {paymentMethod === "credit-card" && (
+              {/* Commenting out credit card section as it's not fully implemented and not part of the current task */}
+              {/* {paymentMethod === "credit-card" && (
                 <div>
                   <Label
                     htmlFor="cardNumber"
@@ -174,17 +176,17 @@ const FoodDeliveryOrderPage = () => {
                   >
                     Card Number
                   </Label>
-                  {/* <Input
+                  <Input
                     type="text"
                     id="cardNumber"
                     name="cardNumber"
                     required
                     className="w-full"
                     placeholder="Enter your card number"
-                  /> */}
+                  />
                 </div>
-              )}
-              {paymentMethod === "mobile-money" && (
+              )} */}
+              {(paymentMethod === "mobile-money" || paymentMethod === "orange-money") && (
                 <div>
                   <Label
                     htmlFor="mobileMoneyNumber"
@@ -192,23 +194,40 @@ const FoodDeliveryOrderPage = () => {
                   >
                     Mobile Money Number
                   </Label>
-                  <Input
-                    type="tel"
-                    id="mobileMoneyNumber"
-                    name="mobileMoneyNumber"
-                    required
-                    className="w-full"
-                    placeholder="Enter your mobile money number"
-                  />
-                  Amount
+                  <div className="flex items-center space-x-2">
+                    {paymentMethod === "mobile-money" && (
+                      <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-yellow-500">
+                        <circle cx="12" cy="12" r="10" />
+                      </svg>
+                    )}
+                    {paymentMethod === "orange-money" && (
+                      <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-orange-500">
+                        <circle cx="12" cy="12" r="10" />
+                      </svg>
+                    )}
                     <Input
+                      type="tel"
+                      id="mobileMoneyNumber"
+                      name="mobileMoneyNumber"
+                      required
+                      className="flex-1"
+                      placeholder="Enter your mobile money number"
+                    />
+                  </div>
+                  <Label
+                    htmlFor="amount"
+                    className="block text-sm font-medium text-gray-700 mb-1 mt-4"
+                  >
+                    Amount
+                  </Label>
+                  <Input
                     id="amount"
                     name="amount"
+                    type="number" // Ensure amount is a number type
                     required
                     className="w-full"
                     placeholder="Enter the amount"
                   />
-
                 </div>
               )}
             </div>
@@ -216,13 +235,13 @@ const FoodDeliveryOrderPage = () => {
 
           {/* Submit Button */}
           <div className="text-center pt-2">
-            <Input
+            <Button
               type="submit"
-              // size="lg"
-              className="w-full md:w-auto px-8 bg-blue-600 hover:bg-blue-700"
-              onSubmit={handleSubmit}
+              size="lg"
+              className="w-full md:w-auto px-8 bg-blue-600 hover:bg-blue-700 text-white"
+            >
               Submit Order
-            />
+            </Button>
           </div>
         </form>
       </main>

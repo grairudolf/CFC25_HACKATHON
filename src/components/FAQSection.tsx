@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Accordion,
   AccordionContent,
@@ -64,6 +64,14 @@ const faqData = [
 
 
 const FAQSection: React.FC = () => {
+  const [showAll, setShowAll] = useState(false);
+
+  const toggleShowAll = () => {
+    setShowAll(!showAll);
+  };
+
+  const itemsToDisplay = showAll ? faqData : faqData.slice(0, 3);
+
   return (
     <section className="py-12 bg-secondary sm:py-16 lg:py-20">
       <div className="max-w-4xl px-4 mx-auto sm:px-6 lg:px-8">
@@ -72,7 +80,7 @@ const FAQSection: React.FC = () => {
         </h2>
         <div className="mt-8">
           <Accordion type="single" collapsible className="w-full">
-            {faqData.map((item, index) => (
+            {itemsToDisplay.map((item, index) => (
               <AccordionItem value={`item-${index}`} key={index} className="border-border">
                 <AccordionTrigger className="text-lg font-medium text-left text-foreground hover:text-primary hover:no-underline">
                   {item.question}
@@ -83,6 +91,16 @@ const FAQSection: React.FC = () => {
               </AccordionItem>
             ))}
           </Accordion>
+          {faqData.length > 3 && (
+            <div className="mt-6 text-center">
+              <button
+                onClick={toggleShowAll}
+                className="px-6 py-2 text-base font-medium text-white transition-all duration-200 rounded-md bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+              >
+                {showAll ? 'Show Less' : 'Show All'}
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </section>
