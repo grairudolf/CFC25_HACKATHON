@@ -9,7 +9,7 @@ import {
 const faqData = [
   {
     question: "Is the service free?",
-    answer: "Yes, our basic services are completely free for individuals. We also offer enterprise plans with additional features."
+    answer: "Yes, our basic services are completely free for individuals and users. We also offer enterprise plans with additional features."
   },
   {
     question: "What are the premium features?",
@@ -17,11 +17,11 @@ const faqData = [
   },
   {
     question: "How do I contact support?",
-    answer: "You can contact support through the help icon on the bottom right of the page or by emailing support@silicon.com."
+    answer: "You can contact support through the help icon on the bottom right of the page or by emailing rtech777r@gmail.com.com."
   },
   {
-    question: "Can I integrate this service with other tools?",
-    answer: "Yes, we offer API access and integrations with popular platforms like Slack, Zapier, and Google Workspace."
+    question: "Do I pay to upload my service",
+    answer: "No, Service upload is completely free, After review you begin to pay when we bring you more than 30 customers"
   },
   {
     question: "How is my data protected?",
