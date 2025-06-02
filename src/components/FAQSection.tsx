@@ -17,7 +17,7 @@ const faqData = [
   },
   {
     question: "How do I contact support?",
-    answer: "You can contact support through the help icon on the bottom right of the page or by emailing rtech777r@gmail.com.com."
+    answer: "You can contact support through the help icon on the bottom right of the page or by emailing rtech777r@gmail.com."
   },
   {
     question: "Do I pay to upload my service",
