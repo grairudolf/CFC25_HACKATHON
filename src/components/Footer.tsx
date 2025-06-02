@@ -10,7 +10,8 @@ import {
   Youtube,
   Heart,
 } from "lucide-react";
-import FeedbackForm from './FeedbackForm';
+// import FeedbackForm from './FeedbackForm'; // Removed
+import { Link } from 'react-router-dom'; // Added
 
 const Footer = () => {
   return (
@@ -244,9 +245,13 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Add FeedbackForm here */}
-        <div className="mt-12"> {/* Added a div for spacing */}
-          <FeedbackForm />
+        {/* Add Feedback Button/Link here */}
+        <div className="mt-12 text-center"> {/* Added text-center for button alignment */}
+          <Link to="/feedback">
+            <button className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105">
+              Give Feedback
+            </button>
+          </Link>
         </div>
 
         {/* Bottom Bar */}
