@@ -10,6 +10,7 @@ import {
   Youtube,
   Heart,
 } from "lucide-react";
+import FeedbackForm from './FeedbackForm';
 
 const Footer = () => {
   return (
@@ -241,6 +242,11 @@ const Footer = () => {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Add FeedbackForm here */}
+        <div className="mt-12"> {/* Added a div for spacing */}
+          <FeedbackForm />
         </div>
 
         {/* Bottom Bar */}
