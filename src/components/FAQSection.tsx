@@ -1,67 +1,78 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@/components/ui/accordion';
-
+} from "@/components/ui/accordion";
 
 const faqData = [
   {
     question: "What is SiliconHub?",
-    answer: "SiliconHub is a collaborative platform designed to connect developers, innovators, and tech enthusiasts. It offers tools, resources, and a community space to share projects, find collaborators, and grow ideas from concept to launch."
+    answer:
+      "SiliconHub is a collaborative platform designed to connect developers, innovators, and tech enthusiasts. It offers tools, resources, and a community space to share projects, find collaborators, and grow ideas from concept to launch.",
   },
   {
     question: "Who can use SiliconHub?",
-    answer: "Anyone! Whether you're a student, a professional developer, a startup founder, or just curious about tech, SiliconHub is built to help you learn, build, and connect."
+    answer:
+      "Anyone! Whether you're a student, a professional developer, a startup founder, or just curious about tech, SiliconHub is built to help you learn, build, and connect.",
   },
   {
     question: "Is SiliconHub free to use?",
-    answer: "Yes! We offer a free tier with access to core features. We also offer premium plans with additional tools and benefits for individuals and teams."
+    answer:
+      "Yes! We offer a free tier with access to core features. We also offer premium plans with additional tools and benefits for individuals and teams.",
   },
   {
     question: "What can I do on SiliconHub?",
-    answer: "You can showcase your projects, discover others' work, join collaborative efforts, access developer resources, and grow your skills through curated content."
+    answer:
+      "You can showcase your projects, discover others' work, join collaborative efforts, access developer resources, and grow your skills through curated content.",
   },
   {
     question: "Can I collaborate with other users on projects?",
-    answer: "Yes! SiliconHub encourages open collaboration. You can invite team members, assign roles, and work together on shared project dashboards."
+    answer:
+      "Yes! SiliconHub encourages open collaboration. You can invite team members, assign roles, and work together on shared project dashboards.",
   },
   {
     question: "Are there resources to help me learn or upskill?",
-    answer: "Absolutely. We provide tutorials, code snippets, tools, and links to courses. We're also expanding into offering community-created learning content."
+    answer:
+      "Absolutely. We provide tutorials, code snippets, tools, and links to courses. We're also expanding into offering community-created learning content.",
   },
   {
     question: "Is there a premium version of SiliconHub?",
-    answer: "Yes. Our premium version includes advanced analytics, unlimited project uploads, priority support, and early access to new features."
+    answer:
+      "Yes. Our premium version includes advanced analytics, unlimited project uploads, priority support, and early access to new features.",
   },
   {
     question: "How does SiliconHub make money?",
-    answer: "We generate revenue through subscriptions, featured listings, and partnerships. This helps us keep the platform sustainable and growing."
+    answer:
+      "We generate revenue through subscriptions, featured listings, and partnerships. This helps us keep the platform sustainable and growing.",
   },
   {
     question: "Is SiliconHub open source?",
-    answer: "Currently, the core platform is closed source, but we’re planning to release selected tools and components as open source in the near future."
+    answer:
+      "Currently, the core platform is closed source, but we’re planning to release selected tools and components as open source in the near future.",
   },
   {
     question: "What technologies is SiliconHub built with?",
-    answer: "The platform uses modern web technologies like Next.js, TailwindCSS, and Node.js, and is deployed via Vercel."
+    answer:
+      "The platform uses modern web technologies like Next.js, TailwindCSS, and Node.js, and is deployed via Vercel.",
   },
   {
     question: "I found a bug. How can I report it?",
-    answer: "You can report issues directly through the 'Feedback' section on the platform or email us at support@siliconhub.dev."
+    answer:
+      "You can report issues directly through the 'Feedback' section on the platform or email us at support@siliconhub.dev.",
   },
   {
     question: "Can I contribute to SiliconHub’s growth?",
-    answer: "Yes! You can contribute by sharing your projects, giving feedback, spreading the word, or joining our beta testing team."
+    answer:
+      "Yes! You can contribute by sharing your projects, giving feedback, spreading the word, or joining our beta testing team.",
   },
   {
     question: "Is there a community I can join?",
-    answer: "We’re building a vibrant Discord community and a monthly newsletter. Stay tuned for invites and announcements!"
-  }
+    answer:
+      "We’re building a vibrant Discord community and a monthly newsletter. Stay tuned for invites and announcements!",
+  },
 ];
-
 
 const FAQSection: React.FC = () => {
   const [showAll, setShowAll] = useState(false);
@@ -81,7 +92,11 @@ const FAQSection: React.FC = () => {
         <div className="mt-8">
           <Accordion type="single" collapsible className="w-full">
             {itemsToDisplay.map((item, index) => (
-              <AccordionItem value={`item-${index}`} key={index} className="border-border">
+              <AccordionItem
+                value={`item-${index}`}
+                key={index}
+                className="border-border"
+              >
                 <AccordionTrigger className="text-lg font-medium text-left text-foreground hover:text-primary hover:no-underline">
                   {item.question}
                 </AccordionTrigger>
@@ -95,9 +110,9 @@ const FAQSection: React.FC = () => {
             <div className="mt-6 text-center">
               <button
                 onClick={toggleShowAll}
-                className="px-6 py-2 text-base font-medium text-white transition-all duration-200 rounded-md bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105"
               >
-                {showAll ? 'Show Less' : 'Show All'}
+                {showAll ? "Show Less" : "Show All"}
               </button>
             </div>
           )}
