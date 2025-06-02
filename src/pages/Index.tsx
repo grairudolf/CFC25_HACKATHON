@@ -4,6 +4,7 @@ import Navbar from '@/components/Navbar';
 import { Service } from '@/types'; // Import Service type
 import HeroSection from '@/components/HeroSection';
 import ServiceSection from '@/components/ServiceSection';
+import WhyChooseUsSection from '@/components/WhyChooseUsSection'; // <-- IMPORT HERE
 import SkillSection from '@/components/SkillSection';
 import FAQSection from '@/components/FAQSection';
 import ServiceSubmissionForm from '@/components/ServiceSubmissionForm';
@@ -149,6 +150,7 @@ const Index = () => {
       <Navbar onSearch={handleSearch} allServices={flattenedServices} />
       <HeroSection onSearch={handleSearch} />
       <ServiceSection searchQuery={searchQuery} /> {/* ServiceSection can keep its own data for now */}
+      <WhyChooseUsSection /> {/* <-- RENDER HERE */}
       <div id="skills">
         <SkillSection />
       </div>

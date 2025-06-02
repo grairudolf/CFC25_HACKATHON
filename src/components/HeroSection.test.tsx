@@ -26,7 +26,8 @@ describe('HeroSection Component', () => {
   it('renders correctly with title, subtitle, and search bar', () => {
     render(<HeroSection onSearch={mockOnSearch} />);
     expect(screen.getByText(/Welcome to Silicon/i)).toBeInTheDocument(); // Part of English title
-    expect(screen.getByText(/Connect with the best Cameroonian digital services/i)).toBeInTheDocument(); // Part of English subtitle
+    // Updated to check for the new part of the English subtitle
+    expect(screen.getByText(/Discover local solutions, support your community, and simplify your digital life./i)).toBeInTheDocument();
     expect(screen.getByPlaceholderText(/What are you looking for today?/i)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Search/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Explore Services/i })).toBeInTheDocument();
@@ -79,6 +80,20 @@ describe('HeroSection Component', () => {
       block: 'start',
     });
     // if (scrollIntoViewSpy) expect(scrollIntoViewSpy).toHaveBeenCalledWith({ behavior: 'smooth', block: 'start' });
+  });
+
+  it('renders the updated subtitle in French when language is switched', () => {
+    render(<HeroSection onSearch={mockOnSearch} />);
+    const frenchButton = screen.getByRole('button', { name: /FR/i });
+    fireEvent.click(frenchButton);
+    expect(screen.getByText(/Découvrez des solutions locales, soutenez votre communauté et simplifiez votre vie numérique./i)).toBeInTheDocument();
+  });
+
+  it('renders the updated subtitle in Pidgin when language is switched', () => {
+    render(<HeroSection onSearch={mockOnSearch} />);
+    const pidginButton = screen.getByRole('button', { name: /PID/i });
+    fireEvent.click(pidginButton);
+    expect(screen.getByText(/Discover local solutions, support your community, and make your digital life simple./i)).toBeInTheDocument();
   });
 
   it('shows AI suggestions on search input focus', () => {
