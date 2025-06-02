@@ -6,7 +6,7 @@ const WhyChooseUsSection = () => {
 
   const content = {
     en: {
-      title: "Why Choose Silicon?",
+      title: "Why Choose SiliconHub?",
       description:
         "Your central hub for discovering and accessing the best digital services Cameroon has to offer. We're dedicated to empowering our community by connecting users with innovative local businesses.",
       points: [

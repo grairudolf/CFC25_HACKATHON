@@ -55,8 +55,12 @@ const Footer = () => {
               />
             </div>
             <p className="text-secondary-foreground mb-6 leading-relaxed">
-              Silicon Mountain: Where Cameroon’s tech future grows. Connect.
+              Forging Cameroon's Silicon Valley - where innovation meets opportunity
+              <br></br>
+              Where Cameroon’s tech future grows. Connect.
               Build. Rise together. 🚀
+              <br />
+              #SiliconMountain #Code4Change
             </p>
             <div className="flex space-x-4">
               <a
