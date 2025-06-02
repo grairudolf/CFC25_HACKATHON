@@ -6,28 +6,62 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 
+
 const faqData = [
   {
-    question: "Is the service free?",
-    answer: "Yes, our basic services are completely free for individuals and users. We also offer enterprise plans with additional features."
+    question: "What is SiliconHub?",
+    answer: "SiliconHub is a collaborative platform designed to connect developers, innovators, and tech enthusiasts. It offers tools, resources, and a community space to share projects, find collaborators, and grow ideas from concept to launch."
   },
   {
-    question: "What are the premium features?",
-    answer: "Premium features include advanced analytics, priority support, and dedicated infrastructure."
+    question: "Who can use SiliconHub?",
+    answer: "Anyone! Whether you're a student, a professional developer, a startup founder, or just curious about tech, SiliconHub is built to help you learn, build, and connect."
   },
   {
-    question: "How do I contact support?",
-    answer: "You can contact support through the help icon on the bottom right of the page or by emailing rtech777r@gmail.com."
+    question: "Is SiliconHub free to use?",
+    answer: "Yes! We offer a free tier with access to core features. We also offer premium plans with additional tools and benefits for individuals and teams."
   },
   {
-    question: "Do I pay to upload my service",
-    answer: "No, Service upload is completely free, After review you begin to pay when we bring you more than 30 customers"
+    question: "What can I do on SiliconHub?",
+    answer: "You can showcase your projects, discover others' work, join collaborative efforts, access developer resources, and grow your skills through curated content."
   },
   {
-    question: "How is my data protected?",
-    answer: "We use industry-standard encryption and security protocols to protect your data. You can find more details in our privacy policy."
+    question: "Can I collaborate with other users on projects?",
+    answer: "Yes! SiliconHub encourages open collaboration. You can invite team members, assign roles, and work together on shared project dashboards."
+  },
+  {
+    question: "Are there resources to help me learn or upskill?",
+    answer: "Absolutely. We provide tutorials, code snippets, tools, and links to courses. We're also expanding into offering community-created learning content."
+  },
+  {
+    question: "Is there a premium version of SiliconHub?",
+    answer: "Yes. Our premium version includes advanced analytics, unlimited project uploads, priority support, and early access to new features."
+  },
+  {
+    question: "How does SiliconHub make money?",
+    answer: "We generate revenue through subscriptions, featured listings, and partnerships. This helps us keep the platform sustainable and growing."
+  },
+  {
+    question: "Is SiliconHub open source?",
+    answer: "Currently, the core platform is closed source, but we’re planning to release selected tools and components as open source in the near future."
+  },
+  {
+    question: "What technologies is SiliconHub built with?",
+    answer: "The platform uses modern web technologies like Next.js, TailwindCSS, and Node.js, and is deployed via Vercel."
+  },
+  {
+    question: "I found a bug. How can I report it?",
+    answer: "You can report issues directly through the 'Feedback' section on the platform or email us at support@siliconhub.dev."
+  },
+  {
+    question: "Can I contribute to SiliconHub’s growth?",
+    answer: "Yes! You can contribute by sharing your projects, giving feedback, spreading the word, or joining our beta testing team."
+  },
+  {
+    question: "Is there a community I can join?",
+    answer: "We’re building a vibrant Discord community and a monthly newsletter. Stay tuned for invites and announcements!"
   }
 ];
+
 
 const FAQSection: React.FC = () => {
   return (
