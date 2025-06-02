@@ -27,7 +27,12 @@ const languageResources = {
       learn:
         "Knowledge Center has an excellent Cameroonian digital library. DeltechHub offers practical tech training. For international online courses adapted to the local context, I can guide you. What field interests you?",
       payment:
-        "Nkwa.cm is perfect for that! They offer mobile payment solutions and digital financial services tailored for Cameroonians. It's secure and very convenient for all your transactions.",
+        "Nkwa.cm is perfect for payments! Would you like to try initiating a payment?",
+      promptForPhoneNumber: "Okay, I can help with that. Please provide your phone number.",
+      paymentInitiationNoted: "Got it. I'll use the next message as your phone number for the payment.",
+      paymentApiSuccess: "Your payment request has been initiated successfully.",
+      paymentApiFail: "Sorry, I couldn't initiate the payment. Please try again later.",
+      invalidPhoneNumber: "The phone number provided seems invalid. Please provide a valid number.",
       default:
         "I'm here to help you navigate the Cameroonian digital ecosystem! You can ask me about delivery services, job opportunities, tech training, or even advice on local entrepreneurship. What do you want to explore? 🚀",
     },
@@ -64,7 +69,12 @@ const languageResources = {
       learn:
         "Knowledge Center a une excellente bibliothèque numérique camerounaise. DeltechHub offre des formations tech pratiques. Pour les cours en ligne internationaux mais adaptés au contexte local, je peux vous guider. Quel domaine vous intéresse?",
       payment:
-        "Nkwa.cm est parfait pour ça! Ils offrent des solutions de paiement mobile et services financiers digitaux adaptés aux Camerounais. C'est sécurisé et très pratique pour toutes vos transactions.",
+        "Nkwa.cm est parfait pour les paiements! Voulez-vous essayer d'initier un paiement?",
+      promptForPhoneNumber: "D'accord, je peux vous aider avec ça. Veuillez fournir votre numéro de téléphone.",
+      paymentInitiationNoted: "Compris. J'utiliserai le prochain message comme numéro de téléphone pour le paiement.",
+      paymentApiSuccess: "Votre demande de paiement a été initiée avec succès.",
+      paymentApiFail: "Désolé, je n'ai pas pu initier le paiement. Veuillez réessayer plus tard.",
+      invalidPhoneNumber: "Le numéro de téléphone fourni semble invalide. Veuillez fournir un numéro valide.",
       default:
         "Je suis là pour vous aider à naviguer dans l'écosystème numérique camerounais! Vous pouvez me demander des services de livraison, des opportunités d'emploi, des formations tech, ou même des conseils sur l'entrepreneuriat local. Que souhaitez-vous explorer? 🚀",
     },
@@ -101,7 +111,12 @@ const languageResources = {
       learn:
         "Knowledge Center get correct Cameroon digital library. DeltechHub get practical tech training. For online courses from oyibo people wey dem arrange for local style, I fit guide you. Which side you want learn?",
       payment:
-        "Nkwa.cm correct for dat one! Dem get mobile money solutions and digital money services wey dem make for Cameroon people. E safe and e very easy for all ya transaction.",
+        "Nkwa.cm na fine for payment! You wan try initiate payment?",
+      promptForPhoneNumber: "Okay, I fit help you with dat. Abeg, give me your phone number.",
+      paymentInitiationNoted: "I don hear you. I go use the next message as your phone number for the payment.",
+      paymentApiSuccess: "Your payment request don start successfully.",
+      paymentApiFail: "Sorry, I no fit start the payment. Abeg try again later.",
+      invalidPhoneNumber: "The phone number wey you give no be correct one. Abeg give correct number.",
       default:
         "I dey here for helep you waka inside Cameroon digital world! You fit ask me for delivery services, work opportunities, tech training, or even advice for local business. Wetin you want check? 🚀",
     },
@@ -136,6 +151,7 @@ const AIAssistant = () => {
   ]);
   const [inputMessage, setInputMessage] = useState<string>("");
   const [isTyping, setIsTyping] = useState(false);
+  const [isAwaitingPhoneNumberForPayment, setIsAwaitingPhoneNumberForPayment] = useState(false);
 
   useEffect(() => {
     setMessages([
@@ -157,23 +173,80 @@ const AIAssistant = () => {
       };
 
       setMessages((prev) => [...prev, userMessage]);
-      setIsTyping(true);
+      setInputMessage(""); // Clear input after sending user message
 
-      setTimeout(() => {
-        const botResponseContent = generateCameroonianBotResponse(
-          inputMessage,
-          currentLanguage
-        );
-        const botResponse = {
+      if (isAwaitingPhoneNumberForPayment) {
+        setIsTyping(true);
+        const phoneNumber = inputMessage.trim();
+        // Basic phone number validation (digits only, and perhaps a reasonable length)
+        const phoneRegex = /^\d{9,15}$/; // Example: 9 to 15 digits
+        if (!phoneRegex.test(phoneNumber)) {
+          const botResponse = {
+            type: "bot" as const,
+            content: languageResources[currentLanguage].responses.invalidPhoneNumber,
+            timestamp: new Date(),
+          };
+          setMessages((prev) => [...prev, botResponse]);
+          setIsAwaitingPhoneNumberForPayment(false);
+          setIsTyping(false);
+          return;
+        }
+
+        // Confirmation message before API call
+        const confirmationMessage = {
           type: "bot" as const,
-          content: botResponseContent,
+          content: languageResources[currentLanguage].responses.paymentInitiationNoted, // Using this as a placeholder for "Okay, I have your number..."
           timestamp: new Date(),
         };
-        setMessages((prev) => [...prev, botResponse]);
-        setIsTyping(false);
-      }, 1000);
+        setMessages((prev) => [...prev, confirmationMessage]);
 
-      setInputMessage("");
+        // API Call
+        fetch(`/api/nkwa/pay/${phoneNumber}`, { method: "GET" })
+          .then(async (response) => {
+            let responseKey: keyof typeof languageResources[typeof currentLanguage]['responses'];
+            if (response.ok) {
+              // Optionally check response body if backend sends a specific success flag
+              // const data = await response.json();
+              // if (data.success) { ... }
+              responseKey = 'paymentApiSuccess';
+            } else {
+              responseKey = 'paymentApiFail';
+            }
+            const botResponse = {
+              type: "bot" as const,
+              content: languageResources[currentLanguage].responses[responseKey],
+              timestamp: new Date(),
+            };
+            setMessages((prev) => [...prev, botResponse]);
+          })
+          .catch(() => {
+            const botResponse = {
+              type: "bot" as const,
+              content: languageResources[currentLanguage].responses.paymentApiFail,
+              timestamp: new Date(),
+            };
+            setMessages((prev) => [...prev, botResponse]);
+          })
+          .finally(() => {
+            setIsAwaitingPhoneNumberForPayment(false);
+            setIsTyping(false);
+          });
+      } else {
+        setIsTyping(true);
+        setTimeout(() => {
+          const botResponseContent = generateCameroonianBotResponse(
+            inputMessage,
+            currentLanguage
+          );
+          const botResponse = {
+            type: "bot" as const,
+            content: botResponseContent,
+            timestamp: new Date(),
+          };
+          setMessages((prev) => [...prev, botResponse]);
+          setIsTyping(false);
+        }, 1000);
+      }
     }
   };
 
@@ -245,8 +318,37 @@ const AIAssistant = () => {
       lowerInput.includes("paiement") ||
       lowerInput.includes("argent") ||
       lowerInput.includes("mobile money") ||
-      lowerInput.includes("payment")
+      lowerInput.includes("payment") ||
+      lowerInput.includes("start payment") ||
+      lowerInput.includes("initiate payment") ||
+      lowerInput.includes("pay now") ||
+      lowerInput.includes("make payment") ||
+      lowerInput.includes("begin payment") ||
+      lowerInput.includes("commencer le paiement") || // fr
+      lowerInput.includes("initier le paiement") || // fr
+      lowerInput.includes("payer maintenant") || // fr
+      lowerInput.includes("effectuer le paiement") || // fr
+      lowerInput.includes("commencer paiement") || // fr
+      lowerInput.includes("start payment") || // pid
+      lowerInput.includes("initiate payment") || // pid
+      lowerInput.includes("pay now") || // pid
+      lowerInput.includes("make payment") || // pid
+      lowerInput.includes("begin payment") // pid
     ) {
+      if (lowerInput.includes("start payment") ||
+          lowerInput.includes("initiate payment") ||
+          lowerInput.includes("pay now") ||
+          lowerInput.includes("make payment") ||
+          lowerInput.includes("begin payment") ||
+          lowerInput.includes("commencer le paiement") || // fr
+          lowerInput.includes("initier le paiement") || // fr
+          lowerInput.includes("payer maintenant") || // fr
+          lowerInput.includes("effectuer le paiement") || // fr
+          lowerInput.includes("commencer paiement") // fr
+      ) {
+        setIsAwaitingPhoneNumberForPayment(true);
+        return responses.promptForPhoneNumber;
+      }
       return responses.payment;
     }
     return responses.default;

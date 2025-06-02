@@ -14,178 +14,207 @@ window.IntersectionObserver = mockIntersectionObserver;
 
 describe('AIAssistant Component', () => {
   beforeEach(() => {
-    vi.useFakeTimers(); // Use fake timers for setTimeout in handleSendMessage
-    // IntersectionObserver mock for animations
-    const mockIntersectionObserverGlobal = vi.fn(); // Renamed to avoid conflict
+    vi.useFakeTimers();
+    const mockIntersectionObserverGlobal = vi.fn();
     mockIntersectionObserverGlobal.mockReturnValue({
         observe: vi.fn(),
         unobserve: vi.fn(),
         disconnect: vi.fn(),
     });
     window.IntersectionObserver = mockIntersectionObserverGlobal;
+    // Mock global.fetch
+    global.fetch = vi.fn();
   });
 
   afterEach(() => {
     vi.runOnlyPendingTimers();
-    vi.useRealTimers(); // Restore real timers
-    vi.clearAllMocks();
+    vi.useRealTimers();
+    vi.restoreAllMocks(); // This will also restore global.fetch if it was spied on.
+                           // If global.fetch was directly assigned, reset it manually: delete global.fetch;
   });
 
-  const openChat = () => {
-    const toggleButton = screen.getByRole('button', { name: /open chat/i }); // Assuming an aria-label or accessible name
-    fireEvent.click(toggleButton);
-  };
-
-  // Helper to find language buttons by their text content (EN, FR, PID)
-  const getLanguageButton = (langText: 'EN' | 'FR' | 'PID') => {
-    // The buttons get their text from currentText.ui.langButton<LANG>,
-    // so we need to find them based on what they'd render in default (French) or selected language.
-    // For simplicity, let's assume they always render 'EN', 'FR', 'PID' and are distinguishable.
-    return screen.getByRole('button', { name: langText });
-  };
-
-
-  it('renders closed initially, then opens and shows default language (French)', () => {
-    render(<AIAssistant />);
-    // Chat window should not be visible initially
-    expect(screen.queryByText('Assistant IA Cameroun')).not.toBeInTheDocument();
-
-    // Find toggle button by its visual content if no explicit label
-    const toggleButton = screen.getByRole('button'); // This might be too generic
-    // A better way is to add an aria-label to the toggle button in AIAssistant.tsx
-    // For now, assuming it's the only button initially or identifiable.
-    // Let's give it a temporary aria-label in the component for testing:
-    // In AIAssistant.tsx: <Button aria-label="Open Chat" ...>
-    // For now, we assume the button is the one with MessageCircle icon initially.
-    // Test will be more robust with a proper aria-label. Let's assume we added `aria-label="Toggle Chat"`
-
-    // If button has <MessageCircle /> icon, then it's the toggle button
-    // This is brittle. Let's assume we add aria-label="Toggle Chat Window" to the toggle button.
-    // In AIAssistant.tsx, change the toggle button to include aria-label="Toggle Chat Window"
-    const toggleChatButton = screen.getByRole('button'); // This will need adjustment if other buttons are present initially
+  // Helper to open chat
+  const openChatAndSwitchLanguage = async (lang: 'EN' | 'FR' | 'PID' = 'EN') => {
+    // The main toggle button might be the first button rendered or needs a specific aria-label.
+    // For now, using a less specific selector that might grab the main toggle button.
+    // It's better to have a specific aria-label like "Toggle Chat Window" on the button.
+    const toggleChatButton = screen.getAllByRole('button')[0];
     fireEvent.click(toggleChatButton);
 
-    // Now the chat window should be open
-    expect(screen.getByText('Assistant IA Cameroun')).toBeInTheDocument(); // French header
-    expect(screen.getByText('là pour vous aider 🇨🇲')).toBeInTheDocument(); // French subtitle
-    // Check for initial bot message in French
-    expect(screen.getByText(/Bonjour! Je suis votre assistant IA camerounais./i)).toBeInTheDocument();
-    // Check for quick suggestions in French
-    expect(screen.getByText('🍽️ Je veux manger')).toBeInTheDocument();
+    // Wait for chat to open and language buttons to be available
+    const langButton = await screen.findByRole('button', { name: lang });
+    fireEvent.click(langButton);
+
+    // Verify language switch by checking for a known piece of text in the target language's initial message
+    let expectedInitialMessagePart;
+    if (lang === 'EN') {
+      expectedInitialMessagePart = /Hello! I'm your SiliconHub assistant./i;
+    } else if (lang === 'FR') {
+      expectedInitialMessagePart = /Bonjour! Je suis votre assistant SiliconHub./i;
+    } else { // PID
+      expectedInitialMessagePart = /Salut! Na me be ya SiliconHub assistant./i;
+    }
+    await screen.findByText(expectedInitialMessagePart);
+  };
+
+
+  it('renders closed initially, then opens and shows default language (English)', async () => {
+    render(<AIAssistant />);
+    expect(screen.queryByText('SiliconHub Assistant')).not.toBeInTheDocument();
+
+    const toggleChatButton = screen.getAllByRole('button')[0];
+    fireEvent.click(toggleChatButton);
+
+    await screen.findByText('SiliconHub Assistant'); // English header by default
+    expect(screen.getByText('here to help you 🇨🇲')).toBeInTheDocument();
+    expect(screen.getByText(/Hello! I'm your SiliconHub assistant./i)).toBeInTheDocument();
+    expect(screen.getByText('🍽️ I want to eat')).toBeInTheDocument();
   });
 
-  it('changes UI elements to English when EN language is selected', async () => {
+  it('changes UI elements to French when FR language is selected', async () => {
     render(<AIAssistant />);
-    const toggleChatButton = screen.getAllByRole('button')[0]; // First button is the toggle
-    fireEvent.click(toggleChatButton); // Open chat
+    await openChatAndSwitchLanguage('FR');
 
-    const enButton = screen.getByRole('button', { name: 'EN' });
-    fireEvent.click(enButton);
-
-    // UI updates to English
-    await screen.findByText('Cameroon AI Assistant'); // English header
-    expect(screen.getByText('here to help you 🇨🇲')).toBeInTheDocument(); // English subtitle
-    expect(screen.getByText(/Hello! I'm your Cameroonian AI assistant./i)).toBeInTheDocument(); // English initial message
-    expect(screen.getByText('🍽️ I want to eat')).toBeInTheDocument(); // English quick suggestion
-    expect(screen.getByPlaceholderText('Type your message...')).toBeInTheDocument();
+    await screen.findByText('Assistant SiliconHub'); // French header
+    expect(screen.getByText('là pour vous aider 🇨🇲')).toBeInTheDocument();
+    expect(screen.getByText(/Bonjour! Je suis votre assistant SiliconHub./i)).toBeInTheDocument();
+    expect(screen.getByText('🍽️ Je veux manger')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Tapez votre message...')).toBeInTheDocument();
   });
 
   it('changes UI elements to Pidgin when PID language is selected', async () => {
     render(<AIAssistant />);
-    const toggleChatButton = screen.getAllByRole('button')[0];
-    fireEvent.click(toggleChatButton); // Open chat
+    await openChatAndSwitchLanguage('PID');
 
-    const pidButton = screen.getByRole('button', { name: 'PID' });
-    fireEvent.click(pidButton);
-
-    await screen.findByText('Cameroon AI Assistant'); // Pidgin header (same as EN for this string)
-    expect(screen.getByText('dey here for helep you 🇨🇲')).toBeInTheDocument(); // Pidgin subtitle
-    expect(screen.getByText(/Salut! Na me be ya Cameroon AI assistant./i)).toBeInTheDocument(); // Pidgin initial message
-    expect(screen.getByText('🍽️ I wan chop')).toBeInTheDocument(); // Pidgin quick suggestion
+    await screen.findByText('SiliconHub Assistant'); // Pidgin header (same as EN for this string)
+    expect(screen.getByText('dey here for helep you 🇨🇲')).toBeInTheDocument();
+    expect(screen.getByText(/Salut! Na me be ya SiliconHub assistant./i)).toBeInTheDocument();
+    expect(screen.getByText('🍽️ I wan chop')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Write ya message...')).toBeInTheDocument();
   });
 
-  it('generateCameroonianBotResponse returns responses in selected language (EN)', () => {
+  it('sends a message and receives a bot response in English (default)', async () => {
     render(<AIAssistant />);
-    const toggleChatButton = screen.getAllByRole('button')[0];
-    fireEvent.click(toggleChatButton);
-    fireEvent.click(screen.getByRole('button', { name: 'EN' })); // Switch to EN
+    await openChatAndSwitchLanguage('EN');
 
     const input = screen.getByPlaceholderText('Type your message...');
-    const sendButton = screen.getByRole('button', { name: /send/i }); // Assuming Send button has accessible name or use icon selector
+    const sendButton = screen.getByRole('button', { name: /send/i });
 
     fireEvent.change(input, { target: { value: 'I want food' } });
     fireEvent.click(sendButton);
 
-    act(() => {
-      vi.runAllTimers(); // Advance timers for bot response
-    });
-
-    // Check for bot response in English
-    expect(screen.getByText(/Perfect! FastChops is the best delivery service/i)).toBeInTheDocument();
+    await screen.findByText('I want food');
+    act(() => { vi.runAllTimers(); });
+    await screen.findByText(/Perfect! FastChops is the best delivery service/i);
+    expect((input as HTMLInputElement).value).toBe('');
   });
 
-  it('generateCameroonianBotResponse returns responses in selected language (PID)', () => {
-    render(<AIAssistant />);
-    const toggleChatButton = screen.getAllByRole('button')[0];
-    fireEvent.click(toggleChatButton);
-    fireEvent.click(screen.getByRole('button', { name: 'PID' })); // Switch to PID
+  // --- Payment Initiation Tests ---
 
-    const input = screen.getByPlaceholderText('Write ya message...');
+  it('bot asks for phone number on payment intent', async () => {
+    render(<AIAssistant />);
+    await openChatAndSwitchLanguage('EN');
+
+    const input = screen.getByPlaceholderText('Type your message...');
     const sendButton = screen.getByRole('button', { name: /send/i });
 
-    fireEvent.change(input, { target: { value: 'I wan chop' } });
+    fireEvent.change(input, { target: { value: 'start payment' } });
     fireEvent.click(sendButton);
 
-    act(() => {
-      vi.runAllTimers();
-    });
+    await screen.findByText('start payment'); // User message
+    act(() => { vi.runAllTimers(); });
 
-    // Check for bot response in Pidgin
-    expect(screen.getByText(/Correct! FastChops na correct delivery service/i)).toBeInTheDocument();
+    await screen.findByText(/Okay, I can help with that. Please provide your phone number./i);
   });
 
-  it('sends a message and receives a bot response in French (default)', async () => {
-    render(<AIAssistant />);
-    const toggleChatButton = screen.getAllByRole('button')[0];
-    fireEvent.click(toggleChatButton);
+  it('handles successful payment initiation', async () => {
+    (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve({ message: "Success", success: "true" }),
+    });
 
-    const input = screen.getByPlaceholderText('Tapez votre message...');
+    render(<AIAssistant />);
+    await openChatAndSwitchLanguage('EN');
+
+    const input = screen.getByPlaceholderText('Type your message...');
     const sendButton = screen.getByRole('button', { name: /send/i });
 
-    fireEvent.change(input, { target: { value: 'Je veux manger' } });
-    expect((input as HTMLInputElement).value).toBe('Je veux manger'); // Ensure input value is set
+    // 1. User expresses intent to pay
+    fireEvent.change(input, { target: { value: 'initiate payment' } });
     fireEvent.click(sendButton);
+    await screen.findByText('initiate payment');
+    act(() => { vi.runAllTimers(); });
+    await screen.findByText(/Okay, I can help with that. Please provide your phone number./i);
+    expect((input as HTMLInputElement).value).toBe(''); // Input cleared after asking for number
 
-    // User message appears
-    await screen.findByText('Je veux manger');
+    // 2. User provides phone number
+    fireEvent.change(input, { target: { value: '123456789' } });
+    fireEvent.click(sendButton);
+    await screen.findByText('123456789'); // User's phone number message
 
-    act(() => {
-      vi.runAllTimers(); // Advance timers for bot response
-    });
+    act(() => { vi.runAllTimers(); }); // For setIsTyping and initial bot message
 
-    // Bot response appears in French
-    await screen.findByText(/Perfect! FastChops est le meilleur service de livraison/i);
-    expect((input as HTMLInputElement).value).toBe(''); // Input is cleared
+    // Bot acknowledges receiving number (paymentInitiationNoted)
+    await screen.findByText(/Got it. I'll use the next message as your phone number for the payment./i);
+
+    // Ensure fetch is called correctly
+    expect(global.fetch).toHaveBeenCalledWith('/api/nkwa/pay/123456789', { method: 'GET' });
+
+    act(() => { vi.runAllTimers(); }); // For fetch promise and subsequent bot message
+
+    // Bot confirms successful payment
+    await screen.findByText(/Your payment request has been initiated successfully./i);
+    expect((input as HTMLInputElement).value).toBe(''); // Input cleared
   });
 
-  it('uses quick suggestion and gets a response', async () => {
-    render(<AIAssistant />);
-    const toggleChatButton = screen.getAllByRole('button')[0];
-    fireEvent.click(toggleChatButton); // Open chat
-
-    // Default is French
-    const quickSuggestionButton = screen.getByText("🍽️ Je veux manger");
-    fireEvent.click(quickSuggestionButton);
-
-    // User message (from quick suggestion) appears
-    await screen.findByText("🍽️ Je veux manger");
-
-    act(() => {
-      vi.runAllTimers(); // Advance timers for bot response
+  it('handles failed payment initiation (API error)', async () => {
+    (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValue({
+      ok: false, // Simulate API error
     });
 
-    // Bot response appears
-    await screen.findByText(/Perfect! FastChops est le meilleur service de livraison/i);
+    render(<AIAssistant />);
+    await openChatAndSwitchLanguage('EN');
+
+    const input = screen.getByPlaceholderText('Type your message...');
+    const sendButton = screen.getByRole('button', { name: /send/i });
+
+    fireEvent.change(input, { target: { value: 'pay now' } });
+    fireEvent.click(sendButton);
+    await screen.findByText('pay now');
+    act(() => { vi.runAllTimers(); });
+    await screen.findByText(/Okay, I can help with that. Please provide your phone number./i);
+
+    fireEvent.change(input, { target: { value: '987654321' } });
+    fireEvent.click(sendButton);
+    await screen.findByText('987654321');
+    act(() => { vi.runAllTimers(); });
+
+    await screen.findByText(/Got it. I'll use the next message as your phone number for the payment./i);
+    expect(global.fetch).toHaveBeenCalledWith('/api/nkwa/pay/987654321', { method: 'GET' });
+    act(() => { vi.runAllTimers(); });
+
+    await screen.findByText(/Sorry, I couldn't initiate the payment. Please try again later./i);
+  });
+
+  it('handles invalid phone number provided', async () => {
+    render(<AIAssistant />);
+    await openChatAndSwitchLanguage('EN');
+
+    const input = screen.getByPlaceholderText('Type your message...');
+    const sendButton = screen.getByRole('button', { name: /send/i });
+
+    fireEvent.change(input, { target: { value: 'make payment' } });
+    fireEvent.click(sendButton);
+    await screen.findByText('make payment');
+    act(() => { vi.runAllTimers(); });
+    await screen.findByText(/Okay, I can help with that. Please provide your phone number./i);
+
+    fireEvent.change(input, { target: { value: 'abc' } }); // Invalid phone number
+    fireEvent.click(sendButton);
+    await screen.findByText('abc');
+    act(() => { vi.runAllTimers(); });
+
+    await screen.findByText(/The phone number provided seems invalid. Please provide a valid number./i);
+    expect(global.fetch).not.toHaveBeenCalled();
   });
 });
