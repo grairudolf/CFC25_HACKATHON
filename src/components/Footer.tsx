@@ -48,17 +48,14 @@ const Footer = () => {
               {/* <div className="w-10 h-10 bg-gradient-to-r from-blue-400 to-blue-300 rounded-lg flex items-center justify-center shadow-lg">
                 <span className="text-blue-900 font-bold text-sm">S</span>
               </div> */}
-              <img
-                src="/logo_transparent.png"
-                alt="Logo"
-                className="ml-2 h-14 w-auto"
-              />
+              <img src="/logo.png" alt="Logo" className="ml-2 h-14 w-auto" />
             </div>
             <p className="text-secondary-foreground mb-6 leading-relaxed">
-              Forging Cameroon's Silicon Valley - where innovation meets opportunity
+              Forging Cameroon's Silicon Valley - where innovation meets
+              opportunity
               <br></br>
-              Where Cameroon’s tech future grows. Connect.
-              Build. Rise together. 🚀
+              Where Cameroon’s tech future grows. Connect. Build. Rise together.
+              🚀
               <br />
               #SiliconMountain #Code4Change
             </p>

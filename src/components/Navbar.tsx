@@ -20,11 +20,14 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, allServices }) => {
   const navigate = useNavigate();
   const searchContainerRef = useRef<HTMLDivElement>(null); // Ref for the search container
 
-  const handleSmoothScroll = (event: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
+  const handleSmoothScroll = (
+    event: React.MouseEvent<HTMLAnchorElement>,
+    targetId: string
+  ) => {
     event.preventDefault();
     const targetElement = document.getElementById(targetId);
     if (targetElement) {
-      targetElement.scrollIntoView({ behavior: 'smooth' });
+      targetElement.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -72,7 +75,10 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, allServices }) => {
   // Effect to handle clicks outside of search suggestions
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (searchContainerRef.current && !searchContainerRef.current.contains(event.target as Node)) {
+      if (
+        searchContainerRef.current &&
+        !searchContainerRef.current.contains(event.target as Node)
+      ) {
         setShowSuggestions(false);
       }
     };
@@ -92,13 +98,14 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, allServices }) => {
       return;
     }
 
-    const filteredSuggestions = allServices.filter(service =>
-      service.name.toLowerCase().includes(query.toLowerCase()) ||
-      service.description.en.toLowerCase().includes(query.toLowerCase()) ||
-      service.description.fr.toLowerCase().includes(query.toLowerCase()) ||
-      service.description.pid.toLowerCase().includes(query.toLowerCase()) ||
-      service.category.toLowerCase().includes(query.toLowerCase()) ||
-      service.location?.toLowerCase().includes(query.toLowerCase())
+    const filteredSuggestions = allServices.filter(
+      (service) =>
+        service.name.toLowerCase().includes(query.toLowerCase()) ||
+        service.description.en.toLowerCase().includes(query.toLowerCase()) ||
+        service.description.fr.toLowerCase().includes(query.toLowerCase()) ||
+        service.description.pid.toLowerCase().includes(query.toLowerCase()) ||
+        service.category.toLowerCase().includes(query.toLowerCase()) ||
+        service.location?.toLowerCase().includes(query.toLowerCase())
     );
     setSuggestions(filteredSuggestions.slice(0, 5)); // Limit to 5 suggestions
     setShowSuggestions(filteredSuggestions.length > 0);
@@ -129,12 +136,13 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, allServices }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <Link to="/" className="flex-shrink-0 flex items-center animate-fade-in"> {/* Link logo to home */}
-              <img
-                src="/logo_transparent.png"
-                alt="Logo"
-                className="ml-2 h-10 w-auto"
-              />
+            <Link
+              to="/"
+              className="flex-shrink-0 flex items-center animate-fade-in"
+            >
+              {" "}
+              {/* Link logo to home */}
+              <img src="/logo.png" alt="Logo" className="ml-2 h-10 w-auto" />
             </Link>
           </div>
 
@@ -148,21 +156,21 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, allServices }) => {
             </Link>
             <a
               href="#services"
-              onClick={(e) => handleSmoothScroll(e, 'services')}
+              onClick={(e) => handleSmoothScroll(e, "services")}
               className="text-gray-700 hover:text-primary px-3 py-2 font-medium transition-all duration-300 hover:scale-105"
             >
               {currentText.services}
             </a>
             <a
               href="#skills"
-              onClick={(e) => handleSmoothScroll(e, 'skills')}
+              onClick={(e) => handleSmoothScroll(e, "skills")}
               className="text-gray-700 hover:text-primary px-3 py-2 font-medium transition-all duration-300 hover:scale-105"
             >
               {currentText.skills}
             </a>
             <a
               href="#submit"
-              onClick={(e) => handleSmoothScroll(e, 'submit')}
+              onClick={(e) => handleSmoothScroll(e, "submit")}
               className="text-gray-700 hover:text-primary px-3 py-2 font-medium transition-all duration-300 hover:scale-105"
             >
               {currentText.submit}
@@ -171,7 +179,9 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, allServices }) => {
 
           {/* Search, Language and Auth */}
           <div className="hidden md:flex items-center space-x-4">
-            <div ref={searchContainerRef} className="relative"> {/* Added ref to this container */}
+            <div ref={searchContainerRef} className="relative">
+              {" "}
+              {/* Added ref to this container */}
               <form onSubmit={handleSearchSubmit} className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                 <input
@@ -179,7 +189,11 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, allServices }) => {
                   placeholder={currentText.search}
                   value={searchQuery}
                   onChange={handleSearchInputChange}
-                  onFocus={() => setShowSuggestions(suggestions.length > 0 && searchQuery.trim() !== "")} // Show on focus if query exists
+                  onFocus={() =>
+                    setShowSuggestions(
+                      suggestions.length > 0 && searchQuery.trim() !== ""
+                    )
+                  } // Show on focus if query exists
                   className="pl-10 pr-4 py-2 border-2 border-input rounded-lg focus:ring-2 focus:ring-ring focus:border-primary transition-all w-64" // Increased width
                 />
               </form>
@@ -192,7 +206,9 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, allServices }) => {
                       onClick={() => handleSuggestionClick(service)}
                     >
                       {service.name}
-                      <p className="text-xs text-gray-500">{service.category} - {service.location}</p>
+                      <p className="text-xs text-gray-500">
+                        {service.category} - {service.location}
+                      </p>
                     </li>
                   ))}
                 </ul>
@@ -220,9 +236,16 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, allServices }) => {
             {currentUser ? (
               <div className="flex items-center space-x-2">
                 {currentUser.picture && (
-                  <img src={currentUser.picture} alt="profile" className="w-8 h-8 rounded-full" />
+                  <img
+                    src={currentUser.picture}
+                    alt="profile"
+                    className="w-8 h-8 rounded-full"
+                  />
                 )}
-                <span className="text-sm text-gray-700 truncate max-w-28" title={currentUser.name || currentUser.email}>
+                <span
+                  className="text-sm text-gray-700 truncate max-w-28"
+                  title={currentUser.name || currentUser.email}
+                >
                   {currentUser.name || currentUser.email}
                 </span>
                 <Button
@@ -273,10 +296,15 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, allServices }) => {
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="md:hidden animate-fade-in"> {/* Mobile Menu Container */}
+          <div className="md:hidden animate-fade-in">
+            {" "}
+            {/* Mobile Menu Container */}
             <div className="px-2 pt-2 pb-3 space-y-1 bg-white border-t border-border">
               {/* Mobile Search Form - Simplified, no suggestions for now to keep it clean */}
-              <form onSubmit={handleSearchSubmit} className="relative px-3 py-2">
+              <form
+                onSubmit={handleSearchSubmit}
+                className="relative px-3 py-2"
+              >
                 <Search className="absolute left-5 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                 <input
                   type="text"
@@ -296,21 +324,30 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, allServices }) => {
               <a
                 href="#services"
                 className="block px-3 py-2 text-gray-700 hover:text-primary font-medium transition-colors"
-                onClick={(e) => { handleSmoothScroll(e, 'services'); setIsMenuOpen(false); }}
+                onClick={(e) => {
+                  handleSmoothScroll(e, "services");
+                  setIsMenuOpen(false);
+                }}
               >
                 {currentText.services}
               </a>
               <a
                 href="#skills"
                 className="block px-3 py-2 text-gray-700 hover:text-primary font-medium transition-colors"
-                onClick={(e) => { handleSmoothScroll(e, 'skills'); setIsMenuOpen(false); }}
+                onClick={(e) => {
+                  handleSmoothScroll(e, "skills");
+                  setIsMenuOpen(false);
+                }}
               >
                 {currentText.skills}
               </a>
               <a
                 href="#submit"
                 className="block px-3 py-2 text-gray-700 hover:text-primary font-medium transition-colors"
-                onClick={(e) => { handleSmoothScroll(e, 'submit'); setIsMenuOpen(false); }}
+                onClick={(e) => {
+                  handleSmoothScroll(e, "submit");
+                  setIsMenuOpen(false);
+                }}
               >
                 {currentText.submit}
               </a>
@@ -323,7 +360,9 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, allServices }) => {
                 {Object.keys(languages).map((lang) => (
                   <button
                     key={lang}
-                    onClick={() => {setCurrentLanguage(lang); /* setIsMenuOpen(false); */}} // Keep menu open on lang change for mobile
+                    onClick={() => {
+                      setCurrentLanguage(lang); /* setIsMenuOpen(false); */
+                    }} // Keep menu open on lang change for mobile
                     className={`px-2 py-1 rounded text-xs font-medium transition-all ${
                       currentLanguage === lang
                         ? "bg-primary text-white"
@@ -340,7 +379,11 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, allServices }) => {
                   <>
                     <div className="flex items-center space-x-2 px-3 py-2">
                       {currentUser.picture && (
-                        <img src={currentUser.picture} alt="profile" className="w-8 h-8 rounded-full" />
+                        <img
+                          src={currentUser.picture}
+                          alt="profile"
+                          className="w-8 h-8 rounded-full"
+                        />
                       )}
                       <span className="text-sm font-medium text-gray-700">
                         {currentUser.name || currentUser.email}
@@ -350,7 +393,10 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, allServices }) => {
                       variant="outline"
                       size="sm"
                       className="w-full border-input hover:bg-accent"
-                      onClick={() => { handleLogout(); setIsMenuOpen(false); }}
+                      onClick={() => {
+                        handleLogout();
+                        setIsMenuOpen(false);
+                      }}
                     >
                       <LogOut className="w-4 h-4 mr-2" />
                       {currentText.logout}
@@ -362,14 +408,20 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, allServices }) => {
                       variant="ghost"
                       size="sm"
                       className="w-full hover:bg-accent"
-                      onClick={() => { navigate("/login"); setIsMenuOpen(false); }}
+                      onClick={() => {
+                        navigate("/login");
+                        setIsMenuOpen(false);
+                      }}
                     >
                       {currentText.login}
                     </Button>
                     <Button
                       size="sm"
                       className="w-full bg-primary hover:bg-primary/90"
-                      onClick={() => { navigate("/signup"); setIsMenuOpen(false); }}
+                      onClick={() => {
+                        navigate("/signup");
+                        setIsMenuOpen(false);
+                      }}
                     >
                       {currentText.signup}
                     </Button>
